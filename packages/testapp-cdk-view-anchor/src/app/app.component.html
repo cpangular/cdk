@@ -1,0 +1,71 @@
+<cpng-application-shell></cpng-application-shell>
+
+<div *cpngAnchorViewTo="'app.logo'">Logo</div>
+
+
+<div *cpngAnchorViewTo="'app.toolbar.left'">Toolbar Left</div>
+<!--
+<div *cpngAnchorViewTo="'app.header.title'">Title</div>
+
+
+  <button mat-icon-button *cpngAnchorViewTo="'app.header.tools'">
+    <mat-icon >check</mat-icon>
+  </button>
+  
+  <div *cpngAnchorViewTo="'app.toolbar.right'">Toolbar Right</div>
+  
+  <button mat-icon-button *cpngAnchorViewTo="'app.header.tools'">
+    <mat-icon >check</mat-icon>
+  </button>
+-->
+<!-- 
+
+
+
+
+<header>
+  <cpng-drawer [opened]="opened" from="top">
+    <mat-toolbar color="primary"  class="app-header">
+      <mat-toolbar-row>
+        <div class="left">
+          <ng-container cpngViewAnchor="app.header.icons"></ng-container>
+        </div>
+        <div class="center">
+          <h1><ng-container cpngViewAnchor="app.header.title"></ng-container></h1>
+        </div>
+        <div class="right">
+          <h1><ng-container cpngViewAnchor="app.header.tools"></ng-container></h1>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-toolbar class="app-toolbar">
+        <ng-container cpngViewAnchor="app.toolbar"></ng-container>
+    </mat-toolbar>
+  </cpng-drawer>
+</header>
+
+
+<div *cpngAnchorViewTo="'app.toolbar'">
+  Under Toolbar
+</div>
+
+<mat-sidenav-container>
+  <mat-sidenav [opened]="true" [mode]="'side'">
+    <ng-container cpngViewAnchor="app.sidenav.main"></ng-container>
+    <cpng-drawer [opened]="opened" from="left">
+      dsadasd das das das dkn kdlams dkskd naskn dsam ndd d asdsadas d sad as d
+    </cpng-drawer>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<button
+  mat-icon-button
+  *cpngAnchorViewTo="'app.header.icons'"
+  (click)="opened = !opened"
+>
+  <mat-icon>menu</mat-icon>
+</button>
+-->

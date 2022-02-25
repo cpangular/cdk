@@ -1,0 +1,19 @@
+{
+  "name": "@cpangular/app",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "ng build app",
+    "watch": "ng build app --watch --configuration=development",
+    "build-dev": "ng build app --configuration development"
+  },
+  "peerDependencies": {
+    "@angular/common": "^13.2.0",
+    "@angular/core": "^13.2.0",
+    "@angular/material": "~13.2.3",
+    "@cpangular/cdk": "0.0.1",
+    "@ngxs/store": "^3.7.3"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

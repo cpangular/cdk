@@ -1,0 +1,97 @@
+<cpng-drawer
+  [opened]="headerOpened"
+  from="top"
+  (stateChange)="setDrawerState($event)"
+>
+  <div class="header-bar main">
+    <mat-toolbar [cpngHideWhenNoViews]="['app.header.leftMenuButton']" [color]="leftMenuButtonColor$ | async">
+      <mat-toolbar-row>
+        <div class="vpad">
+          <ng-container cpngViewAnchor="app.header.leftMenuButton"></ng-container>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-toolbar [cpngHideWhenNoViews]="['app.logo']" [color]="mainHeaderColor$ | async">
+      <mat-toolbar-row>
+        <ng-container cpngViewAnchor="app.logo"></ng-container>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-toolbar [cpngHideWhenNoViews]="['app.title']" [color]="mainHeaderColor$ | async">
+      <mat-toolbar-row>
+        <ng-container cpngViewAnchor="app.title"></ng-container>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-toolbar [color]="mainHeaderColor$ | async" class="spacer"></mat-toolbar>
+    <mat-toolbar [cpngHideWhenNoViews]="['app.header.tools']" [color]="mainHeaderColor$ | async">
+      <mat-toolbar-row>
+        <ng-container cpngViewAnchor="app.header.tools"></ng-container>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-toolbar [cpngHideWhenNoViews]="['app.header.rightMenuButton']" [color]="rightMenuButtonColor$ | async">
+      <mat-toolbar-row>
+        <div class="vpad">
+          <ng-container cpngViewAnchor="app.header.rightMenuButton"></ng-container>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+
+  <div class="header-bar secondary"> 
+    <mat-toolbar [cpngHideWhenNoViews]="['app.toolbar.left']" [color]="secondaryHeaderColor$ | async">
+      <mat-toolbar-row>
+        <ng-container cpngViewAnchor="app.toolbar.left"></ng-container>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-toolbar [cpngHideWhenNoViews]="['app.toolbar.center']" [color]="secondaryHeaderColor$ | async">
+      <mat-toolbar-row>
+        <ng-container cpngViewAnchor="app.toolbar.left"></ng-container>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-toolbar  [color]="secondaryHeaderColor$ | async" class="spacer"></mat-toolbar>
+    <mat-toolbar [cpngHideWhenNoViews]="['app.toolbar.right']"  [color]="secondaryHeaderColor$ | async">
+      <mat-toolbar-row>
+        <ng-container cpngViewAnchor="app.toolbar.left"></ng-container>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+
+  <!-- 
+
+  
+  <mat-toolbar color="primary" class="app-header">
+    <mat-toolbar-row>
+      <div class="left" [cpngHideWhenNoViews]="['app.header.menu', 'app.logo']">
+        
+        <ng-container cpngViewAnchor="app.logo"></ng-container>
+      </div>
+      <div
+      class="center"
+      [cpngHideWhenNoViews]="[
+      'app.header.before-title',
+      'app.header.title',
+      'app.header.after-title'
+      ]"
+      >
+      <ng-container cpngViewAnchor="app.header.before-title"></ng-container>
+      <h1><ng-container cpngViewAnchor="app.header.title"></ng-container></h1>
+      <ng-container cpngViewAnchor="app.header.after-title"></ng-container>
+    </div>
+    <div class="spacer"></div>
+    <div class="right" [cpngHideWhenNoViews]="['app.header.tools']">
+      <ng-container cpngViewAnchor="app.header.tools"></ng-container>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-toolbar class="app-toolbar">
+  <mat-toolbar-row>
+    <div class="left">
+      <ng-container cpngViewAnchor="app.toolbar.left"></ng-container>
+    </div>
+    <div class="spacer"></div>
+    <div class="right">
+      <ng-container cpngViewAnchor="app.toolbar.right"></ng-container>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+-->
+</cpng-drawer>

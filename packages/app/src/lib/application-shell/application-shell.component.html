@@ -1,0 +1,55 @@
+<cpng-application-header [scrollable]="scrollArea"></cpng-application-header>
+<mat-sidenav-container>
+  <mat-sidenav
+    #leftMenu
+    [opened]="(leftMenuSideNavOpen$ | async) && !!leftMenuAnchor.viewCount"
+    position="start"
+    [mode]="(leftMenuSideNavMode$ | async) ?? 'side'"
+  >
+    <ng-container
+      #leftMenuAnchor="viewAnchor"
+      cpngViewAnchor="app.leftMenu"
+    ></ng-container>
+  </mat-sidenav>
+  <mat-sidenav
+    #rightMenu
+    [opened]="(rightMenuSideNavOpen$ | async) && !!rightMenuAnchor.viewCount"
+    position="end"
+    [mode]="(rightMenuSideNavMode$ | async) ?? 'side'"
+  >
+    <ng-container
+      #rightMenuAnchor="viewAnchor"
+      cpngViewAnchor="app.rightMenu"
+    ></ng-container>
+  </mat-sidenav>
+
+  <mat-sidenav-content #scrollArea>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-container *ngIf="(showLeftMenuButton$ | async) && leftMenuAnchor.viewCount">
+  <button
+    mat-icon-button
+    *cpngAnchorViewTo="'app.header.leftMenuButton'"
+    (click)="leftMenu.toggle()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+</ng-container>
+
+<ng-container
+  *ngIf="(showRightMenuButton$ | async) && rightMenuAnchor.viewCount"
+>
+  <button
+    mat-icon-button
+    *cpngAnchorViewTo="'app.header.rightMenuButton'"
+    (click)="rightMenu.toggle()"
+  >
+    <mat-icon>check</mat-icon>
+  </button>
+</ng-container>
+
+<ng-container *cpngAnchorViewTo="'app.leftMenu'">
+  Left Menu Stuff
+</ng-container>

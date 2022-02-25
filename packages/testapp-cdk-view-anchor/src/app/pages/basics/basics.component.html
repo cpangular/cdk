@@ -1,0 +1,17 @@
+<ng-container *ngIf="isLT900$ | async">
+    <mat-nav-list *cpngAnchorViewTo="'app.leftMenu'">
+        <mat-list-item routerLink="overview" routerLinkActive="active">
+            Overview
+        </mat-list-item>
+        <mat-list-item routerLink="examples" routerLinkActive="active">
+            Examples
+        </mat-list-item>
+    </mat-nav-list>
+</ng-container>
+<ng-container *ngIf="!(isLT900$ | async)">
+    <nav mat-tab-nav-bar >
+        <a #link1="routerLinkActive" mat-tab-link routerLink="overview" [active]="link1.isActive" routerLinkActive="active">Overview</a>
+        <a #link2="routerLinkActive" mat-tab-link routerLink="examples" [active]="link2.isActive" routerLinkActive="active">Examples</a>
+    </nav>
+</ng-container>
+<router-outlet></router-outlet>
