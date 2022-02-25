@@ -1,13 +1,18 @@
-import { compile } from "sass";
-import { writeFileSync, mkdirSync } from "fs";
-const loadPaths = ["../../node_modules"];
+import { compile } from 'sass';
+import { writeFileSync, mkdirSync } from 'fs';
+const loadPaths = ['../../node_modules'];
 
-const themLightResult = compile("src/theme/light-theme.scss", { loadPaths });
-
-const baseDist = "../../dist/material-dynamic-theming/themes";
-
+const baseDist = '../../dist/material-dynamic-theming/themes';
 mkdirSync(baseDist, { recursive: true });
 
-const themLightPath = `${baseDist}/light-theme.css`;
-writeFileSync(themLightPath, themLightResult.css);
 
+function buildCss(themeFile:String){
+    const result = compile(`src/theme/${themeFile}.scss`, { loadPaths });
+    writeFileSync(`${baseDist}/${themeFile}.css`, result.css);
+}
+
+buildCss('theme-core');
+buildCss('theme-light');
+buildCss('theme-light-full');
+buildCss('theme-dark');
+buildCss('theme-dark-full');
