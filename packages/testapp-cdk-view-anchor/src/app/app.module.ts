@@ -14,8 +14,11 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatListModule} from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
 import {MatCardModule} from '@angular/material/card';
 import { match } from '@cpangular/cdk/breakpoint-resolver';
+//import { MaterialDynamicThemingModule } from '@cpangular/material-dynamic-theming';
 
 
 @NgModule({
@@ -34,7 +37,10 @@ import { match } from '@cpangular/cdk/breakpoint-resolver';
     MatIconModule,
     MatCardModule,
     CpNgDrawerModule,
-    ApplicationShellModule
+    ApplicationShellModule,
+    MatListModule,
+    MatMenuModule
+   // MaterialDynamicThemingModule
   ],
   providers: [
     {

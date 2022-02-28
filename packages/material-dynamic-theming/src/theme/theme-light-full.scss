@@ -1,6 +1,13 @@
 @use "@angular/material" as mat;
-@use "theme_def" as def;
+@use "lib/theme_def" as def;
+@use "lib/util";
 
 @include mat.core();
 
 @include mat.all-component-themes(def.$theme-light);
+
+$my-primary: mat.define-palette(mat.$indigo-palette, 500);
+
+html{
+    @include util.paletteToVariables('color', 'primary', $my-primary);
+}

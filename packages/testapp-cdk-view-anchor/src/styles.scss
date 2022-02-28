@@ -1,4 +1,53 @@
+@use '../../material-dynamic-theming' as theme;
+@use '@angular/material' as mat;
+
 /* You can add global styles to this file, and also import other style files */
+
+$red: theme.define-palette(mat.$red-palette);
+$orange: theme.define-palette(mat.$orange-palette);
+
+$light-primary: theme.define-palette(mat.$indigo-palette);
+$light-accent: theme.define-palette(mat.$pink-palette);
+
+$light-theme: theme.define-light-theme((
+ color: (
+   primary: $light-primary,
+   accent: $light-accent,
+ )
+));
+
+$dark-theme: theme.define-dark-theme((
+ color: (
+   primary: $light-accent,
+   accent: $light-primary,
+ )
+));
+
+$darkred-theme: theme.define-dark-theme((
+ color: (
+   primary: $red,
+   accent: $orange,
+ )
+));
+
+$darkorange-theme: theme.define-dark-theme((
+ color: (
+   primary: $orange,
+   accent: $red,
+ )
+));
+
+body{
+  color: inherit;
+}
+
+
+@include theme.add-theme('blue',  $light-theme);
+@include theme.add-theme('blue',  $dark-theme);
+@include theme.add-theme('orange', $darkorange-theme);
+
+@include theme.build-themes('orange', true);
+
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

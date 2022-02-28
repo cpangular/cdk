@@ -2,4 +2,9 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+
+}
+button.selected{
+  color: var(--color-primary-text);
+  font-weight: 500;
 }

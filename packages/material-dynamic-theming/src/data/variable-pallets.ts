@@ -1,5 +1,5 @@
-import { IPalette } from "../lib/palettes/IPalette";
-import { IPaletteColorPair } from "../lib/palettes/IPaletteColorPair";
+import { IPalette } from "../lib/old/old/palettes/IPalette";
+import { IPaletteColorPair } from "../lib/old/old/palettes/IPaletteColorPair";
 
 function varPairs(
   paletteName: string,

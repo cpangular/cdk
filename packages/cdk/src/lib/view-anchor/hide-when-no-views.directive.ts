@@ -49,6 +49,5 @@ export class HideWhenNoViewsDirective implements OnChanges {
     } else {
       this.elementRef.nativeElement.style.display = "";
     }
-    console.log("checkViewCount", count);
   }
 }

@@ -10,8 +10,10 @@
       "@cpangular/app/*": [
         "dist/app/*"
       ],
-      "material-dynamic-theming": [
-        "dist/material-dynamic-theming/material-dynamic-theming",
+      "@cpangular/material-dynamic-theming/*": [
+        "dist/material-dynamic-theming/*"
+      ],
+      "@cpangular/material-dynamic-theming": [
         "dist/material-dynamic-theming"
       ]
     },

@@ -5,4 +5,6 @@ import { NgModule } from "@angular/core";
   imports: [],
   exports: [],
 })
-export class MaterialDynamicThemingModule {}
+export class CpNgDynamicMaterialThemingModule {
+  constructor() {}
+}

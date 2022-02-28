@@ -1,0 +1,263 @@
+@use "sass:map";
+@use "sass:list";
+@use "sass:meta";
+@use "@angular/material" as mat;
+@use "./core";
+@use "./base-theme/theme-variables" as theme;
+
+$-private-defined-themes: ();
+$-private-base-theme-applied: false;
+$-private-included-material-core: false;
+
+@function get-theme-id($name, $themeOrIsDark) {
+  @if meta.type-of($themeOrIsDark) == map {
+    $color: map.get($themeOrIsDark, color);
+    $themeOrIsDark: map.get($color, is-dark);
+  }
+  @return "#{if($themeOrIsDark, dark, light)}-#{$name}";
+}
+
+@function has-theme($themeId) {
+  @return map.has-key($-private-defined-themes, $themeId);
+}
+
+@function get-theme($themeId) {
+  @return map.get($-private-defined-themes, $themeId);
+}
+
+@mixin add-theme($themeName, $theme, $altThemeName: null) {
+  $color: map.get($theme, color);
+  $isDark: map.get($color, is-dark);
+
+  $themeId: "#{if($isDark, dark, light)}-#{$themeName}";
+  $altThemeId: "#{if($isDark, light, dark)}-#{if($altThemeName, $altThemeName, $themeName)}";
+
+  @if has-theme($themeId) {
+    @warn "Duplicate definition of theme #{-private-print-theme-name($themeName, $isDark)}";
+  }
+
+  $themeDef: (
+    id: $themeId,
+    name: $themeName,
+    alt-id: $altThemeId,
+    alt-name: if($altThemeName, $altThemeName, $themeName),
+    is-dark: $isDark,
+    theme: $theme,
+  );
+
+  $-private-defined-themes: map.merge(
+    $-private-defined-themes,
+    (#{$themeId}: $themeDef)
+  ) !global;
+}
+
+@mixin build-themes($defaultThemeName, $darkDefault: false) {
+  @include -private-ensure-alt-themes();
+  @include -private-include-material-core();
+
+  $id: get-theme-id($defaultThemeName, $darkDefault);
+  $defaultDef: get-theme($id);
+  @if not $defaultDef {
+    @error "No theme defined for #{-private-print-theme-name($defaultThemeName, $darkDefault)}";
+  }
+  $isDark: map.get($defaultDef, is-dark);
+
+  @include -private-apply-base-theme($isDark);
+  @include -private-include-theme($defaultDef, true, true);
+
+  $altId: map.get($defaultDef, alt-id);
+  $altDef: get-theme($altId);
+  @include -private-include-theme($altDef, true);
+
+  @each $themeId, $def in $-private-defined-themes {
+    @if $themeId != $id and $themeId != $altId {
+      @include -private-include-theme($def);
+    }
+  }
+}
+
+$-private-ignored-palette-properties: ('contrast', 'contrast-contrast', 'selections');
+
+$-private-linked-palette-properties: ('default', 'lighter', 'darker', 'text', 'default-contrast', 'lighter-contrast', 'darker-contrast');
+
+
+@function -private-find-key-by-value($object, $value){
+  @each $k, $v in $object{
+    @if $v == $value {
+      @return $k;
+    }
+  }
+  @return null;
+}
+
+@mixin -private-palette-to-variables($type, $name, $palette) {
+  $ignore: $-private-ignored-palette-properties;
+  $linked: $-private-linked-palette-properties;
+  @each $key, $value in $palette {
+    @if list.index($ignore, $key) == null and list.index($linked, $key) == null {
+      $prop: --#{$type}-#{$name}-#{$key};
+      #{$prop}: $value;
+    }
+  }
+
+  @if note map.has-key($palette, 'selections') {
+    $selections: ();
+    @each $k in ('default', 'lighter', 'darker', 'text'){
+      $selections: map.merge($selections, (
+        #{$k}: -private-find-key-by-value($palette,map.get($palette, $k))
+      ));
+    }
+    $palette: map.merge($palette, (
+      selections: $selections
+    ));
+  }
+
+  @if map.has-key($palette, 'selections') {
+    $selections: map.get($palette, 'selections');
+    @each $k, $v in $selections{
+      $prop: --#{$type}-#{$name}-#{$k};
+      $value: var(--#{$type}-#{$name}-#{$v});
+      $propContrast: #{$prop}-contrast;
+      $valueContrast: var(--#{$type}-#{$name}-#{$v}-contrast);
+      #{$prop}: $value;
+      #{$propContrast}: $valueContrast;
+    }
+  }
+}
+
+@mixin -private-to-variables($name, $palette) {
+  @each $key, $value in $palette {
+    $prop: --#{$name}-#{$key};
+    #{$prop}: $value;
+  }
+}
+
+@mixin -private-background-to-variables($name, $palette) {
+  background-color: var(--background-background);
+  @include -private-to-variables($name, $palette);
+}
+
+@mixin -private-foreground-to-variables($name, $palette) {
+  color: var(--foreground-base);
+  @include -private-to-variables($name, $palette);
+}
+
+@mixin -private-theme-to-css-variables($themeDef) {
+  $theme: map.get($themeDef, theme);
+  $color: map.get($theme, color);
+  $isDark: map.get($color, is-dark);
+  @if $isDark {
+    --theme-is-dark: 1;
+  } @else {
+    --theme-is-dark: 0;
+  }
+
+  $primary: map.get($color, primary);
+  @include -private-palette-to-variables("color", "primary", $primary);
+
+  $accent: map.get($color, accent);
+  @include -private-palette-to-variables("color", "accent", $accent);
+
+  $warn: map.get($color, warn);
+  @include -private-palette-to-variables("color", "warn", $warn);
+
+  $background: map.get($color, background);
+  @include -private-background-to-variables("background", $background);
+
+  $foreground: map.get($color, foreground);
+  @include -private-foreground-to-variables("foreground", $foreground);
+}
+
+@mixin -private-include-material-core() {
+  @if not $-private-included-material-core {
+    $-private-included-material-core: true !global;
+    @include core.core();
+  }
+}
+
+@mixin -private-apply-base-theme($darkDefault: false) {
+  @if not $-private-base-theme-applied {
+    $-private-base-theme-applied: true !global;
+    @if $darkDefault {
+      html,
+      [theme-dark] {
+        @include mat.all-component-themes(theme.$theme-dark);
+      }
+      [theme-light] {
+        @include mat.all-component-colors(theme.$theme-light);
+      }
+    } @else {
+      html,
+      [theme-light] {
+        @include mat.all-component-themes(theme.$theme-light);
+      }
+      [theme-dark] {
+        @include mat.all-component-colors(theme.$theme-dark);
+      }
+    }
+  }
+}
+
+@mixin -private-include-theme(
+  $themeDef,
+  $isDefault: false,
+  $isActiveDefault: false
+) {
+  $isDefault: if($isActiveDefault, true, $isDefault);
+  $id: map.get($themeDef, id);
+  $altId: map.get($themeDef, alt-id);
+  $name: map.get($themeDef, name);
+  $isDark: map.get($themeDef, is-dark);
+
+  $attr: "theme-#{if($isDark, dark, light)}";
+
+  $selector: '[#{$attr}=#{$name}]';
+
+  @if $isActiveDefault{
+    $selector: ":root, #{$selector}";
+
+  } @else if $isDefault {
+    $selector: "[theme-alt], [#{$attr}], #{$selector}";
+  }
+
+  $selector: "-theme-definition-, #{$selector}";
+  #{$selector} {
+    --theme-id: #{$id};
+    --theme-name: #{$name};
+    --theme-alt: #{$altId};
+    --theme-is-default: #{if($isActiveDefault, 1, 0)};
+    --theme-is-default-alt: #{if(not $isActiveDefault and $isDefault, 1, 0)};
+    @include -private-theme-to-css-variables($themeDef);
+  }
+}
+
+@function -private-print-theme-name($name, $isDark) {
+  @return "#{if($isDark, "Dark", "Light")}[#{$name}]";
+}
+
+@mixin -private-ensure-alt-themes() {
+  $themes: map.merge($-private-defined-themes, ());
+  @each $themeId, $def in $themes {
+    $altId: map.get($def, alt-id);
+    @if not has-theme($altId) {
+      $altName: map.get($def, alt-name);
+      $isDark: map.get($def, is-dark);
+      $themeName: map.get($def, name);
+      $theme: map.get($def, theme);
+      $color: map.get($theme, color);
+      $altTheme: (
+        color: (
+          primary: map.get($color, primary),
+          accent: map.get($color, accent),
+          warn: map.get($color, warn),
+        ),
+      );
+      @if $isDark {
+        $altTheme: mat.define-light-theme($altTheme);
+      } @else {
+        $altTheme: mat.define-dark-theme($altTheme);
+      }
+      @include add-theme($altName, $altTheme, $themeName);
+    }
+  }
+}

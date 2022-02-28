@@ -4,6 +4,25 @@
 
 
 <div *cpngAnchorViewTo="'app.toolbar.left'">Toolbar Left</div>
+
+
+<button *cpngAnchorViewTo="'app.header.tools'" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu" (close)="resetTheme()">
+  <ng-container  *ngFor="let theme of themes" >
+    <button *ngIf="theme.isDark === '1'" color="primary" mat-menu-item (click)="setTheme(theme.id)" (mouseenter)="previewTheme(theme.id)" [class.selected]="theme.id === activeTheme" [attr.theme-dark]="theme.name" >
+      <span>{{theme.id}}</span>
+    </button>
+    <button *ngIf="theme.isDark !== '1'" color="primary" mat-menu-item (click)="setTheme(theme.id)" (mouseenter)="previewTheme(theme.id)" [class.selected]="theme.id === activeTheme" [attr.theme-light]="theme.name">
+      <span>{{theme.id}}</span>
+    </button>
+
+  </ng-container>
+  
+</mat-menu>
+
 <!--
 <div *cpngAnchorViewTo="'app.header.title'">Title</div>
 

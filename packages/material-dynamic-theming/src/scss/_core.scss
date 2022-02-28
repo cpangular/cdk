@@ -1,0 +1,43 @@
+@use "@angular/material" as mat;
+@use "sass:map";
+
+@mixin core() {
+  @include mat.core();
+}
+
+@function define-palette(
+  $base-palette,
+  $default: 500,
+  $lighter: 100,
+  $darker: 700,
+  $text: $default
+) {
+  $palette: map.merge(
+    mat.define-palette($base-palette, $default, $lighter, $darker, $text),
+    (
+      selections: (
+        default: $default,
+        lighter: $lighter,
+        darker: $darker,
+        text: $text,
+      ),
+    )
+  );
+  @return $palette;
+}
+
+@function define-light-theme(
+  $primary,
+  $accent: null,
+  $warn: define-palette(mat.$red-palette)
+) {
+  @return mat.define-light-theme($primary, $accent, $warn);
+}
+
+@function define-dark-theme(
+  $primary,
+  $accent: null,
+  $warn: define-palette(mat.$red-palette)
+) {
+  @return mat.define-dark-theme($primary, $accent, $warn);
+}

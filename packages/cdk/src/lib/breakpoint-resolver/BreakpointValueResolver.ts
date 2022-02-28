@@ -12,7 +12,6 @@ function and(condition: BPCondition): string[] {
     return and([condition])
   }
   const r = condition.map(c => Breakpoints[c.toUpperCase() as keyof typeof Breakpoints] as string ?? c);
-  console.log('and: ', r)
   return r;
 }
 

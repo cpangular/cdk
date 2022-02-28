@@ -1,0 +1,30 @@
+name: Builds successfully
+
+on:
+  push:
+    branches:
+      - "*"
+      - "!release/latest"
+      - "!release/v*"
+
+env:
+  NODE_VERSION: 16.x
+
+jobs:
+  projects_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          registry-url: https://npm.pkg.github.com/
+          always-auth: true
+          scope: ${{ github.repository_owner }}
+
+      - name: Init
+        run: yarn  --ignore-scripts
+
+      - name: Build
+        run: |
+          yarn build
