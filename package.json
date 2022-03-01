@@ -5,9 +5,11 @@
     "./packages/*"
   ],
   "scripts": {
-    "build": "lerna run build",
-    "build-dev": "lerna run build-dev",
-    "watch": "yarn run build-dev && lerna run watch --stream --parallel"
+    "run-t": "ts-node .scripts/run.ts -P build-dev", 
+    "ttt": "run-t yarn build",
+    "build": "ts-node .scripts/run.ts -p build",
+    "build-dev": "ts-node .scripts/run.ts -p build-dev",
+    "watch": "yarn run build-dev && ts-node .scripts/run.ts -P watch"
   },
   "private": true,
   "dependencies": {
@@ -31,10 +33,14 @@
     "@angular/compiler-cli": "~13.2.0",
     "@ngxs/store": "^3.7.3",
     "@types/node": "^12.11.1",
+    "arg": "^5.0.1",
+    "concurrently": "^7.0.0",
+    "dependency-graph": "^0.11.0",
     "lerna": "4",
     "linq": "^4.0.0",
     "ng-packagr": "^13.0.0",
     "npm-run-all2": "^5.0.2",
-    "typescript": "~4.5.2"
+    "typescript": "~4.5.2",
+    "yarn-workspaces-foreach": "^0.2.0"
   }
 }

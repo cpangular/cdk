@@ -5,4 +5,3 @@ export * from "./IResolvable";
 export * from "./IValueResolver";
 export * from "./match";
 export * from "./observe";
-
