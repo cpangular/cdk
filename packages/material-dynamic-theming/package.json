@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "scripts": {
     "build": "run-s build:*",
+    "build:schematics": "tsc -p tsconfig.schematics.json",
     "build:ng": "ng build material-dynamic-theming",
     "build:theme": "ts-node scripts/build-theme.ts",
+    "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/material-dynamic-theming/",
     "watch": "run-p watch:*",
     "watch:ng": "ng build material-dynamic-theming --watch --configuration=development",
     "build-dev": "run-s build-dev:*",
@@ -12,6 +14,12 @@
     "build-dev:theme": "ts-node scripts/build-theme.ts",
     "package": "cd ../../dist/material-dynamic-theming && yarn pack --filename package.tgz",
     "release": "yarn publish ../../dist/material-dynamic-theming/package.tgz"
+  },
+  "schematics": "./schematics/collection.json",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss"
+    }
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
@@ -27,6 +35,9 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "sass": "^1.49.9"
+    "@angular-devkit/schematics": "^13.2.5",
+    "sass": "^1.49.9",
+    "copyfiles": "file:../../node_modules/copyfiles",
+    "typescript": "file:../../node_modules/typescript"
   }
 }

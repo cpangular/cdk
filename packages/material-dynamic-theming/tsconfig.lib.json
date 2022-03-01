@@ -3,11 +3,13 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
+    "sourceRoot": ".",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
     "types": []
   },
+  "include": ["./**/*.ts"],
   "exclude": [
     "src/test.ts",
     "**/*.spec.ts"

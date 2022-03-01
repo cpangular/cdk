@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/cdk",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "workspaces": [
     "./packages/*"
   ],
@@ -37,6 +37,7 @@
     "@types/node": "^12.11.1",
     "arg": "^5.0.1",
     "concurrently": "^7.0.0",
+    "copyfiles": "^2.4.1",
     "dependency-graph": "^0.11.0",
     "lerna": "4",
     "linq": "^4.0.0",
