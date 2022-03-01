@@ -21,15 +21,19 @@ export async function runCmd(
         commands.push({
           ...cmdInfo,
           cwd: path.resolve(__dirname, `../../${project.path}`),
-          name: `${cmdInfo.command} - ${project.name}`,
+          name: `${project.name}`,
         });
       }
     }
     if (commands.length) {
       const run = concurrently(commands);
       for (const command of run.commands) {
-        command.stdout.subscribe((b) => console.info(b.toString("utf8")));
-        command.stderr.subscribe((b) => console.info(b.toString("utf8")));
+        command.stdout.subscribe(
+          (b) => console.info(`${command.name}:\n${b.toString("utf8")}`)
+        );
+        command.stderr.subscribe(
+          (b) => console.info(`${command.name}:\n${b.toString("utf8")}`)
+        );
       }
       try{
         await run.result;
