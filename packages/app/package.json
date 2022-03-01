@@ -4,7 +4,9 @@
   "scripts": {
     "build": "ng build app",
     "watch": "ng build app --watch --configuration=development",
-    "build-dev": "ng build app --configuration development"
+    "build-dev": "ng build app --configuration development",
+    "package": "cd ../../dist/app && yarn pack --filename package.tgz",
+    "release": "yarn publish ../../dist/app/package.tgz"
   },
   "peerDependencies": {
     "@angular/common": "^13.2.0",

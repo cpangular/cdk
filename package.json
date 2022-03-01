@@ -5,8 +5,7 @@
     "./packages/*"
   ],
   "scripts": {
-    "run-t": "ts-node .scripts/run.ts -P build-dev",
-    "ttt": "run-t yarn build",
+    "package": "ts-node .scripts/run.ts -P package",
     "build": "ts-node .scripts/run.ts -p build",
     "build-dev": "ts-node .scripts/run.ts -p build-dev",
     "watch": "yarn run build-dev && ts-node .scripts/run.ts -P watch"

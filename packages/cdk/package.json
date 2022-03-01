@@ -4,7 +4,9 @@
   "scripts": {
     "build": "ng build cdk",
     "watch": "ng build cdk --watch --configuration=development",
-    "build-dev": "ng build cdk --configuration development"
+    "build-dev": "ng build cdk --configuration development",
+    "package": "cd ../../dist/cdk && yarn pack --filename package.tgz",
+    "release": "yarn publish ../../dist/cdk/package.tgz"
   },
   "peerDependencies": {
     "@angular/common": "^13.2.0",

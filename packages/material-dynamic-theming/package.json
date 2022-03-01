@@ -9,7 +9,9 @@
     "watch:ng": "ng build material-dynamic-theming --watch --configuration=development",
     "build-dev": "run-s build-dev:*",
     "build-dev:ng": "ng build material-dynamic-theming --configuration development",
-    "build-dev:theme": "ts-node scripts/build-theme.ts"
+    "build-dev:theme": "ts-node scripts/build-theme.ts",
+    "package": "cd ../../dist/material-dynamic-theming && yarn pack --filename package.tgz",
+    "release": "yarn publish ../../dist/material-dynamic-theming/package.tgz"
   },
   "peerDependencies": {
     "@angular/common": "^13.2.0",
