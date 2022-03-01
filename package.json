@@ -1,12 +1,12 @@
 {
   "name": "@cpangular/cdk",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "workspaces": [
     "./packages/*"
   ],
   "scripts": {
     "package": "ts-node .scripts/run.ts -P package",
-    "release": "ts-node .scripts/run.ts -P package",
+    "release": "ts-node .scripts/run.ts -P release",
     "build": "ts-node .scripts/run.ts -p build",
     "build-dev": "ts-node .scripts/run.ts -p build-dev",
     "watch": "yarn run build-dev && ts-node .scripts/run.ts -P watch"
