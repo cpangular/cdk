@@ -1,5 +1,6 @@
 {
     "name": "@cpangular/testapp-cdk-view-anchor",
+    "private": true,
     "scripts": {
         "build": "ng build testapp-cdk-view-anchor",
         "watch": "ng serve testapp-cdk-view-anchor",
