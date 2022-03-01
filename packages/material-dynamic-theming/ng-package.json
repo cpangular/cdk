@@ -4,7 +4,7 @@
   "deleteDestPath": false,
   "assets": [
     "_index.scss",
-    "src/lib/**/*.scss"
+    "src/scss/**/*.scss"
   ],
   "lib": {
     "entryFile": "src/public-api.ts"
