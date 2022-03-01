@@ -2,7 +2,7 @@
   "name": "@cpangular/app",
   "version": "0.0.1",
   "scripts": {
-    "xbuild": "ng build app",
+    "build": "ng build app",
     "watch": "ng build app --watch --configuration=development",
     "build-dev": "ng build app --configuration development"
   },
