@@ -44,7 +44,6 @@
     "ng-packagr": "^13.0.0",
     "npm-run-all2": "^5.0.2",
     "ts-node": "^10.5.0",
-    "typescript": "~4.5.2",
-    "yarn-workspaces-foreach": "^0.2.0"
+    "typescript": "~4.5.2"
   }
 }

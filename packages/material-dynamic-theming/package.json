@@ -36,8 +36,6 @@
   },
   "devDependencies": {
     "@angular-devkit/schematics": "^13.2.5",
-    "sass": "^1.49.9",
-    "copyfiles": "file:../../node_modules/copyfiles",
-    "typescript": "file:../../node_modules/typescript"
+    "sass": "^1.49.9"
   }
 }
