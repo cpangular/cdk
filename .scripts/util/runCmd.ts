@@ -2,6 +2,7 @@ import path from "path";
 import { concurrently } from "concurrently";
 
 import { IProject } from "./dependancy-graph";
+import { exit } from "process";
 
 export async function runCmd(
   phases: Array<IProject | IProject[]>,
@@ -34,6 +35,7 @@ export async function runCmd(
         await run.result;
       }catch(e){
         console.error('error:', e);
+        exit(e.exitCode);
       }
     }
   }
