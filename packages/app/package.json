@@ -2,12 +2,16 @@
   "name": "@cpangular/app",
   "version": "0.0.1",
   "scripts": {
-    "build": "ng build app",
+    "build": "run-s build:*",
+    "build:ng": "ng build app",
+    "build:schematics": "tsc -p tsconfig.schematics.json",
+    "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/app/",
     "watch": "ng build app --watch --configuration=development",
     "build-dev": "ng build app --configuration development",
     "package": "cd ../../dist/app && yarn pack --filename package.tgz",
     "release": "yarn publish ../../dist/app/package.tgz"
   },
+  "schematics": "./schematics/collection.json",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
@@ -20,7 +24,6 @@
     "@cpangular/cdk": "0.0.0",
     "@ngxs/store": "^3.7.3"
   },
-
   "dependencies": {
     "tslib": "^2.3.0"
   }
