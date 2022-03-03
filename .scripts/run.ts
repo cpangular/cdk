@@ -2,7 +2,7 @@ import {
   getParallelProjectsSortedByDependencies,
   getProjectsSortedByDependencies,
   IProject,
-} from "./util/dependancy-graph";
+} from "./util/dependency-graph";
 import { runCmd } from "./util/runCmd";
 
 import arg from "arg";

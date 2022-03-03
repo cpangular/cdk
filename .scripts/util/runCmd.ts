@@ -1,7 +1,7 @@
 import path from "path";
 import { concurrently } from "concurrently";
 
-import { IProject } from "./dependancy-graph";
+import { IProject } from "./dependency-graph";
 import { exit } from "process";
 
 export async function runCmd(

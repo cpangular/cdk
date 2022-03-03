@@ -49,7 +49,7 @@ jobs:
 
       - name: Set package versions
         run: |
-          npx lerna version ${{steps.pkgVersion.outputs.full}} --force-publish --no-commit-hooks --no-git-tag-version --no-push --yes
+          yarn update:versions
           git commit -a -m versions
 
       - name: Production Build

@@ -1,12 +1,13 @@
 {
   "name": "@cpangular/cdk",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "workspaces": [
     "./packages/*"
   ],
   "scripts": {
     "package": "ts-node .scripts/run.ts -P package",
     "release": "ts-node .scripts/run.ts -P release",
+    "update:versions": "ts-node .scripts/update_versions.ts",
     "postbuild": "ts-node .scripts/run.ts -P postbuild",
     "build": "ts-node .scripts/run.ts -p build",
     "build-dev": "ts-node .scripts/run.ts -p build-dev",
@@ -45,6 +46,7 @@
     "ng-packagr": "^13.0.0",
     "npm-run-all2": "^5.0.2",
     "ts-node": "^10.5.0",
+    "type-fest": "^2.12.0",
     "typescript": "~4.5.2"
   }
 }

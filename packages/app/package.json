@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/app",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "scripts": {
     "build": "run-s build:*",
     "build:ng": "ng build app",
@@ -17,11 +17,11 @@
   },
   "repository": "https://github.com/cpangular/cdk",
   "peerDependencies": {
-    "@angular/common": "^13.2.0",
-    "@angular/core": "^13.2.0",
+    "@angular/common": "~13.2.0",
+    "@angular/core": "~13.2.0",
     "@angular/material": "~13.2.3",
-    "@cpangular/material-dynamic-theming": "0.0.0",
-    "@cpangular/cdk": "0.0.0",
+    "@cpangular/material-dynamic-theming": "0.0.6",
+    "@cpangular/cdk": "0.0.6",
     "@ngxs/store": "^3.7.3"
   },
   "dependencies": {

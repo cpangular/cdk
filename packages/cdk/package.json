@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/cdk",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "scripts": {
     "build": "ng build cdk",
     "watch": "ng build cdk --watch --configuration=development",
@@ -13,8 +13,8 @@
   },
   "repository": "https://github.com/cpangular/cdk",
   "peerDependencies": {
-    "@angular/common": "^13.2.0",
-    "@angular/core": "^13.2.0",
+    "@angular/common": "~13.2.0",
+    "@angular/core": "~13.2.0",
     "@angular/cdk": "~13.2.3",
     "linq": "^4.0.0"
   },
