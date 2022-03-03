@@ -1,12 +1,13 @@
 import { compile } from "sass";
-import { writeFileSync, mkdirSync } from "fs";
+import { writeFileSync, mkdirSync, readdirSync } from "fs";
+import {parse as parsePath} from 'path'
 const loadPaths = ["../../node_modules"];
 
-const baseDist = "../../dist/material-dynamic-theming/themes";
+const baseDist = "../../dist/material-dynamic-theming/prebuilt-themes";
 mkdirSync(baseDist, { recursive: true });
 
-function buildCss(themeFile: String) {
-  const result = compile(`src/theme/${themeFile}.scss`, {
+function buildTheme(themeFile: String) {
+  const result = compile(`src/prebuilt-themes/${themeFile}.scss`, {
     loadPaths,
     sourceMap: true,
   });
@@ -21,12 +22,13 @@ function buildCss(themeFile: String) {
   writeFileSync(`${baseDist}/${themeFile}.css`, css);
 }
 
-/*
-buildCss("theme-core");
-buildCss("theme-light");
-buildCss("theme-light-full");
-buildCss("theme-dark");
-buildCss("theme-dark-full");
-buildCss("theme");
-buildCss("theme-full");
-*/
+
+function buildPrebuiltThemes(){
+  const themes = readdirSync('src/prebuilt-themes');
+  for (const themeScssFile of themes) {
+    const p = parsePath(themeScssFile);
+    buildTheme(p.name);
+  }
+}
+
+buildPrebuiltThemes();

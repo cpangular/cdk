@@ -6,11 +6,15 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
- export interface Schema {
-    /** Name of the project. */
-    project: string;
-  
-    /** Name of pre-built theme to install. */
-    theme: 'indigo-pink' | 'deeppurple-amber' | 'pink-bluegrey' | 'purple-green' | 'custom';
-  
-  }
+export interface Schema {
+  /** Name of the project. */
+  project: string;
+
+  /** Name of pre-built theme to install. */
+  theme:
+    | "indigo-pink"
+    | "deeppurple-amber"
+    | "pink-bluegrey"
+    | "purple-green"
+    | "custom";
+}

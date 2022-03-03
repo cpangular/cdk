@@ -1,0 +1,30 @@
+@use '@angular/material' as mat;
+@use '@cpangular/material-dynamic-theming' as theme;
+
+/* Define palettes. uses @angular/material palette format */
+
+$orange: theme.define-palette(mat.$orange-palette, 500, 100, 700);
+$blue: theme.define-palette(mat.$blue-palette, 500, 100, 700);
+
+/* Define the themes. themes have color palettes of primary, accent and warn, as well as background and foreground palettes  */
+$light-theme: theme.define-light-theme((
+ color: (
+   primary: $orange,
+   accent: $blue,
+ )
+));
+
+$dark-theme: theme.define-dark-theme((
+ color: (
+   primary: $orange,
+   accent: $blue,
+ )
+));
+
+/* Add the themes to the theme builder */
+@include theme.add-theme('orange',  $light-theme);
+@include theme.add-theme('orange',  $dark-theme);
+
+
+/* output the theme css, specifying the name of the default theme and whether it starts in dark mode */
+@include theme.build-themes('orange', <%= darkDefault %>);

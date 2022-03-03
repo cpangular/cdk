@@ -9,6 +9,7 @@
     "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/material-dynamic-theming/",
     "watch": "run-p watch:*",
     "watch:ng": "ng build material-dynamic-theming --watch --configuration=development",
+    "watch:schematics": "tsc --watch -p tsconfig.schematics.json ",
     "build-dev": "run-s build-dev:*",
     "build-dev:ng": "ng build material-dynamic-theming --configuration development",
     "build-dev:theme": "ts-node scripts/build-theme.ts",
