@@ -1,12 +1,12 @@
 import { InjectionToken } from "@angular/core";
-import { IResolvable, match } from "@cpangular/cdk/breakpoint-resolver";
-import { HeaderMode } from "./HeaderMode";
+import { IResolvable } from "@cpangular/cdk/value-resolver";
+import { HeaderMode, HeaderPosition } from "./HeaderMode";
 import { MenuMode } from "./MenuMode";
-
 
 
 export interface ApplicationShellConfig {
   headerMode: IResolvable<HeaderMode>;
+  headerPosition: IResolvable<HeaderPosition>;
   mainHeaderColor: IResolvable<'primary' | 'accent' | 'warn' | ''>;
   secondaryHeaderColor: IResolvable<'primary' | 'accent' | 'warn' | ''>;
   leftMenuMode: IResolvable<MenuMode>;

@@ -37,14 +37,13 @@ $darkorange-theme: theme.define-dark-theme((
  )
 ));
 
-body{
-  color: inherit;
-}
+
 
 
 @include theme.add-theme('blue',  $light-theme);
 @include theme.add-theme('blue',  $dark-theme);
 @include theme.add-theme('orange', $darkorange-theme);
+
 
 @include theme.build-themes('orange', true);
 

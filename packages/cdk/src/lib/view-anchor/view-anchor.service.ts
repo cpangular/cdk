@@ -1,17 +1,23 @@
 import { Injectable } from "@angular/core";
+import Enumerable from "linq";
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  map,
+  shareReplay,
+} from "rxjs";
 import { IViewAnchorDirective } from "./IViewAnchorDirective";
 import { IViewDirective } from "./IViewDirective";
-import Enumerable from 'linq';
-import { Observable, Subject } from "rxjs";
+import { ViewAnchorId } from "./ViewAnchorId";
 
-interface ViewAnchor {
-  id: string | symbol;
+interface ViewAnchorRegistration {
+  id: ViewAnchorId;
   directive: IViewAnchorDirective;
 }
 
-interface View {
-  anchor: string | symbol | undefined;
-  allowedViewAnchors: Array<string | symbol>;
+interface ViewDirectiveRegistration {
+  id: ViewAnchorId;
   directive: IViewDirective;
 }
 
@@ -19,172 +25,166 @@ interface View {
   providedIn: "root",
 })
 export class ViewAnchorService {
-  private _views: View[] = [];
-  private _anchors: ViewAnchor[] = [];
+  private _views: ViewDirectiveRegistration[] = [];
+  private _anchors: ViewAnchorRegistration[] = [];
 
-  private _viewsEnum = Enumerable.from(this._views);
-  private _anchorsEnum = Enumerable.from(this._anchors);
+  private _viewCounts: Map<ViewAnchorId, BehaviorSubject<number>> = new Map();
 
-  public get views():Enumerable.IEnumerable<View>{
-    return this._viewsEnum;
-  }
-  public get anchors():Enumerable.IEnumerable<ViewAnchor>{
-    return this._anchorsEnum;
-  }
-
-  private _anchorUpdated:Subject<string | symbol> = new Subject();
-
-  private getViewByDirective(d: IViewDirective) {
-    return this._views.find((v) => v.directive === d);
+  private _viewCountSubject(id: ViewAnchorId): BehaviorSubject<number> {
+    if (!this._viewCounts.has(id)) {
+      this._viewCounts.set(id, new BehaviorSubject(0));
+    }
+    return this._viewCounts.get(id)!;
   }
 
-  private getViewAnchorByDirective(d: IViewAnchorDirective) {
-    return this._anchors.find((v) => v.directive === d);
-  }
-  private findViewsByAllowedViewAnchorId(anchorId: string | symbol) {
-    return this._views.filter((v) => v.allowedViewAnchors.indexOf(anchorId) !== -1);
-  }
-
-  private findViewsByViewAnchorId(anchorId: string | symbol) {
-    return this._views.filter((v) => v.anchor === anchorId);
-  }
-
-  private getViewAnchorById(id: string | symbol) {
-    return this._anchors.find((v) => v.id === id);
+  public viewCountChange(id: ViewAnchorId | ViewAnchorId[]) {
+    const ids = Array.isArray(id) ? id : [id];
+    const counts = ids.map((i) => this._viewCountSubject(i));
+    return combineLatest(counts).pipe(
+      map((c) => c.reduce((v, c) => v + c)),
+      distinctUntilChanged(),
+      shareReplay(1)
+    );
   }
 
-  public get anchorUpdated(): Observable<string | symbol>{
-    return this._anchorUpdated;
+  public viewCount(id: ViewAnchorId | ViewAnchorId[]) {
+    const ids = Array.isArray(id) ? id : [id];
+    return this.views.count((v) => ids.indexOf(v.id) !== -1);
   }
 
-  public addView(view: IViewDirective, allowedViewAnchors: Array<string | symbol>) {
-    const currentView = this.getViewByDirective(view);
+  public hasViewChange(id: ViewAnchorId | ViewAnchorId[]) {
+    return this.viewCountChange(id).pipe(
+      map((c) => c > 0),
+      distinctUntilChanged(),
+      shareReplay(1)
+    );
+  }
 
-    const oldAnchorId = currentView?.anchor ?? undefined;
-    const newAnchorId =
-      allowedViewAnchors.find((v) => !!this._anchors.find((p) => p.id === v)) ?? undefined;
+  public hasView(id: ViewAnchorId | ViewAnchorId[]) {
+    return this.viewCount(id) > 0;
+  }
 
-    if (oldAnchorId !== newAnchorId) {
-      if (!oldAnchorId && newAnchorId) {
-        // add
-        console.debug(
-          `[ViewAnchorService] Added view to anchor '${newAnchorId.toString()}'`
-        );
-        const newAnchor = this.getViewAnchorById(newAnchorId);
-        if(newAnchor){
-          newAnchor.directive.addView(view);
-          this._anchorUpdated.next(newAnchor.id);
+  private get views() {
+    return Enumerable.from(this._views);
+  }
+
+  private get anchors() {
+    return Enumerable.from(this._anchors);
+  }
+
+  private findViewByDirective(directive: IViewDirective) {
+    return this.views.firstOrDefault((v) => {
+      return v.directive === directive;
+    });
+  }
+
+  private findAnchorById(id: ViewAnchorId) {
+    return this.anchors.firstOrDefault((v) => {
+      return v.id === id;
+    });
+  }
+
+  private findAnchorByDirective(directive: IViewAnchorDirective) {
+    return this.anchors.firstOrDefault((v) => {
+      return v.directive === directive;
+    });
+  }
+
+  public anchorAdded(directive: IViewAnchorDirective, id: ViewAnchorId) {
+    const currentAnchor = this.findAnchorByDirective(directive);
+    if (currentAnchor && currentAnchor.id === id) {
+      return;
+    } else if (currentAnchor) {
+      this._removeAnchor(currentAnchor);
+    }
+
+    this._anchors.push({
+      id,
+      directive,
+    });
+
+    this.views
+      .where((v) => v.id === id)
+      .forEach((v) => {
+        directive.addView(v.directive);
+        v.directive.added(id);
+      });
+  }
+
+  public anchorRemoved(directive: IViewAnchorDirective) {
+    const currentAnchor = this.findAnchorByDirective(directive);
+    if (currentAnchor) {
+      this._removeAnchor(currentAnchor);
+    }
+  }
+
+  private _removeAnchor(anchor: ViewAnchorRegistration) {
+    this.views
+      .where((v) => v.id === anchor.id)
+      .forEach((v) => {
+        anchor.directive.removeView(v.directive);
+        v.directive.removed();
+      });
+    this._anchors = this._anchors.filter((a) => a !== anchor);
+  }
+
+  public viewAdded(directive: IViewDirective, id: ViewAnchorId) {
+    const currentView = this.findViewByDirective(directive);
+    const oldId = currentView?.id ?? undefined;
+
+    if (oldId !== id) {
+      if (!oldId && id) {
+        //add
+        this._views.push({
+          id,
+          directive,
+        });
+        const anchor = this.findAnchorById(id);
+        if (anchor) {
+          anchor.directive.addView(directive);
+          directive.added(id);
         }
-        view.added(newAnchorId);
-      } else if (oldAnchorId && !newAnchorId) {
+        const count$ = this._viewCountSubject(id);
+        count$.next(count$.value + 1);
+      } else if (oldId && !id) {
         // remove
-        console.debug(
-          `[ViewAnchorService] Removed view from anchor '${oldAnchorId.toString()}'`
-        );
-        const oldAnchor = this.getViewAnchorById(oldAnchorId);
-        if(oldAnchor){
-          oldAnchor.directive.removeView(view);
-          this._anchorUpdated.next(oldAnchor.id);
+        this._views = this._views.filter((v) => v.id !== oldId);
+        const anchor = this.findAnchorById(id);
+        if (anchor) {
+          anchor.directive.removeView(directive);
+          directive.removed();
         }
-        view.removed();
-      } else if (oldAnchorId && newAnchorId) {
+        const count$ = this._viewCountSubject(id);
+        count$.next(count$.value - 1);
+      } else if (oldId && id) {
         // move
-        console.debug(
-          `[ViewAnchorService] Moved view from anchor '${oldAnchorId.toString()}' to '${newAnchorId.toString()}'`
-        );
-        const oldAnchor = this.getViewAnchorById(oldAnchorId);
-        const newAnchor = this.getViewAnchorById(newAnchorId);
-        
-        if(oldAnchor){
-          oldAnchor.directive.removeView(view);
-          this._anchorUpdated.next(oldAnchor.id);
-        }
+        currentView!.id = id;
+        const oldAnchor = this.findAnchorById(oldId!);
+        const anchor = this.findAnchorById(id);
+        oldAnchor?.directive.removeView(directive);
+        anchor?.directive.addView(directive);
 
-        if(newAnchor){
-          newAnchor.directive.addView(view);
-          this._anchorUpdated.next(newAnchor.id);
-        }
+        const countOld$ = this._viewCountSubject(oldId);
+        countOld$.next(countOld$.value - 1);
+        const countNew$ = this._viewCountSubject(id);
+        countNew$.next(countNew$.value + 1);
       }
     }
+  }
+
+  public viewRemoved(directive: IViewDirective) {
+    const currentView = this.findViewByDirective(directive);
     if (currentView) {
-      currentView.anchor = newAnchorId;
-      currentView.allowedViewAnchors = allowedViewAnchors;
-    } else {
-      this._views.push({
-        anchor: newAnchorId,
-        allowedViewAnchors: allowedViewAnchors,
-        directive: view,
-      });
-      if (!newAnchorId) {
-        console.debug(
-          `[ViewAnchorService] Added view with no anchor matching '${allowedViewAnchors.join(
-            "', '"
-          )}'`
-        );
-        view.added(undefined);
-      }
+      this._removeView(currentView);
     }
   }
 
-  public destroyView(view: IViewDirective) {
-    const currentView = this.getViewByDirective(view);
-    const oldAnchorId = currentView?.anchor ?? undefined;
-    this._views = this._views.filter((v) => v.directive !== view);
-    if (oldAnchorId) {
-      console.debug(
-        `[ViewAnchorService] Removed view from anchor '${oldAnchorId.toString()}'`
-      );
-      const oldAnchor = this.getViewAnchorById(oldAnchorId);
-      
-      if(oldAnchor){
-        oldAnchor?.directive.removeView(view);
-        this._anchorUpdated.next(oldAnchor.id);
-      }
-      view.removed();
-    }
-  }
-
-  public addViewAnchor(viewAnchor: IViewAnchorDirective, id: string | symbol) {
-    const currentViewAnchor = this.getViewAnchorByDirective(viewAnchor);
-
-    if (!currentViewAnchor) {
-      //add
-      console.debug(`[ViewAnchorService] Added view anchor '${id.toString()}'`);
-      this._anchors.push({
-        id: id,
-        directive: viewAnchor,
-      });
-      this.findViewsByAllowedViewAnchorId(id).forEach((v) => {
-        this.addView(v.directive, v.allowedViewAnchors);
-      });
-    } else if (currentViewAnchor && currentViewAnchor.id !== id) {
-      // rename
-      console.debug(
-        `[ViewAnchorService] Renamed view anchor from '${currentViewAnchor.id.toString()}' to '${id.toString()}'`
-      );
-      currentViewAnchor.id = id;
-      this.findViewsByAllowedViewAnchorId(id).forEach((v) => {
-        this.addView(v.directive, v.allowedViewAnchors);
-      });
-    }
-  }
-
-  public removeViewAnchor(viewAnchor: IViewAnchorDirective) {
-    const currentViewAnchor = this.getViewAnchorByDirective(viewAnchor);
-    if (currentViewAnchor) {
-      console.debug(
-        `[ViewAnchorService] Removed view anchor '${currentViewAnchor.id.toString()}'`
-      );
-      this._anchors = this._anchors.filter((p) => p.directive !== viewAnchor);
-
-      this.findViewsByViewAnchorId(currentViewAnchor.id).forEach((v) => {
-        this.addView(v.directive, v.allowedViewAnchors);
-      });
-    }
-  }
-
-  public getViewCount(id: string | symbol){
-    const va = this.getViewAnchorById(id);
-    return va?.directive.viewCount ?? 0;
+  private _removeView(view: ViewDirectiveRegistration) {
+    this._views = this._views.filter((v) => v !== view);
+    const anchor = this.findAnchorById(view.id);
+    anchor?.directive.removeView(view.directive);
+    view.directive.removed();
+    const count$ = this._viewCountSubject(view.id);
+    count$.next(count$.value - 1);
   }
 }

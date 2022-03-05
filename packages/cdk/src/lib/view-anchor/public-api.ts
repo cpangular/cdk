@@ -4,4 +4,5 @@ export * from './anchor-view-to.directive';
 export * from './view-achor.directive';
 export * from './view-anchor.module';
 export * from './view-anchor.service';
-export * from './hide-when-no-views.directive'
+export * from './hide-when-no-views.directive';
+export * from './if-anchor-has-views.directive';

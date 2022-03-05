@@ -6,6 +6,12 @@
       "factory": "./ng-add/index",
       "schema": "./ng-add/schema.json",
       "aliases": ["install"]
+    }, 
+    "app-shell": {
+      "description": "Create the application shell",
+      "factory": "./ng-generate/application-shell/index",
+      "schema": "./ng-generate/application-shell/schema.json",
+      "aliases": ["application-shell", "cpangular-app-shell", "cpangular-application-shell"]
     }
   }
 }

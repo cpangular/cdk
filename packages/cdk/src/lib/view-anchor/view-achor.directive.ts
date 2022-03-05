@@ -50,9 +50,9 @@ import {
       if (idChange) {
         const id = idChange.currentValue;
         if (id) {
-          this.service.addViewAnchor(this, idChange.currentValue);
+          this.service.anchorAdded(this, idChange.currentValue);
         } else {
-          this.service.removeViewAnchor(this);
+          this.service.anchorRemoved(this);
         }
       }
   
@@ -65,7 +65,7 @@ import {
     }
   
     public ngOnDestroy(): void {
-      this.service.removeViewAnchor(this);
+      this.service.anchorRemoved(this);
     }
   
     public addView(view: IViewDirective): void {

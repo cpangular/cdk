@@ -1,4 +1,8 @@
-<cpng-application-header [scrollable]="scrollArea"></cpng-application-header>
+<cpng-application-header
+  [scrollable]="scrollArea"
+  *cpngAnchorViewTo="_va.headerInnerPosition; inlineFallback: true"
+></cpng-application-header>
+
 <mat-sidenav-container>
   <mat-sidenav
     #leftMenu
@@ -8,7 +12,7 @@
   >
     <ng-container
       #leftMenuAnchor="viewAnchor"
-      cpngViewAnchor="app.leftMenu"
+      [cpngViewAnchor]="viewAnchors.mainPanel"
     ></ng-container>
   </mat-sidenav>
   <mat-sidenav
@@ -19,19 +23,25 @@
   >
     <ng-container
       #rightMenuAnchor="viewAnchor"
-      cpngViewAnchor="app.rightMenu"
+      [cpngViewAnchor]="viewAnchors.secondaryPanel"
     ></ng-container>
   </mat-sidenav>
 
   <mat-sidenav-content #scrollArea>
+    <ng-container
+      [cpngViewAnchor]="_va.headerInnerPosition"
+      *ngIf="headerInnerPosition$ | async"
+    ></ng-container>
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<ng-container *ngIf="(showLeftMenuButton$ | async) && leftMenuAnchor.viewCount">
+<ng-container
+  *ngIf="(showLeftMenuButton$ | async) && !!leftMenuAnchor.viewCount"
+>
   <button
     mat-icon-button
-    *cpngAnchorViewTo="'app.header.leftMenuButton'"
+    *cpngAnchorViewTo="_va.menuButtonLeft"
     (click)="leftMenu.toggle()"
   >
     <mat-icon>menu</mat-icon>

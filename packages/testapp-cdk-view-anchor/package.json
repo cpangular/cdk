@@ -7,9 +7,9 @@
     "build-dev": "ng build testapp-cdk-view-anchor --configuration development"
   },
   "dependencies": {
-    "@cpangular/cdk": "0.0.6",
-    "@cpangular/app": "0.0.6",
-    "@cpangular/material-dynamic-theming": "0.0.6"
+    "@cpangular/cdk": "0.0.7",
+    "@cpangular/app": "0.0.7",
+    "@cpangular/material-dynamic-theming": "0.0.7"
   },
-  "version": "0.0.6"
+  "version": "0.0.7"
 }

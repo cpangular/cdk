@@ -5,11 +5,11 @@
     box-sizing: border-box;
   }
 
-
-  .header-bar{
+  .header-bar {
     display: flex;
     flex-direction: row;
-    > *{
+    align-items: stretch;
+    > * {
       flex: 0 0 auto;
       width: auto;
     }
@@ -17,14 +17,19 @@
       flex: 1 1 100%;
     }
   }
-
-  mat-toolbar, mat-toolbar-row {
+ 
+  mat-toolbar {
+    padding: 0 8px;
     min-height: 0;
     height: auto;
     justify-content: center;
   }
+  
+  mat-toolbar:empty {
+    padding: 0;
+  }
 
-/*
+  /*
 
   mat-toolbar {
     flex: 0 0 auto;

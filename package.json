@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/cdk",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "workspaces": [
     "./packages/*"
   ],
@@ -36,11 +36,13 @@
     "@angular/cli": "~13.2.4",
     "@angular/compiler-cli": "~13.2.0",
     "@ngxs/store": "^3.7.3",
+    "@types/jsdom": "^16.2.14",
     "@types/node": "^12.11.1",
     "arg": "^5.0.1",
     "concurrently": "^7.0.0",
     "copyfiles": "^2.4.1",
     "dependency-graph": "^0.11.0",
+    "jsdom": "^19.0.0",
     "lerna": "4",
     "linq": "^4.0.0",
     "ng-packagr": "^13.0.0",

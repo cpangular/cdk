@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/material-dynamic-theming",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "scripts": {
     "build": "run-s build:*",
     "build:schematics": "tsc -p tsconfig.schematics.json",
@@ -44,11 +44,13 @@
   "peerDependencies": {
     "@angular/common": "~13.2.0",
     "@angular/core": "~13.2.0",
-    "@angular/material": "~13.2.3",
+    "@angular/cdk": "~13.2.3",
     "change-case": "^4.1.2"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@angular/material": "~13.2.3"
+  }
 }

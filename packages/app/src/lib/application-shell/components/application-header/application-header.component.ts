@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ContentChild,
   Inject,
   Input,
   OnChanges,
@@ -10,8 +11,9 @@ import {
   OnInit,
   SimpleChange,
   SimpleChanges,
+  TemplateRef,
 } from "@angular/core";
-import { observe } from "@cpangular/cdk/breakpoint-resolver";
+import { observe } from "@cpangular/cdk/value-resolver";
 import { DrawerState } from "@cpangular/cdk/drawer";
 import { Subject, Subscription, takeUntil, throttleTime } from "rxjs";
 import {
@@ -20,6 +22,8 @@ import {
 } from "../../ApplicationShellConfig";
 import { FINAL_APPLICATION_SHELL_CONFIG } from "../../FINAL_APPLICATION_SHELL_CONFIG";
 import { HeaderMode } from "../../HeaderMode";
+import { InternalViewAnchors } from "../../InternalViewAnchors";
+import { ApplicationViewAnchors } from "../../ApplicationViewAnchors";
 
 @Component({
   selector: "cpng-application-header",
@@ -28,6 +32,9 @@ import { HeaderMode } from "../../HeaderMode";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApplicationHeaderComponent implements OnInit, OnDestroy {
+  public internalViewAnchors = InternalViewAnchors;
+  public appViewAnchors = ApplicationViewAnchors;
+
   private destroy$ = new Subject<void>();
 
   public headerHideMode$ = observe(this._config.headerMode).pipe(
@@ -42,20 +49,21 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
     takeUntil(this.destroy$)
   );
 
-  public rightMenuButtonColor$ = observe(this._config.rightMenuButtonColor).pipe(
-    takeUntil(this.destroy$)
-  );
+  public rightMenuButtonColor$ = observe(
+    this._config.rightMenuButtonColor
+  ).pipe(takeUntil(this.destroy$));
 
-  public secondaryHeaderColor$ = observe(this._config.secondaryHeaderColor).pipe(
-    takeUntil(this.destroy$)
-  );
+  public secondaryHeaderColor$ = observe(
+    this._config.secondaryHeaderColor
+  ).pipe(takeUntil(this.destroy$));
 
   private _headerOpened: boolean = true;
   private _lastScrollPos: number = -1;
   private _scrollSub: Subscription = new Subscription();
   private _drawerState: DrawerState = "open";
 
-  
+  @ContentChild("leftMenuButton")
+  public leftMenuButtonTemplate?: TemplateRef<any>;
 
   @Input()
   public scrollable?: CdkScrollable;
@@ -65,16 +73,14 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
   }
 
   private get headerOpenState(): boolean {
-    return this._drawerState == 'open' || this._drawerState == 'opening';
+    return this._drawerState == "open" || this._drawerState == "opening";
   }
 
   constructor(
     private readonly _changeDetector: ChangeDetectorRef,
     @Inject(FINAL_APPLICATION_SHELL_CONFIG)
     private readonly _config: ApplicationShellConfig
-  ) {
-    
-  }
+  ) {}
   ngOnInit(): void {
     this.headerHideMode$.subscribe((hm) =>
       this._updateHeaderMode(hm ?? HeaderMode.ALWAYS)
@@ -143,5 +149,9 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
 
   private _removeHeaderScrollAway() {
     this._scrollSub.unsubscribe();
+  }
+
+  public contentChange(...rest: any[]) {
+    console.log(rest);
   }
 }

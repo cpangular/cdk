@@ -1,6 +1,6 @@
 {
   "name": "@cpangular/cdk",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "scripts": {
     "build": "ng build cdk",
     "watch": "ng build cdk --watch --configuration=development",

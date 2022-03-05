@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { CpNgViewAnchorModule } from "@cpangular/cdk/view-anchor";
-import {  BreakpointResolverModule } from "@cpangular/cdk/breakpoint-resolver";
+import {  BreakpointResolverModule, size } from "@cpangular/cdk/breakpoint-resolver";
 import { CpNgDrawerModule } from "@cpangular/cdk/drawer";
 import { ApplicationShellModule, APPLICATION_SHELL_CONFIG, ApplicationShellConfig, HeaderMode } from "@cpangular/app/application-shell";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,7 +17,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatCardModule} from '@angular/material/card';
-import { match } from '@cpangular/cdk/breakpoint-resolver';
+import { otherwise, when } from '@cpangular/cdk/value-resolver';
+
 //import { MaterialDynamicThemingModule } from '@cpangular/material-dynamic-theming';
 
 
@@ -47,7 +48,10 @@ import { match } from '@cpangular/cdk/breakpoint-resolver';
       provide: APPLICATION_SHELL_CONFIG,
       useValue: {
         rightMenuButtonColor: 'accent',
-        headerMode: match('(max-height: 1000px)', HeaderMode.SCROLL_AWAY).default(HeaderMode.ALWAYS)
+       headerMode: when(
+         size('(max-height: 1000px)', HeaderMode.SCROLL_AWAY),
+         otherwise(HeaderMode.ALWAYS)
+       )
       } as Partial<ApplicationShellConfig>
     }
   ],

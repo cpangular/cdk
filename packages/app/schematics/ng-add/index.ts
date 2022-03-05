@@ -5,25 +5,53 @@ import {
   SchematicContext,
   Tree,
 } from "@angular-devkit/schematics";
-import { noop } from "rxjs";
+import { addPackageToPackageJson, getPackageVersionFromPackageJson } from "../util/package-config";
 import { Schema } from "./schema";
+import {NodePackageInstallTask, RunSchematicTask} from '@angular-devkit/schematics/tasks';
 
-
-/**
- * Schematic factory entry-point for the `ng-add` schematic. The ng-add schematic will be
- * automatically executed if developers run `ng add @cpangular/material-dynamic-theming`.
- *
- * Since the Angular Material schematics depend on the schematic utility functions from the CDK,
- * we need to install the CDK before loading the schematic files that import from the CDK.
- */
 export default function (options: Schema): Rule {
   return async (host: Tree, context: SchematicContext) => {
-
-    return chain([
-      externalSchematic("@cpangular/material-dynamic-theming", "ng-add", {
-        project: options.project,
-      }),
-    ]);
+    const cpAppVersionRange = getPackageVersionFromPackageJson(host, '@cpangular/app');
+    const ngCoreVersionTag = getPackageVersionFromPackageJson(host, '@angular/core');
     
+    const materialVersionRange = getPackageVersionFromPackageJson(host, '@angular/material');
+    if(materialVersionRange === null){
+      addPackageToPackageJson(host, '@angular/material', ngCoreVersionTag!);
+    }
+    
+    const cpDTVersionRange = getPackageVersionFromPackageJson(host, '@cpangular/material-dynamic-theming');
+    if(cpDTVersionRange === null){
+      addPackageToPackageJson(host, '@cpangular/material-dynamic-theming', cpAppVersionRange!);
+    }
+
+    const cpCDKVersionRange = getPackageVersionFromPackageJson(host, '@cpangular/cdk');
+    if(cpCDKVersionRange === null){
+      addPackageToPackageJson(host, '@cpangular/cdk', cpAppVersionRange!);
+    }
+    
+    console.log('cpAppVersionRange', cpAppVersionRange);
+    console.log('ngCoreVersionTag', ngCoreVersionTag);
+    console.log('materialVersionRange', materialVersionRange);
+    /*
+    const ngCDKVersionTag = getPackageVersionFromPackageJson(host, '@angular/cdk');
+    
+
+    console.log('cpAppVersionRange', cpAppVersionRange);
+
+
+
+    console.log('materialVersionRange', materialVersionRange);
+    console.log('cpDTVersionRange', cpDTVersionRange);
+    console.log('cpCDKVersionRange', cpCDKVersionRange);
+    console.log('ngCDKVersionTag', ngCDKVersionTag);
+
+    */
+    context.addTask(new NodePackageInstallTask());
+  
+    return chain([
+      /*externalSchematic("@cpangular/material-dynamic-theming", "ng-add", {
+        project: options.project,
+      }),*/
+    ]);
   };
 }

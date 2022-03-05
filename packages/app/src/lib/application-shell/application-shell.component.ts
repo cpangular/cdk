@@ -3,15 +3,17 @@ import {
   Component,
   Inject,
   OnInit,
-  ViewChild,
+  ViewChild
 } from "@angular/core";
-import { MatSidenavContent } from "@angular/material/sidenav";
-import { observe } from "@cpangular/cdk/breakpoint-resolver";
+import { MatDrawerMode, MatSidenavContent } from "@angular/material/sidenav";
 import { map, Subject, takeUntil } from "rxjs";
 import { ApplicationShellConfig } from "./ApplicationShellConfig";
 import { FINAL_APPLICATION_SHELL_CONFIG } from "./FINAL_APPLICATION_SHELL_CONFIG";
 import { MenuMode } from "./MenuMode";
-import { MatDrawerMode } from "@angular/material/sidenav";
+import {observe} from '@cpangular/cdk/value-resolver';
+import { ApplicationViewAnchors } from "./ApplicationViewAnchors";
+import { InternalViewAnchors } from "./InternalViewAnchors";
+import { HeaderPosition } from "./HeaderMode";
 
 @Component({
   selector: "cpng-application-shell",
@@ -21,11 +23,18 @@ import { MatDrawerMode } from "@angular/material/sidenav";
 })
 export class ApplicationShellComponent implements OnInit {
   private destroy$ = new Subject();
-  public headerMode$ = observe(this._config.headerMode);
   
+  public readonly viewAnchors = ApplicationViewAnchors;
+  public readonly _va = InternalViewAnchors;
+
+  public headerMode$ = observe(this._config.headerMode);
+  public headerPosition$ = observe(this._config.headerPosition);
+  public headerInnerPosition$ = this.headerPosition$.pipe(map(p => p === HeaderPosition.INNER))
+
+
   @ViewChild("scrollArea", { static: true, read: MatSidenavContent })
   public scrollArea!: MatSidenavContent;
-  
+
   public leftMenuMode$ = observe(this._config.leftMenuMode).pipe(
     takeUntil(this.destroy$)
   );
@@ -42,16 +51,13 @@ export class ApplicationShellComponent implements OnInit {
   );
 
   public leftMenuSideNavOpen$ = this.leftMenuMode$.pipe(
-    map(
-      (m) =>{
-        if(m === MenuMode.FIXED){
-          return true;
-        }
-        return false;
+    map((m) => {
+      if (m === MenuMode.FIXED) {
+        return true;
       }
-    )
+      return false;
+    })
   );
-
 
   public rightMenuMode$ = observe(this._config.rightMenuMode).pipe(
     takeUntil(this.destroy$)
@@ -68,17 +74,13 @@ export class ApplicationShellComponent implements OnInit {
   );
 
   public rightMenuSideNavOpen$ = this.rightMenuMode$.pipe(
-    map(
-      (m) =>{
-        if(m === MenuMode.FIXED){
-          return true;
-        }
-        return false;
+    map((m) => {
+      if (m === MenuMode.FIXED) {
+        return true;
       }
-    )
+      return false;
+    })
   );
-
-
 
   constructor(
     @Inject(FINAL_APPLICATION_SHELL_CONFIG)

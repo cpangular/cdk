@@ -5,3 +5,7 @@ export enum HeaderMode {
 }
 
 
+export enum HeaderPosition {
+  OUTER,
+  INNER
+}
