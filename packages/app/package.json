@@ -5,7 +5,7 @@
     "build": "run-s build:*",
     "build:ng": "ng build app",
     "build:schematics": "tsc -p tsconfig.schematics.json",
-    "postbuild": "copyfiles schematics/*/schema.json schematics/*/*/schema.json schematics/*/files/** schematics/collection.json ../../dist/app/",
+    "postbuild": "copyfiles schematics/*/schema.json schematics/*/*/schema.json schematics/*/files/** schematics/*/*/files/** schematics/collection.json ../../dist/app/",
     "watch": "ng build app --watch --configuration=development",
     "build-dev": "ng build app --configuration development",
     "package": "cd ../../dist/app && yarn pack --filename package.tgz",

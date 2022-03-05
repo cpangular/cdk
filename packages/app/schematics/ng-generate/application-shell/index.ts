@@ -1,13 +1,12 @@
+import { template as interpolateTemplate } from "@angular-devkit/core";
 import { chain, Rule, Tree } from "@angular-devkit/schematics";
-import {dirname} from 'path';
-import { Schema } from "./schema";
 import {
-  addModuleImportToModule,
-  buildComponent,
-  findModuleFromOptions,
+  addModuleImportToModule, findModuleFromOptions
 } from "@angular/cdk/schematics";
+import { readFileSync } from "fs";
+import { dirname, join } from 'path';
+import { Schema } from "./schema";
 
-import {JSDOM} from 'jsdom'
 
 export default function (options: Schema): Rule {
   return chain([
@@ -21,21 +20,27 @@ function addAppShellHtmlToTemplate(options: Schema) {
     const modulePath = dirname((await findModuleFromOptions(host, {
       name: "AppModule",
     }))!);
+    
     const appComponentPath = `${modulePath}/app.component`;
     const appComponentPathTS = `${appComponentPath}.ts`;
     const appComponentPathHtml = `${appComponentPath}.html`;
     console.log("appComponentPathHtml", appComponentPathHtml);
     if(host.exists(appComponentPathHtml)){
-        console.log("appComponentPathHtml exists");
-    
-        const dom = new JSDOM(host.read(appComponentPathHtml)!)
-        const document = dom.window.document;
-        const element = document.createElement('div');
-    
-        element.innerHTML = '<cpng-application-shell #shell></cpng-application-shell>';
+      const fileContent = readFileSync(
+        join(__dirname, "files/app.component.html.template"),
+        "utf8"
+      );
 
-        document.documentElement.insertBefore(element, null);
-        host.overwrite(appComponentPathHtml, dom.serialize());
+      const hasRouting = host.exists(`${modulePath}/app-routing.module.ts`);
+      const templateContext = {
+        routerOutletTag: hasRouting ? '<router-outlet></router-outlet>' : ''
+      }
+
+      const tpl = interpolateTemplate(fileContent)(templateContext);
+      const update = host.beginUpdate(appComponentPathHtml);
+      update.insertLeft(0, tpl);
+      host.commitUpdate(update);
+
     }
   };
 }
