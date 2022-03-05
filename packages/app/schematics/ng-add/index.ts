@@ -29,29 +29,12 @@ export default function (options: Schema): Rule {
       addPackageToPackageJson(host, '@cpangular/cdk', cpAppVersionRange!);
     }
     
-    console.log('cpAppVersionRange', cpAppVersionRange);
-    console.log('ngCoreVersionTag', ngCoreVersionTag);
-    console.log('materialVersionRange', materialVersionRange);
-    /*
-    const ngCDKVersionTag = getPackageVersionFromPackageJson(host, '@angular/cdk');
-    
-
-    console.log('cpAppVersionRange', cpAppVersionRange);
-
-
-
-    console.log('materialVersionRange', materialVersionRange);
-    console.log('cpDTVersionRange', cpDTVersionRange);
-    console.log('cpCDKVersionRange', cpCDKVersionRange);
-    console.log('ngCDKVersionTag', ngCDKVersionTag);
-
-    */
     context.addTask(new NodePackageInstallTask());
-  
+    
     return chain([
-      /*externalSchematic("@cpangular/material-dynamic-theming", "ng-add", {
+      externalSchematic("@cpangular/material-dynamic-theming", "ng-add", {
         project: options.project,
-      }),*/
+      })
     ]);
   };
 }
