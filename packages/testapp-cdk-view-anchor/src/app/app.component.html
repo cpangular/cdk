@@ -1,19 +1,30 @@
 
-<cpng-application-shell #shell><router-outlet></router-outlet></cpng-application-shell>
+<cpng-application-shell #shell>
+  <div *cpngProjectToAnchor="'asdf'">
+    <div>ASDF App!!</div>
+  </div>
+</cpng-application-shell>
 
 
+<!--
 
-<div *cpngAnchorViewTo="shell.viewAnchors.mainPanel" >
+
+<div *cpngProjectToAnchor="'top-panel'">
+  top-panel
+</div>
+
+
+<div *cpngProjectToAnchor="shell.viewAnchors.mainPanel" >
   Menu Content
 </div>
 
-<div *cpngAnchorViewTo="shell.viewAnchors.logo">Logo</div>
+<div *cpngProjectToAnchor="shell.viewAnchors.logo">Logo</div>
 
 
-<div *cpngAnchorViewTo="shell.viewAnchors.toolbar.left">Toolbar Left</div>
+<div *cpngProjectToAnchor="shell.viewAnchors.toolbar.left">Toolbar Left</div>
 
 
-<button *cpngAnchorViewTo="shell.viewAnchors.headerTools" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+<button *cpngProjectToAnchor="shell.viewAnchors.headerTools" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
   <mat-icon>more_vert</mat-icon>
 </button>
 
@@ -30,18 +41,18 @@
   </ng-container>
   
 </mat-menu>
-
+-->
 <!--
-<div *cpngAnchorViewTo="'app.header.title'">Title</div>
+<div *cpngProjectToAnchor="'app.header.title'">Title</div>
 
 
-  <button mat-icon-button *cpngAnchorViewTo="'app.header.tools'">
+  <button mat-icon-button *cpngProjectToAnchor="'app.header.tools'">
     <mat-icon >check</mat-icon>
   </button>
   
-  <div *cpngAnchorViewTo="'app.toolbar.right'">Toolbar Right</div>
+  <div *cpngProjectToAnchor="'app.toolbar.right'">Toolbar Right</div>
   
-  <button mat-icon-button *cpngAnchorViewTo="'app.header.tools'">
+  <button mat-icon-button *cpngProjectToAnchor="'app.header.tools'">
     <mat-icon >check</mat-icon>
   </button>
 -->
@@ -72,7 +83,7 @@
 </header>
 
 
-<div *cpngAnchorViewTo="'app.toolbar'">
+<div *cpngProjectToAnchor="'app.toolbar'">
   Under Toolbar
 </div>
 
@@ -90,7 +101,7 @@
 
 <button
   mat-icon-button
-  *cpngAnchorViewTo="'app.header.icons'"
+  *cpngProjectToAnchor="'app.header.icons'"
   (click)="opened = !opened"
 >
   <mat-icon>menu</mat-icon>

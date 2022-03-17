@@ -1,0 +1,570 @@
+<div #container app-container>
+  <div fixed>
+    <div
+      notices
+      class="horizontal start"
+      *cpngIfAnchorHasViews="anchors.fixed.notices"
+      addSizeCssVars
+      [addSizeCssVarsToElement]="container"
+      cssVarName="notices"
+      [class.show-hide-on-scroll]="noticeHideOnScroll$ | async"
+    >
+      <ng-container [cpngViewAnchor]="anchors.fixed.notices"></ng-container>
+    </div>
+    <div
+      header
+      class="horizontal start"
+      *cpngIfAnchorHasViews="anchors.fixed.header"
+      addSizeCssVars
+      [addSizeCssVarsToElement]="container"
+      cssVarName="header"
+      [class.show-hide-on-scroll]="headerHideOnScroll$ | async"
+    >
+      <ng-container [cpngViewAnchor]="anchors.fixed.header"></ng-container>
+    </div>
+    <div
+      start-h-toolbar
+      class="horizontal start"
+      *cpngIfAnchorHasViews="anchors.fixed.toolBarHorizontalStart"
+      addSizeCssVars
+      [addSizeCssVarsToElement]="container"
+      cssVarName="start-h-toolbar"
+      [class.show-hide-on-scroll]="toolbarHorizontalStartHideOnScroll$ | async"
+    >
+      <ng-container
+        [cpngViewAnchor]="anchors.fixed.toolBarHorizontalStart"
+      ></ng-container>
+    </div>
+    <div
+      footer
+      class="horizontal end"
+      *cpngIfAnchorHasViews="anchors.fixed.footer"
+      addSizeCssVars
+      [addSizeCssVarsToElement]="container"
+      cssVarName="footer"
+      [class.show-hide-on-scroll]="footerHideOnScroll$ | async"
+    >
+      <ng-container [cpngViewAnchor]="anchors.fixed.footer"></ng-container>
+    </div>
+    <div
+      end-h-toolbar
+      class="horizontal end"
+      *cpngIfAnchorHasViews="anchors.fixed.toolBarHorizontalEnd"
+      addSizeCssVars
+      [addSizeCssVarsToElement]="container"
+      cssVarName="end-h-toolbar"
+      [class.show-hide-on-scroll]="toolbarHorizontalEndHideOnScroll$ | async"
+    >
+      <ng-container
+        [cpngViewAnchor]="anchors.fixed.toolBarHorizontalEnd"
+      ></ng-container>
+    </div>
+
+    <div
+      scroll-container
+      [addSizeCssVarsToElement]="container"
+      (resize)="viewportResize($event, container)"
+      cssVarName="scroll-container-fixed"
+    ></div>
+    <div modal *ngIf="modal === 2" (click)="modalClick.next($event)"></div>
+    <div
+      start-v-toolbar
+      class="vertical start"
+      *cpngIfAnchorHasViews="anchors.fixed.toolBarVerticalStart"
+      addSizeCssVars
+      [addSizeCssVarsToElement]="container"
+      cssVarName="start-v-toolbar"
+      [class.show-hide-on-scroll]="toolbarVerticalStartHideOnScroll$ | async"
+    >
+      <ng-container
+        [cpngViewAnchor]="anchors.fixed.toolBarVerticalStart"
+      ></ng-container>
+    </div>
+    <div
+      end-v-toolbar
+      class="vertical end"
+      *cpngIfAnchorHasViews="anchors.fixed.toolBarVerticalEnd"
+      addSizeCssVars
+      [addSizeCssVarsToElement]="container"
+      cssVarName="end-v-toolbar"
+      [class.show-hide-on-scroll]="toolbarVerticalEndHideOnScroll$ | async"
+    >
+      <ng-container
+        [cpngViewAnchor]="anchors.fixed.toolBarVerticalEnd"
+      ></ng-container>
+    </div>
+
+    <div
+      start-menu
+      class="vertical start"
+      *cpngIfAnchorHasViews="anchors.fixed.menuStart"
+      [addSizeCssVarsToElement]="container"
+      addSizeCssVars
+      cssVarName="start-menu"
+      [class.show-hide-on-scroll]="menuStartHideOnScroll$ | async"
+    >
+      <ng-container [cpngViewAnchor]="anchors.fixed.menuStart"></ng-container>
+    </div>
+    <div
+      end-menu
+      class="vertical end"
+      *cpngIfAnchorHasViews="anchors.fixed.menuEnd"
+      addSizeCssVars
+      [addSizeCssVarsToElement]="container"
+      cssVarName="end-menu"
+      [class.show-hide-on-scroll]="menuEndHideOnScroll$ | async"
+    >
+      <ng-container [cpngViewAnchor]="anchors.fixed.menuEnd"></ng-container>
+    </div>
+  </div>
+  <div
+    scroll-container
+    #scrollContainer
+    cdkScrollable
+    [addSizeCssVarsToElement]="container"
+    cssVarName="scroll-container"
+    [class.blur]="modal === 2"
+  >
+    <div
+      content-container
+      [addSizeCssVarsToElement]="container"
+      cssVarName="content-container"
+    >
+      <div
+        notices
+        class="horizontal start"
+        addSizeCssVars
+        *cpngIfAnchorHasViews="anchors.scroll.notices"
+      >
+        <ng-container [cpngViewAnchor]="anchors.scroll.notices"></ng-container>
+      </div>
+      <div
+        header
+        class="horizontal start"
+        addSizeCssVars
+        *cpngIfAnchorHasViews="anchors.scroll.header"
+      >
+        <ng-container [cpngViewAnchor]="anchors.scroll.header"></ng-container>
+      </div>
+
+      <div
+        start-h-toolbar
+        class="horizontal start"
+        addSizeCssVars
+        *cpngIfAnchorHasViews="anchors.scroll.toolBarHorizontalStart"
+      >
+        <ng-container
+          [cpngViewAnchor]="anchors.scroll.toolBarHorizontalStart"
+        ></ng-container>
+      </div>
+      <div
+        footer
+        class="horizontal end"
+        addSizeCssVars
+        *cpngIfAnchorHasViews="anchors.scroll.footer"
+      >
+        <ng-container [cpngViewAnchor]="anchors.scroll.footer"></ng-container>
+      </div>
+      <div
+        end-h-toolbar
+        class="horizontal end"
+        addSizeCssVars
+        *cpngIfAnchorHasViews="anchors.scroll.toolBarHorizontalEnd"
+      >
+        <ng-container
+          [cpngViewAnchor]="anchors.scroll.toolBarHorizontalEnd"
+        ></ng-container>
+      </div>
+
+      <div content [addSizeCssVarsToElement]="container" cssVarName="content" [class.blur]="modal === 1">
+        <ng-content></ng-content>
+        <router-outlet></router-outlet>
+      </div>
+      <div modal *ngIf="modal === 1" (click)="modalClick.next($event)"></div>
+
+      <div
+        start-v-toolbar
+        class="vertical start"
+        addSizeCssVars
+        *cpngIfAnchorHasViews="anchors.scroll.toolBarVerticalStart"
+      >
+        <ng-container
+          [cpngViewAnchor]="anchors.scroll.toolBarVerticalStart"
+        ></ng-container>
+      </div>
+
+      <div
+        end-v-toolbar
+        class="vertical end"
+        addSizeCssVars
+        *cpngIfAnchorHasViews="anchors.scroll.toolBarVerticalEnd"
+      >
+        <ng-container
+          [cpngViewAnchor]="anchors.scroll.toolBarVerticalEnd"
+        ></ng-container>
+      </div>
+
+      <div
+        start-menu
+        class="vertical start"
+        addSizeCssVars
+        *cpngIfAnchorHasViews="anchors.scroll.menuStart"
+      >
+        <ng-container
+          [cpngViewAnchor]="anchors.scroll.menuStart"
+        ></ng-container>
+      </div>
+
+      <div
+        end-menu
+        class="vertical end"
+        addSizeCssVars
+        *cpngIfAnchorHasViews="anchors.scroll.menuEnd"
+      >
+        <ng-container [cpngViewAnchor]="anchors.scroll.menuEnd"></ng-container>
+      </div>
+    </div>
+  </div>
+  <div overlay="top" *cpngIfAnchorHasViews="anchors.overlay.top">
+    <ng-container [cpngViewAnchor]="anchors.overlay.top"></ng-container>
+  </div>
+  <div overlay="bottom" *cpngIfAnchorHasViews="anchors.overlay.bottom">
+    <ng-container [cpngViewAnchor]="anchors.overlay.bottom"></ng-container>
+  </div>
+  <div overlay="left" *cpngIfAnchorHasViews="anchors.overlay.left">
+    <ng-container [cpngViewAnchor]="anchors.overlay.left"></ng-container>
+  </div>
+  <div overlay="right" *cpngIfAnchorHasViews="anchors.overlay.right">
+    <ng-container [cpngViewAnchor]="anchors.overlay.right"></ng-container>
+  </div>
+  
+</div>
+
+<ng-container>
+
+
+  <ng-container *cpngIfAnchorHasViews="anchors.notices">
+    <ng-container
+      *cpngProjectToAnchor="(noticeAnchor$ | async) ?? anchors.scroll.notices"
+    >
+      <ng-container [cpngViewAnchor]="anchors.notices"></ng-container>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *cpngIfAnchorHasViews="anchors.header">
+    <div
+      *cpngProjectToAnchor="(headerAnchor$ | async) ?? anchors.scroll.header"
+    >
+      <ng-container [cpngViewAnchor]="anchors.header"></ng-container>
+    </div>
+  </ng-container>
+
+  <ng-container *cpngIfAnchorHasViews="anchors.toolBarHorizontalStart">
+    <div
+      *cpngProjectToAnchor="
+        (toolbarHorizontalStartAnchor$ | async) ??
+        anchors.scroll.toolBarHorizontalStart
+      "
+    >
+      <ng-container
+        [cpngViewAnchor]="anchors.toolBarHorizontalStart"
+      ></ng-container>
+    </div>
+  </ng-container>
+
+  <ng-container *cpngIfAnchorHasViews="anchors.toolBarHorizontalEnd">
+    <div
+      *cpngProjectToAnchor="
+        (toolbarHorizontalEndAnchor$ | async) ??
+        anchors.scroll.toolBarHorizontalEnd
+      "
+    >
+      <ng-container
+        [cpngViewAnchor]="anchors.toolBarHorizontalEnd"
+      ></ng-container>
+    </div>
+  </ng-container>
+
+  <ng-container *cpngIfAnchorHasViews="anchors.footer">
+    <div
+      *cpngProjectToAnchor="(footerAnchor$ | async) ?? anchors.scroll.footer"
+    >
+      <ng-container [cpngViewAnchor]="anchors.footer"></ng-container>
+    </div>
+  </ng-container>
+
+  <ng-container *cpngIfAnchorHasViews="anchors.toolBarVerticalStart">
+    <div
+      *cpngProjectToAnchor="
+        (toolbarVerticalStartAnchor$ | async) ??
+        anchors.scroll.toolBarVerticalStart
+      "
+    >
+      <ng-container
+        [cpngViewAnchor]="anchors.toolBarVerticalStart"
+      ></ng-container>
+    </div>
+  </ng-container>
+
+  <ng-container *cpngIfAnchorHasViews="anchors.toolBarVerticalEnd">
+    <div
+      *cpngProjectToAnchor="
+        (toolbarVerticalEndAnchor$ | async) ?? anchors.scroll.toolBarVerticalEnd
+      "
+    >
+      <ng-container
+        [cpngViewAnchor]="anchors.toolBarVerticalEnd"
+      ></ng-container>
+    </div>
+  </ng-container>
+
+  <ng-container *cpngIfAnchorHasViews="anchors.menuStart">
+    <div
+      *cpngProjectToAnchor="
+        (menuStartAnchor$ | async) ?? anchors.scroll.menuStart
+      "
+    >
+      <ng-container [cpngViewAnchor]="anchors.menuStart"></ng-container>
+    </div>
+  </ng-container>
+
+  <ng-container *cpngIfAnchorHasViews="anchors.menuEnd">
+    <div
+      *cpngProjectToAnchor="(menuEndAnchor$ | async) ?? anchors.scroll.menuEnd"
+    >
+      <ng-container [cpngViewAnchor]="anchors.menuEnd"></ng-container>
+    </div>
+  </ng-container>
+</ng-container>
+<!--
+<div grid [attr.scroll-mode]="scrollModeClass$ | async" #main>
+  <div top *cpngIfAnchorHasViews="anchors.overlay.top">
+    <ng-container [cpngViewAnchor]="anchors.overlay.top"></ng-container>
+  </div>
+  <div left *cpngIfAnchorHasViews="anchors.overlay.left">
+    <ng-container [cpngViewAnchor]="anchors.overlay.left"></ng-container>
+  </div>
+  <div center grid cdkScrollable #scrollAreaOuter>
+    <div top *cpngIfAnchorHasViews="anchors.outerPanel.top" class="hide-on-scroll hide-margin" addSizeCssVars [addSizeCssVarsToElement]="main" cssVarName="qwerty">
+      <ng-container [cpngViewAnchor]="anchors.outerPanel.top"></ng-container>
+    </div>
+    <div left *cpngIfAnchorHasViews="anchors.outerPanel.left">
+      <ng-container [cpngViewAnchor]="anchors.outerPanel.left"></ng-container>
+    </div>
+    <div center grid #scrollAreaInner cdkScrollable>
+      <div top *cpngIfAnchorHasViews="anchors.innerPanel.top" class="hide-on-scroll hide-top" addSizeCssVars>
+        <ng-container [cpngViewAnchor]="anchors.innerPanel.top"></ng-container>
+      </div>
+      <div top >dasdas</div>
+      <div left *cpngIfAnchorHasViews="anchors.innerPanel.left">
+        <ng-container [cpngViewAnchor]="anchors.innerPanel.left"></ng-container>
+      </div>
+      <div center content #scrollAreaContent cdkScrollable>
+        <mat-sidenav-container>
+          <mat-sidenav
+            #mainMenu
+            [opened]="true"
+            position="start"
+            [mode]="'over'"
+            *cpngIfAnchorHasViews="anchors.mainMenu.items"
+          >
+            <ng-container
+              [cpngViewAnchor]="anchors.mainMenu.items"
+            ></ng-container>
+          </mat-sidenav>
+          <mat-sidenav
+            #secondaryMenu
+            [opened]="true"
+            position="end"
+            [mode]="'side'"
+            *cpngIfAnchorHasViews="anchors.secondaryMenu.items"
+          >
+            <ng-container
+              [cpngViewAnchor]="anchors.secondaryMenu.items"
+            ></ng-container
+          ></mat-sidenav>
+          <mat-sidenav-content #scrollAreaContentInner cdkScrollable>
+            <router-outlet></router-outlet>
+            <ng-content></ng-content>
+          </mat-sidenav-content>
+        </mat-sidenav-container>
+      </div>
+      <div right *cpngIfAnchorHasViews="anchors.innerPanel.right">
+        <ng-container
+          [cpngViewAnchor]="anchors.innerPanel.right"
+        ></ng-container>
+      </div>
+      <div bottom *cpngIfAnchorHasViews="anchors.innerPanel.bottom">
+        <ng-container
+          [cpngViewAnchor]="anchors.innerPanel.bottom"
+        ></ng-container>
+      </div>
+    </div>
+    <div right *cpngIfAnchorHasViews="anchors.outerPanel.right">
+      <ng-container [cpngViewAnchor]="anchors.outerPanel.right"></ng-container>
+    </div>
+    <div bottom *cpngIfAnchorHasViews="anchors.outerPanel.bottom">
+      <ng-container [cpngViewAnchor]="anchors.outerPanel.bottom"></ng-container>
+    </div>
+  </div>
+  <div right *cpngIfAnchorHasViews="anchors.overlay.right">
+    <ng-container [cpngViewAnchor]="anchors.overlay.right"></ng-container>
+  </div>
+  <div bottom *cpngIfAnchorHasViews="anchors.overlay.bottom">
+    <ng-container [cpngViewAnchor]="anchors.overlay.bottom"></ng-container>
+  </div>
+</div>
+-->
+<!-- 
+      
+      <ng-container *cpngIfAnchorHasViews="'aaa'">
+        <ng-container *cpngProjectToAnchor="(headerPositionAnchor$ | async) ?? 'header.outer'">
+          <mat-toolbar>Header</mat-toolbar>
+          <ng-container [cpngViewAnchor]="'aaa'"></ng-container>
+        </ng-container>
+      </ng-container>
+      
+      
+      <ng-container *cpngProjectToAnchor="'aaa'">AAA</ng-container>
+    
+    <div panel="top"></div>
+  <div panel="bottom"></div>
+  <div panel="left"></div>
+  <div panel="right"></div>
+  <div shell-layout>
+    <div shelf="top">top</div>
+    <div shelf="bottom">bottom</div>
+    <div application-layout>
+      <div shelf="top">top</div>
+      <div shelf="bottom">bottom</div>
+      <div content cdkScrollable >
+        
+       
+      </div>
+      <div shelf="left">left</div>
+      <div shelf="right">right</div>
+    </div>
+    <div shelf="left">left</div>
+    <div shelf="right">right</div>
+  </div>
+  -->
+<!--
+  <cpng-application-header></cpng-application-header>
+  
+  <mat-sidenav-container>
+    <mat-sidenav #mainMenu [opened]="true" position="start" [mode]="'push'"
+    >main nav</mat-sidenav
+    >
+    <mat-sidenav #secondaryMenu [opened]="true" position="end" [mode]="'side'"
+    >second nav</mat-sidenav
+    >
+    <mat-sidenav-content #scrollArea></mat-sidenav-content>
+  </mat-sidenav-container>
+  <footer>footer</footer>
+  -->
+<!--
+  
+      <cpng-application-header
+      [scrollable]="scrollArea"
+      xcpngProjectToAnchor="_va.headerInnerPosition; inlineFallback: true"
+      ></cpng-application-header>
+      
+    -->
+<!-- 
+  
+  
+  
+  
+  <div class="notice" *cpngIfAnchorHasViews="viewAnchors.notices">
+    <ng-container [cpngViewAnchor]="viewAnchors.notices"></ng-container>
+  </div>
+  
+  <cpng-application-header
+    [scrollable]="scrollArea"
+    xcpngProjectToAnchor="_va.headerInnerPosition; inlineFallback: true"
+  ></cpng-application-header>
+  
+  <mat-sidenav-container>
+    <mat-sidenav
+      #leftMenu
+      [opened]="(leftMenuSideNavOpen$ | async) && !!leftMenuAnchor.viewCount"
+      position="start"
+      [mode]="(leftMenuSideNavMode$ | async) ?? 'side'"
+    >
+      <ng-container
+        #leftMenuAnchor="viewAnchor"
+        [cpngViewAnchor]="viewAnchors.mainPanel"
+      ></ng-container>
+    </mat-sidenav>
+    <mat-sidenav
+      #rightMenu
+      [opened]="(rightMenuSideNavOpen$ | async) && !!rightMenuAnchor.viewCount"
+      position="end"
+      [mode]="(rightMenuSideNavMode$ | async) ?? 'side'"
+    >
+      <ng-container
+        #rightMenuAnchor="viewAnchor"
+        [cpngViewAnchor]="viewAnchors.secondaryPanel"
+      ></ng-container>
+    </mat-sidenav>
+  
+    <mat-sidenav-content #scrollArea>
+      <ng-container
+        [cpngViewAnchor]="_va.headerInnerPosition"
+        *ngIf="headerInnerPosition$ | async"
+      ></ng-container>
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
+  <ng-container
+    *ngIf="(showLeftMenuButton$ | async) && !!leftMenuAnchor.viewCount"
+  >
+    <button
+      mat-icon-button
+      *cpngProjectToAnchor="_va.menuButtonLeft"
+      (click)="leftMenu.toggle()"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+  </ng-container>
+  
+  <ng-container
+    *ngIf="(showRightMenuButton$ | async) && rightMenuAnchor.viewCount"
+  >
+    <button
+      mat-icon-button
+      *cpngProjectToAnchor="'app.header.rightMenuButton'"
+      (click)="rightMenu.toggle()"
+    >
+      <mat-icon>check</mat-icon>
+    </button>
+  </ng-container>
+  
+  <div class="panel top" *cpngIfAnchorHasViews="viewAnchors.panels.top">
+    <ng-container [cpngViewAnchor]="viewAnchors.panels.top"></ng-container>
+  </div>
+  <div class="panel bottom" *cpngIfAnchorHasViews="viewAnchors.panels.bottom">
+    <ng-container [cpngViewAnchor]="viewAnchors.panels.bottom"></ng-container>
+  </div>
+  <div class="panel left" *cpngIfAnchorHasViews="viewAnchors.panels.left">
+    <ng-container [cpngViewAnchor]="viewAnchors.panels.left"></ng-container>
+  </div>
+  <div class="panel right" *cpngIfAnchorHasViews="viewAnchors.panels.right">
+    <ng-container [cpngViewAnchor]="viewAnchors.panels.right"></ng-container>
+  </div>
+  -->
+<!--
+
+  <div notice></div>
+  <div header></div>
+  <div toolbar></div>
+  <div footer></div>
+  <div bottom></div>
+
+
+  <div start></div>
+  <div start-menu></div>
+  <div end-menu></div>
+  <div end></div>
+-->

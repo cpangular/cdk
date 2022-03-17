@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Optional, SkipSelf } from "@angular/core";
 import Enumerable from "linq";
 import {
   BehaviorSubject,
@@ -20,6 +20,7 @@ interface ViewDirectiveRegistration {
   id: ViewAnchorId;
   directive: IViewDirective;
 }
+
 
 @Injectable({
   providedIn: "root",
@@ -70,6 +71,12 @@ export class ViewAnchorService {
 
   private get anchors() {
     return Enumerable.from(this._anchors);
+  }
+
+  public constructor(
+    @Optional() @SkipSelf() private readonly parent: ViewAnchorService
+  ){
+    
   }
 
   private findViewByDirective(directive: IViewDirective) {

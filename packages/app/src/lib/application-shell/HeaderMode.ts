@@ -1,11 +1,13 @@
 
 export enum HeaderMode {
-  ALWAYS,
+  FIXED,
+  SCROLL,
   SCROLL_AWAY
 }
-
 
 export enum HeaderPosition {
   OUTER,
   INNER
 }
+
+

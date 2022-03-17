@@ -5,33 +5,40 @@ import { ApplicationShellConfig } from "./ApplicationShellConfig";
 import { MenuMode } from "./MenuMode";
 import { when, otherwise } from "@cpangular/cdk/value-resolver";
 import { size } from "@cpangular/cdk/breakpoint-resolver";
+import { ScrollMode } from "./ScrollMode";
+import { ScrollBehavior } from "./ScrollBehavior";
 
 export const DEFAULT_APPLICATION_SHELL_CONFIG: InjectionToken<ApplicationShellConfig> =
   new InjectionToken("DefaultApplication Shell Config", {
     providedIn: "root",
     factory: () => {
       return {
-        headerMode: when(
-          size("(max-height: 959.98px)", HeaderMode.SCROLL_AWAY),
-          otherwise(HeaderMode.ALWAYS),
+        noticeScrollBehavior: ScrollBehavior.FIXED,
+        headerScrollBehavior: when(
+          size("LargeOrGreater", ScrollBehavior.FIXED),
+          otherwise(ScrollBehavior.FLOAT)
         ),
-        headerPosition: when(
-          size("<=small", HeaderPosition.INNER),
-          otherwise(HeaderPosition.OUTER)
+        toolbarHorizontalStartScrollBehavior: ScrollBehavior.FIXED,
+        toolbarHorizontalEndScrollBehavior: ScrollBehavior.SCROLL,
+        footerScrollBehavior: ScrollBehavior.SCROLL,
+        toolbarVerticalStartScrollBehavior: ScrollBehavior.FIXED,
+        toolbarVerticalEndScrollBehavior: ScrollBehavior.FIXED,
+        menuStartScrollBehavior: ScrollBehavior.FIXED,
+        menuEndScrollBehavior: ScrollBehavior.FIXED,
+        mainMenuMode: when(
+          size("MediumOrGreater", MenuMode.FIXED),
+          otherwise(MenuMode.OVER)
         ),
-        mainHeaderColor: "primary",
-        secondaryHeaderColor: "",
-        leftMenuButtonColor: "",
-        rightMenuButtonColor: "",
+        mainMenuIcon: when(
+          size("Small", 'apps'),
+          otherwise('menu')
+        ),
+        secondaryMenuMode: MenuMode.FIXED,
+        secondaryMenuIcon: 'menu',
 
-        leftMenuMode: when(
-          size("<=small", MenuMode.OVER),
-          otherwise(MenuMode.FIXED)
-        ),
-        rightMenuMode: when(
-          size("<=small", MenuMode.PUSH),
-          otherwise(MenuMode.FIXED)
-        ),
+        headerColor: "accent",
+        headerMenuColor: "",
+        headerSecondaryColor: "",
       };
     },
   });

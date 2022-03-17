@@ -1,29 +1,15 @@
-import { CdkScrollable } from "@angular/cdk/scrolling";
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  ContentChild,
   Inject,
-  Input,
-  OnChanges,
   OnDestroy,
   OnInit,
-  SimpleChange,
-  SimpleChanges,
-  TemplateRef,
 } from "@angular/core";
 import { observe } from "@cpangular/cdk/value-resolver";
-import { DrawerState } from "@cpangular/cdk/drawer";
-import { Subject, Subscription, takeUntil, throttleTime } from "rxjs";
-import {
-  ApplicationShellConfig,
-  APPLICATION_SHELL_CONFIG,
-} from "../../ApplicationShellConfig";
+import { Subject, takeUntil } from "rxjs";
+import { ApplicationShellConfig } from "../../ApplicationShellConfig";
 import { FINAL_APPLICATION_SHELL_CONFIG } from "../../FINAL_APPLICATION_SHELL_CONFIG";
-import { HeaderMode } from "../../HeaderMode";
-import { InternalViewAnchors } from "../../InternalViewAnchors";
-import { ApplicationViewAnchors } from "../../ApplicationViewAnchors";
+import { InternalApplicationLayoutViewAnchors } from "../application-layout/InternalApplicationLayoutViewAnchors";
 
 @Component({
   selector: "cpng-application-header",
@@ -32,22 +18,42 @@ import { ApplicationViewAnchors } from "../../ApplicationViewAnchors";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApplicationHeaderComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+
+  public viewAnchors = InternalApplicationLayoutViewAnchors;
+
+  public headerColor$ = observe(this._config.headerColor).pipe(
+    takeUntil(this.destroy$)
+  );
+  public headerMenuColor$ = observe(this._config.headerMenuColor).pipe(
+    takeUntil(this.destroy$)
+  );
+  public headerSecondaryColor$ = observe(
+    this._config.headerSecondaryColor
+  ).pipe(takeUntil(this.destroy$));
+
+  constructor(
+    //private readonly _changeDetector: ChangeDetectorRef,
+    @Inject(FINAL_APPLICATION_SHELL_CONFIG)
+    private readonly _config: ApplicationShellConfig
+  ) {}
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
+  ngOnInit(): void {}
+  /*
   public internalViewAnchors = InternalViewAnchors;
   public appViewAnchors = ApplicationViewAnchors;
 
-  private destroy$ = new Subject<void>();
+  
 
-  public headerHideMode$ = observe(this._config.headerMode).pipe(
-    takeUntil(this.destroy$)
-  );
 
   public mainHeaderColor$ = observe(this._config.mainHeaderColor).pipe(
     takeUntil(this.destroy$)
   );
 
-  public leftMenuButtonColor$ = observe(this._config.leftMenuButtonColor).pipe(
-    takeUntil(this.destroy$)
-  );
+
 
   public rightMenuButtonColor$ = observe(
     this._config.rightMenuButtonColor
@@ -82,9 +88,9 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
     private readonly _config: ApplicationShellConfig
   ) {}
   ngOnInit(): void {
-    this.headerHideMode$.subscribe((hm) =>
-      this._updateHeaderMode(hm ?? HeaderMode.ALWAYS)
-    );
+    ///this.headerHideMode$.subscribe((hm) =>
+   ///   this._updateHeaderMode(hm ?? HeaderMode.FIXED)
+  ///  );
   }
 
   ngOnDestroy(): void {
@@ -154,4 +160,5 @@ export class ApplicationHeaderComponent implements OnInit, OnDestroy {
   public contentChange(...rest: any[]) {
     console.log(rest);
   }
+  */
 }

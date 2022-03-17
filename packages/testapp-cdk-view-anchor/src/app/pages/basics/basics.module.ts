@@ -9,6 +9,8 @@ import {MatListModule} from '@angular/material/list';
 import {LayoutModule} from '@angular/cdk/layout';
 import { CpNgViewAnchorModule } from '@cpangular/cdk/view-anchor';
 import { ExamplesComponent } from './sections/examples/examples.component';
+import { ApplicationShellModule } from '@cpangular/app/application-shell';
+import { IFrameModule } from '@cpangular/cdk/iframe';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import { ExamplesComponent } from './sections/examples/examples.component';
     MatTabsModule,
     LayoutModule,
     MatListModule,
-    CpNgViewAnchorModule
+    CpNgViewAnchorModule,
+    ApplicationShellModule,
+    IFrameModule
   ]
 })
 export class BasicsModule { }

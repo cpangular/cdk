@@ -1,39 +1,29 @@
-import { Breakpoints as MatBreakpoints } from '@angular/cdk/layout';
+import { BreakpointValues } from "./BreakpointValues";
 
 export class Breakpoints {
-    public static HANDSET: string = `${MatBreakpoints.Handset}`;
-    public static HANDSETLANDSCAPE: string = MatBreakpoints.HandsetLandscape;
-    public static HANDSETPORTRAIT: string = MatBreakpoints.HandsetPortrait;
-    public static LARGE: string = MatBreakpoints.Large;
-    public static MEDIUM: string = MatBreakpoints.Medium;
-    public static SMALL: string = MatBreakpoints.Small;
-    public static TABLET: string = MatBreakpoints.Tablet;
-    public static TABLETLANDSCAPE: string = MatBreakpoints.TabletLandscape;
-    public static TABLETPORTRAIT: string = MatBreakpoints.TabletPortrait;
-    public static WEB: string = MatBreakpoints.Web;
-    public static WEBLANDSCAPE: string = MatBreakpoints.WebLandscape;
-    public static WEBPORTRAIT: string = MatBreakpoints.WebPortrait;
-    public static XLARGE: string = MatBreakpoints.XLarge;
-    public static XSMALL: string = MatBreakpoints.XSmall;
+  public static Handset: string = BreakpointValues.Handset;
+  public static HandsetLandscape: string = BreakpointValues.HandsetLandscape;
+  public static HandsetPortrait: string = BreakpointValues.HandsetPortrait;
+  public static Tablet: string = BreakpointValues.Tablet;
+  public static TabletLandscape: string = BreakpointValues.TabletLandscape;
+  public static TabletPortrait: string = BreakpointValues.TabletPortrait;
+  public static Web: string = BreakpointValues.Web;
+  public static WebLandscape: string = BreakpointValues.WebLandscape;
+  public static WebPortrait: string = BreakpointValues.WebPortrait;
+  public static Landscape: string = BreakpointValues.Landscape;
+  public static Portrait: string = BreakpointValues.Portrait;
+  public static XSmall: string = BreakpointValues.XSmall;
+  public static Small: string = BreakpointValues.Small;
+  public static Medium: string = BreakpointValues.Medium;
+  public static Large: string = BreakpointValues.Large;
+  public static XLarge: string = BreakpointValues.XLarge;
 
-    public static LANDSCAPE: string = '(orientation: landscape)';
-    public static PORTRAIT: string = '(orientation: portrait)';
+  public static SmallOrSmaller: string = "SmallOrSmaller";
+  public static SmallOrLarger: string = "SmallOrLarger";
 
-    public static ['<XLARGE']: string = '(max-width: 1919.98px)';
-    public static ['>LARGE']: string = '(min-width: 1920px)';
-    public static ['>=LARGE']: string = '(min-width: 1280px)';
-    public static ['<LARGE']: string = '(max-width: 1279.98px)';
-    public static ['<=LARGE']: string = '(max-width: 1919.98px)';
+  public static MediumOrSmaller: string = "MediumOrSmaller";
+  public static MediumOrLarger: string = "MediumOrLarger";
 
-    public static ['>MEDIUM']: string = '(min-width: 1280px)';
-    public static ['>=MEDIUM']: string = '(min-width: 960px)';
-    public static ['<MEDIUM']: string = '(max-width: 959.98px)';
-    public static ['<=MEDIUM']: string = '(max-width: 1279.98px)';
-
-    public static ['>SMALL']: string = '(min-width: 960px)';
-    public static ['>=SMALL']: string = '(min-width: 600px)';
-    public static ['<SMALL']: string = '(max-width: 599.98px)';
-    public static ['<=SMALL']: string = '(max-width: 959.98px)';
-
-    public static ['>XSMALL']: string = '(min-width: 600px)';
+  public static LargeOrSmaller: string = "LargeOrSmaller";
+  public static LargeOrLarger: string = "LargeOrLarger";
 }

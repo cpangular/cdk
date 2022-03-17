@@ -1,6 +1,30 @@
 :host {
   display: flex;
   flex-direction: column;
+  > div {
+    display: flex;
+    flex-direction: row;
+    > * {
+      flex: 0 0 auto;
+      &.full {
+        flex: 1 1 100%;
+      }
+    }
+  }
+}
+
+:host mat-toolbar {
+  width: auto;
+  height: auto;
+  &:not(:empty) {
+    min-height: 56px;
+  }
+}
+
+/*
+:host {
+  display: flex;
+  flex-direction: column;
   * {
     box-sizing: border-box;
   }
@@ -28,8 +52,8 @@
   mat-toolbar:empty {
     padding: 0;
   }
-
-  /*
+*/
+/*
 
   mat-toolbar {
     flex: 0 0 auto;
@@ -49,7 +73,7 @@
       }
     }
   }
-*/
+*/ /*
   .vpad {
     padding-top: 8px;
     padding-bottom: 8px;
@@ -59,3 +83,4 @@
     padding-right: 8px;
   }
 }
+*/

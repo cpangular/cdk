@@ -68,7 +68,12 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "packages/testapp-cdk-view-anchor/src/favicon.ico",
-              "packages/testapp-cdk-view-anchor/src/assets"
+              "packages/testapp-cdk-view-anchor/src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/@cpangular/app/auth-oidc/assets/",
+                "output": "./"
+              }
             ],
             "styles": [
               "packages/testapp-cdk-view-anchor/src/styles.scss"
@@ -110,6 +115,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "ssl": true
+          },
           "configurations": {
             "production": {
               "browserTarget": "testapp-cdk-view-anchor:build:production"

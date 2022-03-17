@@ -1,0 +1,14 @@
+<html>
+
+<head>
+  <script>
+    window.onload = function () {
+      var parent = window.opener || window.parent;
+      parent.dispatchEvent(new CustomEvent('oidc-silent-renew-message', { detail: window.location }));
+    };
+  </script>
+</head>
+
+<body></body>
+
+</html>

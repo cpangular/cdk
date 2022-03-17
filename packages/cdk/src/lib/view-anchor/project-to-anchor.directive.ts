@@ -11,28 +11,20 @@ import {
 import { IViewDirective } from "./IViewDirective";
 import { ViewAnchorService } from "./view-anchor.service";
 
-
 @Directive({
-  selector: "[cpngAnchorViewTo]",
+  selector: "[cpngProjectToAnchor]",
 })
-export class AnchorViewToDirective
+export class ProjectToAnchorDirective
   implements OnChanges, OnDestroy, IViewDirective
 {
   private _attached: boolean = false;
   private _inlineFallback: boolean = true;
+  private _viewRef?: EmbeddedViewRef<any>;
 
-  @Input("cpngAnchorViewTo")
-  public anchorViewTo?: string | symbol;
+  @Input("cpngProjectToAnchor")
+  public projectToAnchor?: string | symbol;
 
-  @Input("cpngAnchorViewToInlineFallback")
-  public get anchorViewToInlineFallback(): boolean {
-    return this.inlineFallback;
-  }
-  public set anchorViewToInlineFallback(value: boolean) {
-    this.inlineFallback = value;
-  }
-
-  @Input()
+  @Input("cpngProjectToAnchorInlineFallback")
   public get inlineFallback(): boolean {
     return this._inlineFallback;
   }
@@ -40,23 +32,26 @@ export class AnchorViewToDirective
     this._inlineFallback = value;
   }
 
-  public viewRef: EmbeddedViewRef<any>;
-
   constructor(
     private readonly service: ViewAnchorService,
     private readonly viewContainer: ViewContainerRef,
-    template: TemplateRef<any>
-  ) {
-    this.viewRef = viewContainer.createEmbeddedView(template);
+    public readonly templateRef: TemplateRef<any>
+  ) {}
+
+  getViewNodes(): Element[] {
+    if (!this._viewRef) {
+      this._viewRef = this.viewContainer.createEmbeddedView(this.templateRef);
+    }
+    return this._viewRef!.rootNodes;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const anchorViewToChange = changes["anchorViewTo"];
-    if (anchorViewToChange) {
-      this.service.viewAdded(this, anchorViewToChange.currentValue);
+    const projectToAnchorChange = changes["projectToAnchor"];
+    if (projectToAnchorChange) {
+      this.service.viewAdded(this, projectToAnchorChange.currentValue);
     }
     const inlineFallbackChange =
-      changes["inlineFallback"] ?? changes["anchorViewToInlineFallback"];
+      changes["inlineFallback"] ?? changes["projectToAnchorInlineFallback"];
     if (inlineFallbackChange) {
       if (!this._attached) {
         this._remove();
@@ -86,13 +81,13 @@ export class AnchorViewToDirective
   }
 
   private _remove() {
-    this.viewRef.rootNodes.forEach((n) => n.remove());
+    this._viewRef?.rootNodes.forEach((n) => n.remove());
   }
 
   private _addInline() {
-    this.viewRef.rootNodes.forEach((n) => n.remove());
+    this._viewRef?.rootNodes.forEach((n) => n.remove());
     const target = this.viewContainer.element.nativeElement as HTMLElement;
-    this.viewRef.rootNodes.forEach((n) =>
+    this._viewRef?.rootNodes.forEach((n) =>
       target.parentElement?.insertBefore(n, target)
     );
   }

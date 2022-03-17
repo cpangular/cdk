@@ -4,6 +4,7 @@ import {
   Rule,
   SchematicContext,
   Tree,
+
 } from "@angular-devkit/schematics";
 import { addPackageToPackageJson, getPackageVersionFromPackageJson } from "../util/package-config";
 import { Schema } from "./schema";
@@ -29,12 +30,10 @@ export default function (options: Schema): Rule {
       addPackageToPackageJson(host, '@cpangular/cdk', cpAppVersionRange!);
     }
     
-    context.addTask(new NodePackageInstallTask());
-    
-    return chain([
-      externalSchematic("@cpangular/material-dynamic-theming", "ng-add", {
-        project: options.project,
-      })
-    ]);
+    const taskId = context.addTask(new NodePackageInstallTask());
+   
+    context.addTask(new RunSchematicTask('ng-add-setup', {
+      project: options.project,
+    }), [taskId]);
   };
 }

@@ -1,3 +1,62 @@
+<div main>
+  <mat-toolbar
+    *cpngIfAnchorHasViews="viewAnchors.startMenuButton"
+    [color]="headerMenuColor$ | async"
+  >
+    <ng-container [cpngViewAnchor]="viewAnchors.startMenuButton"></ng-container>
+  </mat-toolbar>
+  <mat-toolbar
+    *cpngIfAnchorHasViews="viewAnchors.headerLogo"
+    [color]="headerColor$ | async"
+  >
+    <ng-container [cpngViewAnchor]="viewAnchors.headerLogo"></ng-container>
+  </mat-toolbar>
+  <mat-toolbar [color]="headerColor$ | async" class="full"
+    ><ng-container [cpngViewAnchor]="viewAnchors.headerTitle"></ng-container
+  ></mat-toolbar>
+  <mat-toolbar
+    [color]="headerColor$ | async"
+    *cpngIfAnchorHasViews="viewAnchors.headerToolsSecondary"
+  >
+    <ng-container
+      [cpngViewAnchor]="viewAnchors.headerToolsSecondary"
+    ></ng-container>
+  </mat-toolbar>
+  <mat-toolbar
+    [color]="headerColor$ | async"
+    *cpngIfAnchorHasViews="viewAnchors.headerTools"
+  >
+    <ng-container [cpngViewAnchor]="viewAnchors.headerTools"></ng-container>
+  </mat-toolbar>
+  <mat-toolbar
+    *cpngIfAnchorHasViews="viewAnchors.endMenuButton"
+    [color]="headerMenuColor$ | async"
+  >
+    <ng-container [cpngViewAnchor]="viewAnchors.endMenuButton"></ng-container>
+  </mat-toolbar>
+</div>
+<div sub>
+  <mat-toolbar
+    *cpngIfAnchorHasViews="'no'"
+    [color]="headerSecondaryColor$ | async"
+  >
+    L
+  </mat-toolbar>
+  <mat-toolbar
+    [color]="headerSecondaryColor$ | async"
+    class="full"
+  ></mat-toolbar>
+  <mat-toolbar
+    *cpngIfAnchorHasViews="'no'"
+    [color]="headerSecondaryColor$ | async"
+  >
+    R
+  </mat-toolbar>
+</div>
+
+<!-- 
+
+
 <cpng-drawer
   [opened]="headerOpened"
   from="top"
@@ -7,7 +66,7 @@
     <mat-toolbar [color]="mainHeaderColor$ | async"></mat-toolbar>
     <mat-toolbar
       *cpngIfAnchorHasViews="internalViewAnchors.menuButtonLeft"
-      [color]="leftMenuButtonColor$ | async"
+      xcolorx="leftMenuButtonColor$ | async"
     >
       <div class="vpad">
         <ng-container
@@ -87,8 +146,8 @@
       </mat-toolbar-row>
     </mat-toolbar>
   </div>
-
-  <!-- 
+-->
+<!-- 
 
   
   <mat-toolbar color="primary" class="app-header">
@@ -126,5 +185,5 @@
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
--->
 </cpng-drawer>
+-->

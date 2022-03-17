@@ -19,7 +19,7 @@ export class IfAnchorHasViewsDirective implements OnChanges {
   private viewRef?: ViewRef;
 
   @Input("cpngIfAnchorHasViews")
-  public viewNames: ViewAnchorId | ViewAnchorId[] = [];
+  public ifAnchorsHaveView: ViewAnchorId | ViewAnchorId[] = [];
 
   private _sub: Subscription = new Subscription();
   constructor(
@@ -29,10 +29,10 @@ export class IfAnchorHasViewsDirective implements OnChanges {
   ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes["viewNames"]) {
+    if (changes["ifAnchorsHaveView"]) {
       this._sub.unsubscribe();
       this._sub = this.service
-        .hasViewChange(this.viewNames)
+        .hasViewChange(this.ifAnchorsHaveView)
         .subscribe((show) => this.update(show));
     }
   }

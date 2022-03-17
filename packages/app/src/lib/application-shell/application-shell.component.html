@@ -1,61 +1,78 @@
+<cpng-application-layout
+  #layout
+  [modal]="(menuModal$ | async) ?? 0"
+  (modalClick)="modalClick()"
+>
+  <ng-container [cpngViewAnchor]="'asdf'"></ng-container>
+  <pre> status$: {{ status$ | async | json }}</pre>
+</cpng-application-layout>
+
+<cpng-application-menu
+  *cpngIfAnchorHasViews="layout.anchors.mainMenu"
+  side="start"
+  [mode]="mainMenuMode$ | async"
+  [(opened)]="mainMenuOpened"
+>
+  <ng-container [cpngViewAnchor]="layout.anchors.mainMenu"></ng-container>
+</cpng-application-menu>
+
 <cpng-application-header
-  [scrollable]="scrollArea"
-  *cpngAnchorViewTo="_va.headerInnerPosition; inlineFallback: true"
+  *cpngProjectToAnchor="layout.anchors.header"
 ></cpng-application-header>
 
-<mat-sidenav-container>
-  <mat-sidenav
-    #leftMenu
-    [opened]="(leftMenuSideNavOpen$ | async) && !!leftMenuAnchor.viewCount"
-    position="start"
-    [mode]="(leftMenuSideNavMode$ | async) ?? 'side'"
-  >
-    <ng-container
-      #leftMenuAnchor="viewAnchor"
-      [cpngViewAnchor]="viewAnchors.mainPanel"
-    ></ng-container>
-  </mat-sidenav>
-  <mat-sidenav
-    #rightMenu
-    [opened]="(rightMenuSideNavOpen$ | async) && !!rightMenuAnchor.viewCount"
-    position="end"
-    [mode]="(rightMenuSideNavMode$ | async) ?? 'side'"
-  >
-    <ng-container
-      #rightMenuAnchor="viewAnchor"
-      [cpngViewAnchor]="viewAnchors.secondaryPanel"
-    ></ng-container>
-  </mat-sidenav>
-
-  <mat-sidenav-content #scrollArea>
-    <ng-container
-      [cpngViewAnchor]="_va.headerInnerPosition"
-      *ngIf="headerInnerPosition$ | async"
-    ></ng-container>
-    <ng-content></ng-content>
-  </mat-sidenav-content>
-</mat-sidenav-container>
-
-<ng-container
-  *ngIf="(showLeftMenuButton$ | async) && !!leftMenuAnchor.viewCount"
+<cpng-application-menu
+  *cpngIfAnchorHasViews="layout.anchors.secondaryMenu"
+  side="end"
+  [mode]="secondaryMenuMode$ | async"
 >
-  <button
-    mat-icon-button
-    *cpngAnchorViewTo="_va.menuButtonLeft"
-    (click)="leftMenu.toggle()"
-  >
-    <mat-icon>menu</mat-icon>
-  </button>
-</ng-container>
+  <ng-container [cpngViewAnchor]="layout.anchors.secondaryMenu"></ng-container>
+</cpng-application-menu>
 
-<ng-container
-  *ngIf="(showRightMenuButton$ | async) && rightMenuAnchor.viewCount"
->
-  <button
-    mat-icon-button
-    *cpngAnchorViewTo="'app.header.rightMenuButton'"
-    (click)="rightMenu.toggle()"
+<div *cpngProjectToAnchor="layout.anchors.mainMenu">
+  <div>Menu</div>
+</div>
+
+<!--
+
+<div *cpngProjectToAnchor="layout.anchors.secondaryMenu">
+  <div> Second Menu</div>
+</div>
+
+
+  <cpng-application-menu
+  *cpngIfAnchorHasViews="layout.anchors.secondaryMenu"
+  side="end"
+  mode="over"
   >
-    <mat-icon>check</mat-icon>
-  </button>
-</ng-container>
+  <div>
+    <ng-container
+    [cpngViewAnchor]="layout.anchors.secondaryMenu"
+    ></ng-container>
+  </div>
+</cpng-application-menu>
+
+-->
+<!-- 
+  <cpng-application-menu side="end"  mode="side"></cpng-application-menu>
+  <header *cpngProjectToAnchor="layout.anchors.notices">
+    <mat-toolbar color="accent"> notice!!! </mat-toolbar>
+  </header>
+  
+  <header *cpngProjectToAnchor="layout.anchors.header">
+    <mat-toolbar color="primary"> Header!! </mat-toolbar>
+  </header>
+  
+  <header *cpngProjectToAnchor="layout.anchors.toolBarHorizontalEnd">
+    <mat-toolbar color="accent"> footer </mat-toolbar>
+  </header>
+  <header *cpngProjectToAnchor="layout.anchors.toolBarVerticalStart">side</header>
+-->
+
+<!-- 
+
+  <header *cpngProjectToAnchor="layout.anchors.outerPanel.top">
+    <mat-toolbar color="accent">
+      Header!!
+    </mat-toolbar>
+  </header>
+-->

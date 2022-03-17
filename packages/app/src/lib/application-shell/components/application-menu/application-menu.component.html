@@ -1,0 +1,15 @@
+<div addSizeCssVars>
+  <ng-content></ng-content>
+</div>
+
+<ng-container *ngIf="showButton$ | async">
+  <button
+    mat-icon-button
+    (click)="opened = !opened"
+    *cpngProjectToAnchor="
+      side === 'end' ? viewAnchors.endMenuButton : viewAnchors.startMenuButton
+    "
+  >
+    <mat-icon>{{icon$ | async}}</mat-icon>
+  </button>
+</ng-container>

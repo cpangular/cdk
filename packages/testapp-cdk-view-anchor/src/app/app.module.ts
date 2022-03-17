@@ -1,31 +1,34 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-
-import { CpNgViewAnchorModule } from "@cpangular/cdk/view-anchor";
-import {  BreakpointResolverModule, size } from "@cpangular/cdk/breakpoint-resolver";
+import { NgModule } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import { MatIconModule } from "@angular/material/icon";
+import { MatListModule } from "@angular/material/list";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import {
+  ApplicationShellConfig,
+  ApplicationShellModule,
+  APPLICATION_SHELL_CONFIG,
+} from "@cpangular/app/application-shell";
+import { AuthenticationState } from "@cpangular/app/auth";
+import { BreakpointResolverModule } from "@cpangular/cdk/breakpoint-resolver";
 import { CpNgDrawerModule } from "@cpangular/cdk/drawer";
-import { ApplicationShellModule, APPLICATION_SHELL_CONFIG, ApplicationShellConfig, HeaderMode } from "@cpangular/app/application-shell";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {MatListModule} from '@angular/material/list';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatCardModule} from '@angular/material/card';
-import { otherwise, when } from '@cpangular/cdk/value-resolver';
+import { CpNgViewAnchorModule } from "@cpangular/cdk/view-anchor";
+import { NgxsModule } from "@ngxs/store";
+import { OIDCAuthenticationService } from "@cpangular/app/auth-oidc";
+import { environment } from "../environments/environment";
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { OIDCAuthenticationModule } from "packages/app/src/lib/auth-oidc/oidc-authentication.module";
+import { AuthenticationService } from "@cpangular/app/auth";
 
 //import { MaterialDynamicThemingModule } from '@cpangular/material-dynamic-theming';
 
-
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -40,21 +43,27 @@ import { otherwise, when } from '@cpangular/cdk/value-resolver';
     CpNgDrawerModule,
     ApplicationShellModule,
     MatListModule,
-    MatMenuModule
-   // MaterialDynamicThemingModule
+    MatMenuModule,
+    OIDCAuthenticationModule.forRoot(environment.openIdConfig),
+    NgxsModule.forRoot([AuthenticationState], {
+      developmentMode: !environment.production,
+    }),
+    environment.ngxsPluginImports
   ],
   providers: [
+    
     {
       provide: APPLICATION_SHELL_CONFIG,
       useValue: {
-        rightMenuButtonColor: 'accent',
-       headerMode: when(
+        rightMenuButtonColor: "accent",
+        /*headerMode: when(
          size('(max-height: 1000px)', HeaderMode.SCROLL_AWAY),
-         otherwise(HeaderMode.ALWAYS)
-       )
-      } as Partial<ApplicationShellConfig>
-    }
+         otherwise(HeaderMode.FIXED)
+       )*/
+      } as Partial<ApplicationShellConfig>,
+    },
+    environment.providers
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
