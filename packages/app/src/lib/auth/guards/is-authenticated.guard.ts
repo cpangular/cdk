@@ -8,7 +8,7 @@ import {
 import { Authenticate } from "../state/authentication.actions";
 import { Store } from "@ngxs/store";
 import { map, Observable } from "rxjs";
-import { AuthenticationState, AuthenticationStateModel } from "../public-api";
+import { AuthenticationState, AuthenticationStateModel } from "../state/authentication.state";
 
 @Injectable({
   providedIn: "root",

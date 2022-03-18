@@ -22,7 +22,7 @@ export const environment = {
       redirectUrl: 'https://localhost:4200/oidc-renew.html',
       postLogoutRedirectUri: 'https://localhost:4200/oidc-logout.html',
       showDebugInformation: true,
-      logLevel: LogLevel.Debug,
+      logLevel: LogLevel.Warn,
       scope: 'openid customer',
       /*stsServer: 'https://identityserver',
       clientId: 'ng.test',

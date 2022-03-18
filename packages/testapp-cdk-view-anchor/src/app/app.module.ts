@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import {  NgModule } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
@@ -24,6 +24,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { OIDCAuthenticationModule } from "packages/app/src/lib/auth-oidc/oidc-authentication.module";
 import { AuthenticationService } from "@cpangular/app/auth";
+import { ApplicationModule } from "@cpangular/app/application";
 
 //import { MaterialDynamicThemingModule } from '@cpangular/material-dynamic-theming';
 
@@ -44,6 +45,7 @@ import { AuthenticationService } from "@cpangular/app/auth";
     ApplicationShellModule,
     MatListModule,
     MatMenuModule,
+    ApplicationModule,
     OIDCAuthenticationModule.forRoot(environment.openIdConfig),
     NgxsModule.forRoot([AuthenticationState], {
       developmentMode: !environment.production,

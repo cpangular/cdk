@@ -1,4 +1,4 @@
-import { IUser } from "../public-api";
+import { IUser } from "../models/IUser";
 
 export class InitializeAuthentication {
   static readonly type = "[Authentication] Initialize Authentication";
@@ -15,8 +15,6 @@ export class SetUser {
   static readonly type = "[Authentication] Set the current user data";
   constructor(public readonly user: IUser | null) {}
 }
-
-
 
 export class GetUser {
   static readonly type = "[Authentication] Get the current user data";

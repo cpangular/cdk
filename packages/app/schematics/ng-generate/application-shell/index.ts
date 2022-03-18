@@ -24,7 +24,6 @@ function addAppShellHtmlToTemplate(options: Schema) {
     const appComponentPath = `${modulePath}/app.component`;
     const appComponentPathTS = `${appComponentPath}.ts`;
     const appComponentPathHtml = `${appComponentPath}.html`;
-    console.log("appComponentPathHtml", appComponentPathHtml);
     if(host.exists(appComponentPathHtml)){
       const fileContent = readFileSync(
         join(__dirname, "files/app.component.html.template"),

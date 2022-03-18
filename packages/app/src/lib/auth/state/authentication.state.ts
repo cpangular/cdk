@@ -1,8 +1,21 @@
-import { Inject, Injectable } from "@angular/core";
+import { Inject, Injectable, Injector, Optional } from "@angular/core";
+import { ActivatedRoute, CanActivate, Router, UrlTree } from "@angular/router";
 import { Action, NgxsOnInit, Selector, State, StateContext } from "@ngxs/store";
 import produce, { Draft } from "immer";
-import { Observable, of, shareReplay, Subject, switchMap, tap } from "rxjs";
+import {
+  distinctUntilChanged,
+  first,
+  firstValueFrom,
+  isObservable,
+  Observable,
+  of,
+  shareReplay,
+  Subject,
+  switchMap,
+  tap,
+} from "rxjs";
 import { IUser } from "../models/IUser";
+import { InitAuthenticationGuard } from "../guards/init-authentication.guard";
 import { AuthenticationService } from "../service/authentication.service";
 import { IAuthenticationService } from "../service/IAuthenticationService";
 import {
@@ -11,12 +24,15 @@ import {
   Logout,
   SetUser,
 } from "./authentication.actions";
+import { APP_BASE_HREF } from "@angular/common";
+
 
 export enum AuthenticationStatus {
   NONE,
   INITIALIZING,
-  INITIALIZED,
   AUTHENTICATING,
+  LOGGING_OUT,
+  INITIALIZED,
   AUTHENTICATED,
   ERROR,
 }
@@ -51,23 +67,70 @@ export class AuthenticationState implements NgxsOnInit {
     return !!state.user;
   }
 
+/*
+  public __init$ = this.service.loadCurrentUser().pipe(
+    tap({
+      next: v =>{
+        console.log('######### 1111111')
+      }
+    }),
+    first(),
+    tap({
+      next: v =>{
+        console.log('######### 2222222222')
+      }
+    }),
+    shareReplay(1)
+  );
+  */
+
   public constructor(
     @Inject(AuthenticationService)
-    private readonly service: IAuthenticationService
-  ) {}
+    private readonly service: IAuthenticationService,
+    private readonly router: Router,
+    private readonly injector: Injector,
+    @Optional()
+    @Inject(APP_BASE_HREF)
+    private readonly baseRef: string | null
+  ) {
+    router.config.forEach((c) => {
+      if (!Array.isArray(c.canActivate)) {
+        c.canActivate = [InitAuthenticationGuard];
+      } else {
+        c.canActivate = [
+          InitAuthenticationGuard,
+          ...c.canActivate.filter((g) => g !== InitAuthenticationGuard),
+        ];
+      }
+    });
+  }
 
   public ngxsOnInit(ctx: StateContext<AuthenticationStateModel>) {
+    //this.__init$.subscribe();
+setTimeout(()=>{
+
+  this.service.loadCurrentUser().pipe(
+    tap({
+      next: v =>{
+        console.log('######### 1111111')
+      }
+    }),
+    first(),
+    tap({
+      next: v =>{
+        console.log('######### 2222222222')
+      }
+    }),
+    shareReplay(1)
+  ).subscribe();
+})
+
     this.service.currentUser$.subscribe((user) => {
-      console.log("user -> ", user);
-      ctx.dispatch(new SetUser(user));
-      /*ctx.setState(
-        produce((draft: Draft<AuthenticationStateModel>) => {
-          draft.user = user;
-          draft.status = AuthenticationStatus.AUTHENTICATED;
-        })*/
-      //  );
+      const status = ctx.getState().status;
+      if (status >= AuthenticationStatus.INITIALIZED) {
+        ctx.dispatch(new SetUser(user));
+      }
     });
-    // ctx.dispatch(new InitializeAuthentication());
   }
 
   private setStatus(
@@ -89,24 +152,21 @@ export class AuthenticationState implements NgxsOnInit {
       this._init$ = sub.pipe(shareReplay(1));
       this.service.loadCurrentUser().subscribe({
         next: (user) => {
-          ctx.setState(
-            produce((draft: Draft<AuthenticationStateModel>) => {
-              draft.user = user ?? null;
-              draft.status = user
-                ? AuthenticationStatus.AUTHENTICATED
-                : AuthenticationStatus.INITIALIZED;
-            })
-          );
+          ctx.setState({
+            user,
+            status: user
+              ? AuthenticationStatus.AUTHENTICATED
+              : AuthenticationStatus.INITIALIZED,
+          });
+
           sub.next(user);
           sub.complete();
         },
         error: (error) => {
-          ctx.setState(
-            produce((draft: Draft<AuthenticationStateModel>) => {
-              draft.user = null;
-              draft.status = AuthenticationStatus.ERROR;
-            })
-          );
+          ctx.setState({
+            user: null,
+            status: AuthenticationStatus.ERROR,
+          });
           sub.next(null);
           sub.complete();
         },
@@ -128,6 +188,22 @@ export class AuthenticationState implements NgxsOnInit {
           : AuthenticationStatus.INITIALIZED;
       })
     );
+
+    
+  }
+
+  private runGuards() {
+    const base = this.baseRef ?? "/";
+    const path = window.location.pathname.substring(base.length);
+    console.log(
+      "+++++++++++++++++++++++++++++++++++++++++++",
+      path
+    );
+    return this.router.navigate(["302", ...path.split('/')], {
+      preserveFragment: true,
+      queryParamsHandling: 'preserve',
+      replaceUrl: true
+    });
   }
 
   @Action(Authenticate, { cancelUncompleted: true })
@@ -146,21 +222,11 @@ export class AuthenticationState implements NgxsOnInit {
         return this.service.authenticate();
       }),
       tap({
-        next: (user) => {
-          ctx.setState(
-            produce((draft: Draft<AuthenticationStateModel>) => {
-              draft.user = user;
-              draft.status = AuthenticationStatus.AUTHENTICATED;
-            })
-          );
-        },
         error: (error) => {
-          ctx.setState(
-            produce((draft: Draft<AuthenticationStateModel>) => {
-              draft.user = null;
-              draft.status = AuthenticationStatus.ERROR;
-            })
-          );
+          ctx.setState({
+            user: null,
+            status: AuthenticationStatus.ERROR,
+          });
         },
       })
     );
@@ -168,6 +234,24 @@ export class AuthenticationState implements NgxsOnInit {
 
   @Action(Logout)
   public logout(ctx: StateContext<AuthenticationStateModel>) {
-    return this.service.logout();
+    this.setStatus(ctx, AuthenticationStatus.LOGGING_OUT);
+    return this.service.logout().pipe(
+      tap({
+        next: () => {
+          ctx.setState({
+            user: null,
+            status: AuthenticationStatus.INITIALIZED,
+          });
+          this.runGuards();
+        },
+        error: error =>{
+          ctx.setState({
+            user: null,
+            status: AuthenticationStatus.ERROR,
+          });
+          this.runGuards();
+        }
+      })
+    );
   }
 }

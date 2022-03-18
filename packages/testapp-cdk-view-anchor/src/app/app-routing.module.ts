@@ -4,8 +4,20 @@ import { InitAuthenticationGuard, IsAuthenticatedGuard } from "@cpangular/app/au
 
 const routes: Routes = [
   {
+    path: "basics",
+ //   canActivate: [IsAuthenticatedGuard],
+    loadChildren: () =>
+      import("./pages/basics/basics.module").then((m) => m.BasicsModule),
+  },
+  {
     path: "",
-    canActivate: [InitAuthenticationGuard],
+    redirectTo: "basics",
+    pathMatch: "full",
+  },
+  /*
+  {
+    path: "",
+  //  canActivate: [InitAuthenticationGuard],
     children: [
       {
         path: "basics",
@@ -20,6 +32,7 @@ const routes: Routes = [
       },
     ],
   },
+  */
 ];
 
 @NgModule({

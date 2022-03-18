@@ -1,30 +1,55 @@
-import { Injectable, NgZone } from "@angular/core";
+import { APP_BASE_HREF } from "@angular/common";
+import { Inject, Injectable, NgZone, Optional } from "@angular/core";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import {
+  Router
+} from "@angular/router";
 import { IAuthenticationService, IUser } from "@cpangular/app/auth";
-import { Configuration } from "./config/Configuration";
 import { OidcSecurityService } from "angular-auth-oidc-client";
 import {
+  distinctUntilChanged,
   filter,
   first,
-  firstValueFrom,
   fromEvent,
   map,
   Observable,
   of,
   shareReplay,
   Subject,
-  switchMap,
+  switchMap
 } from "rxjs";
-import { LoginMethod } from "./public-api";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { AuthIFrameComponent } from "./auth-iframe/auth-iframe.component";
-
+import { Configuration } from "./config/Configuration";
+import { LoginMethod } from "./config/LoginMethod";
+import {isEqual} from 'lodash'
 @Injectable()
 export class OIDCAuthenticationService implements IAuthenticationService {
   constructor(
     private readonly oidcSecurityService: OidcSecurityService,
     private readonly dialogService: MatDialog,
-    private readonly zone: NgZone
-  ) {}
+    private readonly zone: NgZone,
+    private readonly router: Router,
+    @Optional() @Inject(APP_BASE_HREF) private readonly baseRef: string
+  ) {
+    /*this.router.events.pipe(
+      filter(
+        (e) =>
+          e instanceof NavigationStart ||
+          e instanceof ActivationStart ||
+          e instanceof NavigationEnd ||
+          e instanceof NavigationCancel ||
+          e instanceof NavigationError
+      ),
+      map((e) => {
+        switch (true) {
+          case e instanceof NavigationStart:
+            return [];
+          case e instanceof ActivationStart:
+            return [];
+        }
+      })
+    );*/
+  }
 
   public readonly currentUser$ = this.oidcSecurityService.userData$.pipe(
     map((u) => {
@@ -47,6 +72,7 @@ export class OIDCAuthenticationService implements IAuthenticationService {
         data,
       } as IUser;
     }),
+    distinctUntilChanged(isEqual),
     shareReplay(1)
   );
 
@@ -86,11 +112,9 @@ export class OIDCAuthenticationService implements IAuthenticationService {
     this.oidcSecurityService.authorize(undefined, {
       customParams: {
         originUrl: this.originUrl,
-        msgId: Math.random(),
       },
       urlHandler: (url: string) => {
         this.zone.run(() => {
-          console.log("urlHandler!!!", url);
           dRef = this.dialogService.open(AuthIFrameComponent, {
             minWidth: "100%",
             maxWidth: "100%",
@@ -109,25 +133,46 @@ export class OIDCAuthenticationService implements IAuthenticationService {
   }
 
   private get originUrl(): string {
-    /* let baseRef = `${window.location.protocol}//${window.location.host}`;
-    baseRef += this.baseRef ? `/${this.baseRef}` : '';
-    return `${baseRef}/${this.router.getCurrentNavigation()?.finalUrl?.toString() ?? ''}`;
-    */
-    return "";
+    let baseRef = `${window.location.protocol}//${window.location.host}`;
+    baseRef += this.baseRef ? `/${this.baseRef}` : "";
+    return `${baseRef}/${
+      this.router.getCurrentNavigation()?.finalUrl?.toString() ?? ""
+    }`;
   }
 
   logout(): Observable<void> {
-    const config = this.oidcSecurityService.getConfiguration() as Configuration;
-    switch (config.loginMethod) {
-      case LoginMethod.INLINE:
-        return this.logoutInline();
-    }
-    return of();
+    return this.oidcSecurityService.checkAuthIncludingServer().pipe(
+      switchMap((user) => {
+        if (!user?.isAuthenticated) {
+          return of();
+        }
+        const config =
+          this.oidcSecurityService.getConfiguration() as Configuration;
+        switch (config.loginMethod) {
+          case LoginMethod.INLINE:
+            return this.logoutInline();
+        }
+        return of();
+      })
+    );
+    /* return this.loadCurrentUser().pipe(
+      switchMap((user) => {
+        if (!user) {
+          return of();
+        }
+        const config =
+          this.oidcSecurityService.getConfiguration() as Configuration;
+        switch (config.loginMethod) {
+          case LoginMethod.INLINE:
+            return this.logoutInline();
+        }
+        return of();
+      })
+    );*/
   }
 
   private logoutInline(): Observable<void> {
     var logout: Subject<void> = new Subject();
-    // this.oidcSecurityService.logoffLocal();
     let dRef: MatDialogRef<any> | undefined;
 
     this.waitForLogout().subscribe((s) => {

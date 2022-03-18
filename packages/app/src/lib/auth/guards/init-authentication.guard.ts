@@ -5,7 +5,6 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from "@angular/router";
-import { AuthenticationState } from "../state/authentication.state";
 import { Store } from "@ngxs/store";
 import { map, Observable } from "rxjs";
 import { InitializeAuthentication } from "../state/authentication.actions";
@@ -19,16 +18,9 @@ export class InitAuthenticationGuard implements CanActivate {
   public canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ):
-    | boolean
-    | UrlTree
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree> {
+  ): Observable<boolean> {
     return this.store
       .dispatch(new InitializeAuthentication())
-      .pipe(map((v) => {
-        console.log('-----', v, this.store.selectSnapshot(AuthenticationState));
-        return true;
-      }));
+      .pipe(map((v) => true));
   }
 }

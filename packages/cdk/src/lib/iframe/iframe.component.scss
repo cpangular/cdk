@@ -2,13 +2,19 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  min-height: 128px;
-  outline: 1px solid green;
   iframe{
     border: none;
     padding: 0;
     margin: 0;
-    background: aquamarine;
     flex: 1 1 100%;
+    animation: fadein ease-in 0.25s;
+  }
+  @keyframes fadein {
+    from{
+      opacity: 0;
+    }
+    to{
+      opacity: 1;
+    }
   }
 }

@@ -45,7 +45,7 @@ $darkorange-theme: theme.define-dark-theme((
 @include theme.add-theme('orange', $darkorange-theme);
 
 
-@include theme.build-themes('orange', true);
+@include theme.build-themes('orange', false);
 
 
 html, body { height: 100%; }

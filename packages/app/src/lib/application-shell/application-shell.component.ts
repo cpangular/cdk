@@ -145,7 +145,6 @@ export class ApplicationShellComponent implements OnInit, OnDestroy {
   }
   public ngOnInit(): void {
     this.menuModalClose$.subscribe(([main, second]) => {
-      console.log(main, second);
       if (main) {
         this.mainMenuOpened = false;
       }
