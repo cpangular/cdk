@@ -19,7 +19,7 @@ export class ProjectToAnchorDirective
 {
   private _attached: boolean = false;
   private _inlineFallback: boolean = true;
-  private _viewRef?: EmbeddedViewRef<any>;
+  private _viewRef: EmbeddedViewRef<any>;
 
   @Input("cpngProjectToAnchor")
   public projectToAnchor?: string | symbol;
@@ -36,13 +36,12 @@ export class ProjectToAnchorDirective
     private readonly service: ViewAnchorService,
     private readonly viewContainer: ViewContainerRef,
     public readonly templateRef: TemplateRef<any>
-  ) {}
+  ) {
+    this._viewRef = this.viewContainer.createEmbeddedView(this.templateRef);
+  }
 
   getViewNodes(): Element[] {
-    if (!this._viewRef) {
-      this._viewRef = this.viewContainer.createEmbeddedView(this.templateRef);
-    }
-    return this._viewRef!.rootNodes;
+    return this._viewRef.rootNodes;
   }
 
   ngOnChanges(changes: SimpleChanges): void {

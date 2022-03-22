@@ -1,6 +1,4 @@
 import { Component } from "@angular/core";
-import { ApplicationViewAnchors } from "@cpangular/app/application-shell";
-import { listThemes, setActiveTheme, getActiveTheme } from "@cpangular/material-dynamic-theming";
 
 
 
@@ -10,6 +8,7 @@ import { listThemes, setActiveTheme, getActiveTheme } from "@cpangular/material-
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
+  /*
   appViewAnchors = ApplicationViewAnchors;
   opened = true;
   themes = listThemes();
@@ -28,4 +27,5 @@ export class AppComponent {
   public resetTheme(){
     setActiveTheme(this.activeTheme);
   }
+  */
 }

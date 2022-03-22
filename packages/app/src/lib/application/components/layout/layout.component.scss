@@ -1,0 +1,139 @@
+
+$animation-speed: 2.2s;
+
+:host {
+  --scrollbar-size: 0px;
+  display: grid;
+  position: relative;
+  min-height: 100%;
+
+  > * {
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+  }
+  > div[layer] {
+    margin-right: var(--scroll-scrollbar, 0px);
+  }
+  .fixed-inset {
+    padding: var(--top) var(--right) var(--bottom) var(--left);
+  }
+  [cdkScrollable] {
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: block;
+    > * {
+      min-height: 100%;
+    }
+  }
+}
+:host {
+  > div[layer] {
+    &[layer="overlay"] {
+      z-index: 40;
+    }
+    &[layer="fixed"] {
+      z-index: 30;
+    }
+    &[layer="fixed-overlay"] {
+      z-index: 20;
+    }
+  }
+  > [cdkScrollable] {
+    z-index: 10;
+  }
+}
+
+:host {
+  div[layer="fixed"],
+  div[layer="scroll"] {
+    --area-top-background: var(--background-app-bar);
+    --area-left-background: var(--background-app-bar);
+    --area-bottom-background: var(--background-app-bar);
+    --area-right-background: var(--background-app-bar);
+  }
+}
+
+:host {
+  --scroll-hide-duration: $animation-speed;
+  .hides-on-scroll {
+    &.horizontal {
+      &.start {
+        transition: margin-top ease-out var(--scroll-hide-duration);
+      }
+      &.end {
+        transition: margin-bottom ease-out var(--scroll-hide-duration);
+      }
+    }
+    &.vertical {
+      &.start {
+        transition: margin-left ease-out var(--scroll-hide-duration);
+      }
+      &.end {
+        transition: margin-right ease-out var(--scroll-hide-duration);
+      }
+    }
+  }
+
+  &.scroll-hide .hides-on-scroll {
+    &.horizontal {
+      &.start {
+        margin-top: calc(var(--height) * -1);
+      }
+      &.end {
+        margin-bottom: calc(var(--height) * -1);
+      }
+    }
+    &.vertical {
+      &.start {
+        margin-left: calc(var(--width) * -1);
+      }
+      &.end {
+        margin-right: calc(var(--width) * -1);
+      }
+    }
+  }
+}
+
+:host {
+  --modal-hide-duration: 0.2s;
+  div[modal] {
+    flex: 1;
+    //transition: background-color ease-in var(--modal-hide-duration);
+  }
+  .modal
+  {
+    transition: filter ease-in var(--modal-hide-duration);
+    &::after{
+      content: ' ';
+      pointer-events: none;
+      transition: background-color ease-in var(--modal-hide-duration);
+      position: absolute;
+      inset: 0;
+    }
+  }
+  .modal-disable {
+    pointer-events: none;
+  }
+
+  &[modal="3"],
+  &[modal="2"],
+  &[modal="1"] {
+    div[modal] {
+      //background-color: var(--background-disabled-button);
+    }
+   
+
+    .modal-blur{
+      filter: blur(1px);
+    }
+    .modal-gray{
+      filter: grayscale(0.69);
+      &::after{
+        background-color: var(--background-disabled-button);
+      }
+    }
+    .modal-blur.modal-gray{
+      filter: blur(1px) grayscale(0.69);
+    }
+  }
+}

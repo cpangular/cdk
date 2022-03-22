@@ -20,6 +20,7 @@ import { ResizeObservable } from "./resize-observable";
 @Directive({
   selector:
     "[addSizeCssVars], [addSizeCssVarsToParent], [addSizeCssVarsToElement], [resize], [widthChange], [heightChange]",
+    exportAs: "resize"
 })
 export class ResizeDirective implements OnInit, OnDestroy {
   private _addSizeCssVars: boolean = false;
@@ -136,7 +137,7 @@ export class ResizeDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.elmRef.nativeElement.addEventListener("scroll", console.log);
+   // this.elmRef.nativeElement.addEventListener("scroll", console.log);
     this._resize$.subscribe(this.resize);
     this._widthChange$.subscribe(this.widthChange);
     this._heightChange$.subscribe(this.heightChange);

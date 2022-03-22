@@ -45,8 +45,13 @@ $darkorange-theme: theme.define-dark-theme((
 @include theme.add-theme('orange', $darkorange-theme);
 
 
-@include theme.build-themes('orange', false);
+@include theme.build-themes('orange', true);
 
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  position: relative;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

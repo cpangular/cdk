@@ -1,0 +1,266 @@
+<div layer="overlay">
+  <ng-container *ngIf="showOverlayTop$ | async">
+    <ng-template #top>
+      <ng-container *ngTemplateOutlet="regionAppOverlayTop"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="showOverlayLeft$ | async">
+    <ng-template #left>
+      <ng-container *ngTemplateOutlet="regionAppOverlayLeft"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="showOverlayRight$ | async">
+    <ng-template #right>
+      <ng-container *ngTemplateOutlet="regionAppOverlayRight"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="showOverlayBottom$ | async">
+    <ng-template #bottom>
+      <ng-container *ngTemplateOutlet="regionAppOverlayBottom"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngTemplateOutlet="regionAppOverlayCenter"></ng-container>
+</div>
+
+<div layer="fixed" (layerResize)="_handleFixedLayerResize($event)">
+  <ng-container *ngIf="showFixedTop$ | async">
+    <ng-template #top>
+      <ng-container *ngTemplateOutlet="regionAppFixedTop"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="showFixedLeft$ | async">
+    <ng-template #left>
+      <ng-container *ngTemplateOutlet="regionAppFixedLeft"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="showFixedRight$ | async">
+    <ng-template #right>
+      <ng-container *ngTemplateOutlet="regionAppFixedRight"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="showFixedBottom$ | async">
+    <ng-template #bottom>
+      <ng-container *ngTemplateOutlet="regionAppFixedBottom"></ng-container>
+    </ng-template>
+  </ng-container>
+
+  <ng-container *ngTemplateOutlet="regionAppFixedCenter"></ng-container>
+</div>
+
+<div layer="fixed-overlay" class="fixed-inset">
+  <ng-container *ngIf="showFixedOverlayTop$ | async">
+    <ng-template #top>
+      <ng-container *ngTemplateOutlet="regionAppFixedOverlayTop"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="showFixedOverlayLeft$ | async">
+    <ng-template #left>
+      <ng-container
+        *ngTemplateOutlet="regionAppFixedOverlayLeft"
+      ></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="showFixedOverlayRight$ | async">
+    <ng-template #right>
+      <ng-container
+        *ngTemplateOutlet="regionAppFixedOverlayRight"
+      ></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="showFixedOverlayBottom$ | async">
+    <ng-template #bottom>
+      <ng-container
+        *ngTemplateOutlet="regionAppFixedOverlayBottom"
+      ></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngTemplateOutlet="regionAppFixedOverlayCenter"></ng-container>
+</div>
+<div
+  #scrollContainer
+  cdkScrollable
+  class="modal fixed-inset"
+  [class.modal-disable]="(modal$ | async) === 2"
+  [class.modal-gray]="(modal$ | async) === 2"
+  [addSizeCssVarsToElement]="elementRef.nativeElement"
+  cssVarName="scroll"
+>
+  <div layer="scroll" class="modal" [class.modal-blur]="(modal$ | async) === 2">
+    <ng-container *ngIf="showScrollTop$ | async">
+      <ng-template #top>
+        <ng-container *ngTemplateOutlet="regionScrollTop"></ng-container>
+      </ng-template>
+    </ng-container>
+    <ng-container *ngIf="showScrollLeft$ | async">
+      <ng-template #left>
+        <ng-container *ngTemplateOutlet="regionScrollLeft"></ng-container>
+      </ng-template>
+    </ng-container>
+    <ng-container *ngIf="showScrollRight$ | async">
+      <ng-template #right>
+        <ng-container *ngTemplateOutlet="regionScrollRight"></ng-container>
+      </ng-template>
+    </ng-container>
+    <ng-container *ngIf="showScrollBottom$ | async">
+      <ng-template #bottom>
+        <ng-container *ngTemplateOutlet="regionScrollBottom"></ng-container>
+      </ng-template>
+    </ng-container>
+    <ng-container *ngTemplateOutlet="regionScrollCenter"></ng-container>
+  </div>
+</div>
+
+<!-- Regions -->
+
+<!-- App Overlay Regions -->
+<ng-template #regionAppOverlayTop>
+  <ng-container *cpngIfAnchorHasViews="regions.overlay.top">
+    <ng-container [cpngViewAnchor]="regions.overlay.top"></ng-container>
+  </ng-container>
+</ng-template>
+<ng-template #regionAppOverlayLeft
+  ><ng-container [cpngViewAnchor]="regions.overlay.left"></ng-container
+></ng-template>
+<ng-template #regionAppOverlayRight
+  ><ng-container [cpngViewAnchor]="regions.overlay.right"></ng-container
+></ng-template>
+<ng-template #regionAppOverlayBottom
+  ><ng-container [cpngViewAnchor]="regions.overlay.bottom"></ng-container
+></ng-template>
+<ng-template #regionAppOverlayCenter
+  ><ng-container [cpngViewAnchor]="regions.overlay.center"></ng-container>
+  <div
+    modal
+    *ngIf="(modal$ | async) === 3"
+    (click)="modalClicked$.next($event)"
+  ></div>
+</ng-template>
+
+<!-- App Fixed Regions -->
+<ng-template #regionAppFixedTop>
+  <ng-container [cpngViewAnchor]="regions.fixed.top"></ng-container>
+  <ng-container *ngIf="headerScroll.fixed$ | async">
+    <ng-container *ngTemplateOutlet="header"></ng-container>
+  </ng-container>
+</ng-template>
+<ng-template #regionAppFixedLeft>
+  <ng-container [cpngViewAnchor]="regions.fixed.left"></ng-container>
+  <ng-container *ngIf="(menuStartWhere$ | async) === regions.fixed.left">
+    <ng-container *ngTemplateOutlet="menuStart"></ng-container>
+  </ng-container>
+</ng-template>
+<ng-template #regionAppFixedRight>
+  <ng-container [cpngViewAnchor]="regions.fixed.right"></ng-container>
+  <cpng-application-menu-end
+    [class.hides-on-scroll]="menuEndScroll.hideOnScroll$ | async"
+    class="vertical end"
+    *ngIf="(menuEndWhere$ | async) === regions.fixed.right"
+  ></cpng-application-menu-end>
+</ng-template>
+<ng-template #regionAppFixedBottom
+  ><ng-container [cpngViewAnchor]="regions.fixed.bottom"></ng-container>
+
+  <cpng-application-footer
+    [class.hides-on-scroll]="footerScroll.hideOnScroll$ | async"
+    class="horizontal end"
+    *ngIf="footerScroll.fixed$ | async"
+  ></cpng-application-footer>
+</ng-template>
+<ng-template #regionAppFixedCenter
+  ><ng-container [cpngViewAnchor]="regions.fixed.center"></ng-container>
+</ng-template>
+
+<!-- App Fixed Overlay Regions -->
+<ng-template #regionAppFixedOverlayTop
+  ><ng-container [cpngViewAnchor]="regions.fixedOverlay.top"></ng-container
+></ng-template>
+<ng-template #regionAppFixedOverlayLeft
+  ><ng-container [cpngViewAnchor]="regions.fixedOverlay.left"></ng-container>
+  <ng-container *ngIf="(menuStartWhere$ | async) === regions.fixedOverlay.left">
+    <ng-container *ngTemplateOutlet="menuStart"></ng-container>
+  </ng-container>
+</ng-template>
+<ng-template #regionAppFixedOverlayRight
+  ><ng-container [cpngViewAnchor]="regions.fixedOverlay.right"></ng-container
+></ng-template>
+<ng-template #regionAppFixedOverlayBottom
+  ><ng-container [cpngViewAnchor]="regions.fixedOverlay.bottom"></ng-container
+></ng-template>
+<ng-template #regionAppFixedOverlayCenter
+  ><ng-container [cpngViewAnchor]="regions.fixedOverlay.center">
+    <div
+      modal
+      *ngIf="(modal$ | async) === 2"
+      (click)="modalClicked$.next($event)"
+    ></div></ng-container
+></ng-template>
+
+<!-- Scroll Regions -->
+<ng-template #regionScrollTop>
+  <ng-container [cpngViewAnchor]="regions.scroll.top"></ng-container>
+  <ng-container *ngIf="!(headerScroll.fixed$ | async)">
+    <ng-container *ngTemplateOutlet="header"></ng-container>
+  </ng-container>
+</ng-template>
+<ng-template #regionScrollLeft>
+  <ng-container [cpngViewAnchor]="regions.scroll.left"></ng-container>
+  <ng-container *ngIf="(menuStartWhere$ | async) === regions.scroll.left">
+    <ng-container *ngTemplateOutlet="menuStart"></ng-container>
+  </ng-container>
+</ng-template>
+<ng-template #regionScrollRight
+  ><ng-container [cpngViewAnchor]="regions.scroll.right"></ng-container>
+  <cpng-application-menu-end
+    [class.hides-on-scroll]="menuEndScroll.hideOnScroll$ | async"
+    class="vertical end"
+    *ngIf="(menuEndWhere$ | async) === regions.scroll.right"
+  ></cpng-application-menu-end>
+</ng-template>
+<ng-template #regionScrollBottom
+  ><ng-container [cpngViewAnchor]="regions.scroll.bottom"></ng-container>
+  <cpng-application-footer
+    [class.hides-on-scroll]="footerScroll.hideOnScroll$ | async"
+    class="horizontal end"
+    *ngIf="!(footerScroll.fixed$ | async)"
+  ></cpng-application-footer>
+</ng-template>
+<ng-template #regionScrollCenter>
+  <ng-content></ng-content>
+  <div
+    modal
+    *ngIf="(modal$ | async) === 1"
+    (click)="modalClicked$.next($event)"
+  ></div>
+</ng-template>
+
+<!-- header -->
+<ng-template #header>
+  <cpng-application-header
+    addSizeCssVars
+    [class.hides-on-scroll]="headerScroll.hideOnScroll$ | async"
+    class="horizontal start"
+  >
+    <ng-template #start> Title </ng-template>
+    <ng-container xcpngIfAnchorHasViews="menuAnchors.menuStartButton">
+      <ng-template #startActions>
+        <ng-container [cpngViewAnchor]="menuAnchors.menuStartButton">
+        </ng-container>
+      </ng-template>
+    </ng-container>
+    <ng-container xcpngIfAnchorHasViews="menuAnchors.menuEndButton">
+      <ng-template #endActions>
+        <ng-container [cpngViewAnchor]="menuAnchors.menuEndButton">
+        </ng-container>
+      </ng-template>
+    </ng-container>
+  </cpng-application-header>
+</ng-template>
+
+<!-- Menu Start -->
+<ng-template #menuStart>
+  <cpng-application-menu-start
+    [class.hides-on-scroll]="menuStartScroll.hideOnScroll$ | async"
+    class="vertical start"
+    [(opened)]="menuStartOpened"
+  ></cpng-application-menu-start>
+</ng-template>

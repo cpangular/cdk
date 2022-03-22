@@ -43,6 +43,7 @@ import { ApplicationModule } from "@cpangular/app/application";
     MatCardModule,
     CpNgDrawerModule,
     ApplicationShellModule,
+    ApplicationModule,
     MatListModule,
     MatMenuModule,
     ApplicationModule,
