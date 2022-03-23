@@ -7,7 +7,8 @@ import {
   Output,
   TemplateRef,
 } from "@angular/core";
-import { BehaviorSubject, combineLatest, map, shareReplay } from "rxjs";
+
+import { BehaviorSubject, combineLatest, map, shareReplay,tap } from "rxjs";
 
 export interface LayerSizes {
   top: DOMRect;
@@ -53,7 +54,7 @@ export class LayerComponent {
 
   private _resize$ = this._resizeRaw$.pipe(
     map((sizes) =>
-      sizes.map((s) => s?.target.getBoundingClientRect() ?? new DOMRect())
+    sizes.map((s) => s?.target.getBoundingClientRect() ?? new DOMRect())
     ),
     map((sizes) => {
       const rest = sizes[0];
@@ -61,6 +62,7 @@ export class LayerComponent {
       const left = sizes[2];
       const right = sizes[3];
       const bottom = sizes[4];
+  
       return {
         rest,
         top,
@@ -71,6 +73,10 @@ export class LayerComponent {
     }),
     shareReplay(1)
   );
+
+
+  @Input()
+  public layer: string = '';
 
   @Output()
   public layerResize: EventEmitter<LayerSizes> = new EventEmitter();

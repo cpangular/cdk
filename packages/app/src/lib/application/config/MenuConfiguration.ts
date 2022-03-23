@@ -15,7 +15,7 @@ const baseMenuConfiguration: IMenuConfiguration = {
 export const defaultMenuStartConfiguration: IMenuConfiguration = {
   ...baseMenuConfiguration,
   mode: MenuMode.OVER,
-  scrollBehavior: ScrollBehavior.FIXED,
+  scrollBehavior: ScrollBehavior.SCROLL,
 };
 
 export const defaultMenuEndConfiguration: IMenuConfiguration = {

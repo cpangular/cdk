@@ -1,22 +1,19 @@
-
-$animation-speed: 2.2s;
+$animation-speed: 0.2s;
 
 :host {
   --scrollbar-size: 0px;
   display: grid;
   position: relative;
   min-height: 100%;
-
+  grid-template-columns: 1fr var(--scroll-container-scrollbar, 0px);
   > * {
     grid-row: 1 / -1;
+    grid-column: 1 / -2;
+  }
+  > [cdkScrollable] {
     grid-column: 1 / -1;
   }
-  > div[layer] {
-    margin-right: var(--scroll-scrollbar, 0px);
-  }
-  .fixed-inset {
-    padding: var(--top) var(--right) var(--bottom) var(--left);
-  }
+
   [cdkScrollable] {
     overflow-y: auto;
     overflow-x: hidden;
@@ -26,35 +23,77 @@ $animation-speed: 2.2s;
     }
   }
 }
+
 :host {
-  > div[layer] {
-    &[layer="overlay"] {
+  > div[layer-group] {
+    &[layer-group="viewport"] {
       z-index: 40;
     }
-    &[layer="fixed"] {
+    &[layer-group="application"] {
       z-index: 30;
-    }
-    &[layer="fixed-overlay"] {
-      z-index: 20;
     }
   }
   > [cdkScrollable] {
     z-index: 10;
   }
 }
-
 :host {
-  div[layer="fixed"],
-  div[layer="scroll"] {
+  --viewport-inset: var(--viewport-top-height, 0px)
+    var(--viewport-right-width, 0px) var(--viewport-bottom-height, 0px)
+    var(--viewport-left-width, 0px);
+
+  --application-inset: calc(
+      var(--viewport-top-height, 0px) + var(--application-top-height, 0px)
+    )
+    calc(var(--viewport-right-width, 0px) + var(--application-right-width, 0px))
+    calc(
+      var(--viewport-bottom-height, 0px) + var(--application-bottom-height, 0px)
+    )
+    calc(var(--viewport-left-width, 0px) + var(--application-left-width, 0px));
+
+  > div[layer-group] {
+    &[layer-group="viewport"] {
+      padding: 0;
+    }
+    &[layer-group="application"] {
+      padding: var(--viewport-inset);
+    }
+  }
+
+  .viewport-inset {
+    inset: var(--viewport-inset);
+  }
+  .viewport-inset-padding {
+    padding: var(--viewport-inset);
+  }
+  .viewport-inset-margin {
+    margin: var(--viewport-inset);
+  }
+
+  .application-inset {
+    inset: var(--application-inset);
+  }
+  .application-inset-padding {
+    padding: var(--application-inset);
+  }
+  .application-inset-margin {
+    margin: var(--application-inset);
+  }
+}
+
+//??
+:host {
+  div[layer-group="application"],
+  div[layer-group="scroll"] {
     --area-top-background: var(--background-app-bar);
     --area-left-background: var(--background-app-bar);
     --area-bottom-background: var(--background-app-bar);
     --area-right-background: var(--background-app-bar);
   }
 }
-
+//??
 :host {
-  --scroll-hide-duration: $animation-speed;
+  --scroll-hide-duration: #{$animation-speed};
   .hides-on-scroll {
     &.horizontal {
       &.start {
@@ -96,44 +135,47 @@ $animation-speed: 2.2s;
 
 :host {
   --modal-hide-duration: 0.2s;
+
   div[modal] {
     flex: 1;
-    //transition: background-color ease-in var(--modal-hide-duration);
   }
-  .modal
-  {
+
+  .modal-base ::ng-deep > [layer="base"],
+  .modal {
     transition: filter ease-in var(--modal-hide-duration);
-    &::after{
-      content: ' ';
+    &::after {
+      content: " ";
       pointer-events: none;
       transition: background-color ease-in var(--modal-hide-duration);
       position: absolute;
       inset: 0;
     }
   }
-  .modal-disable {
+
+  .modal-base.modal-disable ::ng-deep > [layer="base"],
+  .modal-disable:not(.modal-base) {
     pointer-events: none;
   }
 
   &[modal="3"],
   &[modal="2"],
   &[modal="1"] {
-    div[modal] {
-      //background-color: var(--background-disabled-button);
-    }
-   
-
-    .modal-blur{
+    .modal-base.modal-blur ::ng-deep > [layer="base"],
+    .modal-blur:not(.modal-base) {
       filter: blur(1px);
     }
-    .modal-gray{
-      filter: grayscale(0.69);
-      &::after{
-        background-color: var(--background-disabled-button);
+
+    .modal-base.modal-gray ::ng-deep > [layer="base"],
+    .modal-gray:not(.modal-base) {
+      filter: grayscale(0.69) brightness(42%);
+      &::after {
+        background-color: var(--foreground-disabled);
       }
     }
-    .modal-blur.modal-gray{
-      filter: blur(1px) grayscale(0.69);
+
+    .modal-base.modal-blur.modal-gray ::ng-deep > [layer="base"],
+    .modal-blur.modal-gray:not(.modal-base) {
+      filter: blur(1px) grayscale(0.69) brightness(42%);
     }
   }
 }

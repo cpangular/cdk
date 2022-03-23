@@ -72,7 +72,7 @@ interface IElementRef<T = any> {
   readonly elementRef: ElementRef<T>;
 }
 
-function hasElementRef(obj: any,): obj is IElementRef {
+function hasElementRef(obj: any): obj is IElementRef {
   return obj.elementRef instanceof ElementRef;
 }
 
@@ -80,32 +80,48 @@ function hasInjector(obj: any): obj is IInjector {
   return obj.injector instanceof Injector;
 }
 
-interface IInjectorFieldName{
-  injector:string;
+interface IInjectorFieldName {
+  injector: string;
 }
 
-interface IElementFieldName{
-  elementRef:string;
+interface IElementFieldName {
+  elementRef: string;
 }
 
-type AttributeBindingAsyncConfig = {attributeName?:string} & (IInjectorFieldName | IElementFieldName | (IInjectorFieldName & IElementFieldName));
+type AttributeBindingAsyncConfig = { attributeName?: string } & (
+  | IInjectorFieldName
+  | IElementFieldName
+  | (IInjectorFieldName & IElementFieldName)
+);
 
-function AttributeBindingAsync(): (target:IInjector | IElementRef, propertyKey: string) => void;
-function AttributeBindingAsync(attributeName: string): (target:IInjector | IElementRef, propertyKey: string) => void;
-function AttributeBindingAsync(config:{attributeName?:string} & IElementFieldName): (target:IInjector | any, propertyKey: string) => void;
-function AttributeBindingAsync(config:{attributeName?:string} & IInjectorFieldName): (target:IElementRef | any, propertyKey: string) => void;
+function AttributeBindingAsync(): (
+  target: IInjector | IElementRef,
+  propertyKey: string
+) => void;
+function AttributeBindingAsync(
+  attributeName: string
+): (target: IInjector | IElementRef, propertyKey: string) => void;
+function AttributeBindingAsync(
+  config: { attributeName?: string } & IElementFieldName
+): (target: IInjector | any, propertyKey: string) => void;
+function AttributeBindingAsync(
+  config: { attributeName?: string } & IInjectorFieldName
+): (target: IElementRef | any, propertyKey: string) => void;
 function AttributeBindingAsync(config?: string | AttributeBindingAsyncConfig) {
-
   return (target: IInjector | IElementRef, propertyKey: string) => {
-    const cfg = typeof config === 'object' ? {
-      attributeName: config.attributeName || propertyKey,
-      injector: (config as IInjectorFieldName).injector ?? 'injector',
-      elementRef: (config as IElementFieldName).elementRef ?? 'elementRef'
-    } : {
-      attributeName: config || propertyKey,
-      injector: 'injector',
-      elementRef: 'elementRef'
-    }
+    const cfg =
+      typeof config === "object"
+        ? {
+            attributeName: config.attributeName || propertyKey,
+            injector: (config as IInjectorFieldName).injector ?? "injector",
+            elementRef:
+              (config as IElementFieldName).elementRef ?? "elementRef",
+          }
+        : {
+            attributeName: config || propertyKey,
+            injector: "injector",
+            elementRef: "elementRef",
+          };
 
     function setAttr(element: HTMLElement, v: any) {
       if (v === undefined || v === null) {
@@ -125,7 +141,10 @@ function AttributeBindingAsync(config?: string | AttributeBindingAsyncConfig) {
 
         const elementRef = (this as any)[cfg.elementRef] as ElementRef;
         const injector = (this as any)[cfg.injector] as Injector;
-        const elm = elementRef instanceof ElementRef ? elementRef.nativeElement : injector.get(ElementRef).nativeElement;
+        const elm =
+          elementRef instanceof ElementRef
+            ? elementRef.nativeElement
+            : injector.get(ElementRef).nativeElement;
         if (!isObservable(v)) {
           setAttr(elm, v);
         } else {
@@ -167,12 +186,15 @@ export class LayoutComponent implements OnInit {
     map(([fixed, mode]) => {
       if (fixed) {
         if (mode === MenuMode.FIXED || mode === MenuMode.SLIDE) {
-          return this.regions.fixed.left;
+          return this.regions.application.base.left;
         } else {
-          return this.regions.fixedOverlay.left;
+          return this.regions.scroll.overlay.left;
         }
       } else {
-        return this.regions.scroll.left;
+        if(mode === MenuMode.OVER || mode === MenuMode.PUSH){
+          return this.regions.scroll.overlay.left;
+        }
+        return this.regions.scroll.base.left;
       }
     }),
     tap((v) => {
@@ -184,7 +206,7 @@ export class LayoutComponent implements OnInit {
     attributeName: "show-menu-button-start",
     elementRef: 'elmRef'
   })*/
-  @AttributeBindingAsync('show-menu-button-start')
+  @AttributeBindingAsync("show-menu-button-start")
   public menuButtonStartShow$ = combineLatest([this.menuStartMode$]).pipe(
     map(([mode]) => {
       if (mode === MenuMode.FIXED) {
@@ -215,7 +237,7 @@ export class LayoutComponent implements OnInit {
       switch (mode) {
         case MenuMode.OVER:
         case MenuMode.PUSH:
-          return fixed ? 2 : 1;
+          return 2;
         default:
           return 0;
       }
@@ -234,12 +256,12 @@ export class LayoutComponent implements OnInit {
     map(([fixed, mode]) => {
       if (fixed) {
         if (mode === MenuMode.FIXED || mode === MenuMode.SLIDE) {
-          return this.regions.fixed.right;
+          return this.regions.application.base.right;
         } else {
-          return this.regions.fixedOverlay.right;
+          return this.regions.application.overlay.right;
         }
       } else {
-        return this.regions.scroll.right;
+        return this.regions.scroll.base.right;
       }
     })
   );
@@ -274,7 +296,7 @@ export class LayoutComponent implements OnInit {
       switch (mode) {
         case MenuMode.OVER:
         case MenuMode.PUSH:
-          return fixed ? 2 : 1;
+          return 2;
         default:
           return 0;
       }
@@ -309,72 +331,139 @@ export class LayoutComponent implements OnInit {
     observe(ScrollBehavior.FIXED)
   );
 
-  // Overlay Visibility //
-  public readonly showOverlayTop$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.overlay.top),
-  ]);
-  public readonly showOverlayLeft$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.overlay.left),
-  ]);
-  public readonly showOverlayBottom$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.overlay.bottom),
-  ]);
-  public readonly showOverlayRight$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.overlay.right),
+  // Viewport Overlay Visibility //
+  public readonly hasViewportOverlayTop$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.viewport.overlay.top),
   ]);
 
-  // Fixed Visibility //
-  public readonly showFixedTop$ = anyTrue$([
+  public readonly hasViewportOverlayLeft$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.viewport.overlay.left),
+  ]);
+  public readonly hasViewportOverlayBottom$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.viewport.overlay.bottom),
+  ]);
+  public readonly hasViewportOverlayRight$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.viewport.overlay.right),
+  ]);
+  public readonly hasViewportOverlayCenter$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.viewport.overlay.center),
+  ]);
+
+  // Viewport Visibility //
+  public readonly hasViewportTop$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.viewport.base.top),
+  ]);
+
+  public readonly hasViewportLeft$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.viewport.base.left),
+  ]);
+  public readonly hasViewportBottom$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.viewport.base.bottom),
+  ]);
+  public readonly hasViewportRight$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.viewport.base.right),
+  ]);
+  public readonly hasViewportCenter$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.viewport.base.center),
+  ]);
+
+  // Application Overlay Visibility //
+  public readonly hasApplicationOverlayTop$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.application.overlay.top),
+  ]);
+
+  public readonly hasApplicationOverlayLeft$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.application.overlay.left),
+  ]);
+  public readonly hasApplicationOverlayBottom$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.application.overlay.bottom
+    ),
+  ]);
+  public readonly hasApplicationOverlayRight$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.application.overlay.right
+    ),
+  ]);
+  public readonly hasApplicationOverlayCenter$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.application.overlay.center
+    ),
+  ]);
+
+  // Application Visibility //
+  public readonly hasApplicationTop$ = anyTrue$([
     this.headerScroll.fixed$,
     this.noticeStartScroll.fixed$,
-    this.viewAnchorService.hasViewChange(this.regions.fixed.top),
-  ]);
-  public readonly showFixedLeft$ = anyTrue$([
-    this.menuStartWhere$.pipe(map((v) => v === this.regions.fixed.left)),
-    this.viewAnchorService.hasViewChange(this.regions.fixed.left),
-  ]);
-  public readonly showFixedBottom$ = anyTrue$([
-    this.footerScroll.fixed$,
-    this.noticeEndScroll.fixed$,
-    this.viewAnchorService.hasViewChange(this.regions.fixed.bottom),
-  ]);
-  public readonly showFixedRight$ = anyTrue$([
-    this.menuEndWhere$.pipe(map((v) => v === this.regions.fixed.right)),
-    this.viewAnchorService.hasViewChange(this.regions.fixed.right),
+    this.viewAnchorService.hasViewChange(this.regions.application.base.top),
   ]);
 
-  // Fixed Overlay Visibility //
-  public readonly showFixedOverlayTop$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.fixedOverlay.top),
+  public readonly hasApplicationLeft$ = anyTrue$([
+    this.menuStartWhere$.pipe(map((v) => v === this.regions.application.base.left)),
+    this.viewAnchorService.hasViewChange(this.regions.application.base.left),
   ]);
-  public readonly showFixedOverlayLeft$ = anyTrue$([
-    this.menuStartWhere$.pipe(map((v) => v === this.regions.fixedOverlay.left)),
-    this.viewAnchorService.hasViewChange(this.regions.fixedOverlay.left),
+  public readonly hasApplicationBottom$ = anyTrue$([
+    this.footerScroll.fixed$,
+    this.noticeEndScroll.fixed$,
+    this.viewAnchorService.hasViewChange(this.regions.application.base.bottom),
   ]);
-  public readonly showFixedOverlayBottom$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.fixedOverlay.bottom),
+  public readonly hasApplicationRight$ = anyTrue$([
+    this.menuEndWhere$.pipe(map((v) => v === this.regions.application.base.right)),
+    this.viewAnchorService.hasViewChange(this.regions.application.base.right),
   ]);
-  public readonly showFixedOverlayRight$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.fixedOverlay.right),
+  public readonly hasApplicationCenter$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.application.base.center),
+  ]);
+
+
+  // Scroll Overlay Visibility //
+  public readonly hasScrollOverlayTop$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.scroll.overlay.top),
+  ]);
+
+  public readonly hasScrollOverlayLeft$ = anyTrue$([
+    this.menuStartWhere$.pipe(map((v) => v === this.regions.scroll.overlay.left)),
+    this.viewAnchorService.hasViewChange(this.regions.scroll.overlay.left),
+  ]);
+  public readonly hasScrollOverlayBottom$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.scroll.overlay.bottom
+    ),
+  ]);
+  public readonly hasScrollOverlayRight$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.scroll.overlay.right
+    ),
+  ]);
+  public readonly hasScrollOverlayCenter$ = anyTrue$([
+    this.modal$.pipe(map(v => v === 2)),
+    this.viewAnchorService.hasViewChange(
+      this.regions.scroll.overlay.center
+    ),
   ]);
 
   // Scroll Visibility //
-  public readonly showScrollTop$ = anyTrue$([
-    not$(this.headerScroll.fixed$),
-    not$(this.noticeStartScroll.fixed$),
-    this.viewAnchorService.hasViewChange(this.regions.scroll.top),
+  public readonly hasScrollTop$ = anyTrue$([
+    this.headerScroll.fixed$,
+    this.noticeStartScroll.fixed$,
+    this.viewAnchorService.hasViewChange(this.regions.scroll.base.top),
   ]);
-  public readonly showScrollLeft$ = anyTrue$([
-    this.menuStartWhere$.pipe(map((v) => v === this.regions.scroll.left)),
-    this.viewAnchorService.hasViewChange(this.regions.scroll.left),
+
+  public readonly hasScrollLeft$ = anyTrue$([
+    this.menuStartWhere$.pipe(map((v) => v === this.regions.scroll.base.left)),
+    this.viewAnchorService.hasViewChange(this.regions.scroll.base.left),
   ]);
-  public readonly showScrollBottom$ = anyTrue$([
-    not$(this.footerScroll.fixed$),
-    not$(this.noticeEndScroll.fixed$),
-    this.viewAnchorService.hasViewChange(this.regions.scroll.bottom),
+  public readonly hasScrollBottom$ = anyTrue$([
+    this.footerScroll.fixed$,
+    this.noticeEndScroll.fixed$,
+    this.viewAnchorService.hasViewChange(this.regions.scroll.base.bottom),
   ]);
-  public readonly showScrollRight$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.scroll.right),
+  public readonly hasScrollRight$ = anyTrue$([
+    this.menuEndWhere$.pipe(map((v) => v === this.regions.scroll.base.right)),
+    this.viewAnchorService.hasViewChange(this.regions.scroll.base.right),
+  ]);
+  public readonly hasScrollCenter$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.scroll.base.center),
   ]);
 
   @ViewChild(CdkScrollable, { static: true })
@@ -390,7 +479,7 @@ export class LayoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.scrollHide$ = this.scrollContainer.elementScrolled().pipe(
+     this.scrollHide$ = this.scrollContainer.elementScrolled().pipe(
       throttleTime(100, undefined, { leading: true, trailing: true }),
       map((evt) => this.scrollContainer.measureScrollOffset("top")),
       pairwise(),
@@ -399,7 +488,8 @@ export class LayoutComponent implements OnInit {
       ),
       filter((d) => Math.abs(d) > 80),
       map((d) => d > 0),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      tap(console.log)
     );
 
     this.scrollHide$.subscribe((hide) =>

@@ -7,11 +7,12 @@ import { ApplicationFooterModule } from "../footer/footer.module";
 import { ApplicationHeaderModule } from "../header/header.module";
 import { ApplicationMenuEndModule } from "../menu-end/menu-end.module";
 import { ApplicationMenuStartModule } from "../menu-start/menu-start.module";
+import { LayerGroupComponent } from "./layer-group/layer-group.component";
 import { LayerComponent } from "./layer/layer.component";
 import { LayoutComponent } from "./layout.component";
 
 @NgModule({
-  declarations: [LayoutComponent, LayerComponent],
+  declarations: [LayoutComponent, LayerComponent, LayerGroupComponent],
   imports: [
     CommonModule,
     ResizeModule,
