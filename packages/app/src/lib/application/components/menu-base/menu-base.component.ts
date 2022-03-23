@@ -66,6 +66,9 @@ export class ApplicationMenuBaseComponent implements OnInit, OnDestroy {
   private readonly _opened: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(true);
 
+  @HostBinding("class.init")
+  public animInitialized: boolean = false;
+
   @Input()
   @HostBinding("attr.opened")
   @HostBinding("class.opened")
@@ -96,9 +99,8 @@ export class ApplicationMenuBaseComponent implements OnInit, OnDestroy {
     shareReplay(1)
   );
 
-  @ViewChild('menuButtonContainer')
-  private menuButtonContainer?:ElementRef<HTMLDivElement>;
-
+  @ViewChild("menuButtonContainer")
+  private menuButtonContainer?: ElementRef<HTMLDivElement>;
 
   public readonly menuButtonAnchor$ = this.sideChange.pipe(
     map((s) =>
@@ -119,15 +121,20 @@ export class ApplicationMenuBaseComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
   ngOnInit(): void {
-    this.width$.subscribe(w =>{
+    this.width$.subscribe((w) => {
       this.setButtonCssProps(w);
+    });
+    this._initiallyOpen$.subscribe((o) => {
+      this.opened = o;
+    });
+    setTimeout(() => {
+      this.animInitialized = true;
     });
   }
 
-  private setButtonCssProps(width:number){
-    if(this.menuButtonContainer?.nativeElement){
+  private setButtonCssProps(width: number) {
+    if (this.menuButtonContainer?.nativeElement) {
       this.menuButtonContainer.nativeElement.style.minWidth = `${width}px`;
     }
   }
-
 }
