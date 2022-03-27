@@ -3,12 +3,12 @@
 :host {
   display: flex;
   flex-direction: column;
+  @include mat.elevation(6);
   > div {
     min-height: 100%;
     display: flex;
     flex-direction: column;
     background-color: var(--background-app-bar);
-    @include mat.elevation(24);
   }
 }
 
@@ -36,3 +36,29 @@
     }
   }
 }
+
+/*
+
+:host {
+  display: flex;
+  flex-direction: column;
+  > div {
+    display: flex;
+    flex-direction: row;
+    > * {
+      flex: 0 0 auto;
+      &.full {
+        flex: 1 1 100%;
+      }
+    }
+  }
+}
+
+:host mat-toolbar {
+  width: auto;
+  height: auto;
+  &:not(:empty) {
+    min-height: 56px;
+  }
+}
+*/

@@ -15,6 +15,6 @@ export class ApplicationMenuStartComponent extends ApplicationMenuBaseComponent 
     config: IApplicationConfiguration,
     elmRef:ElementRef<HTMLElement>
   ) {
-    super(config, elmRef);
+    super("start", config, elmRef);
   }
 }

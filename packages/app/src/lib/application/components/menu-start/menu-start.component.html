@@ -5,9 +5,9 @@
       (menuButtonAnchor$ | async) ?? anchors.menuStartButton
     "
     class="menu-button-container"
-    [style.min-width]="(width$ | async) + 'px'"
+    
   >
-    <button mat-icon-button (click)="opened = !opened">
+    <button mat-icon-button (click)="opened = !opened; $event.stopImmediatePropagation()">
       <mat-icon>menu</mat-icon>
     </button>
   </div>
@@ -16,6 +16,4 @@
 <div addSizeCssVars>
   <ng-content></ng-content>
   menu-start!!!!!!!!!!!!!!
-  <br />
-  {{ width$ | async }}
 </div>

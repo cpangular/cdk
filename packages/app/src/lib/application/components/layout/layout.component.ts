@@ -1,12 +1,12 @@
 import { CdkScrollable } from "@angular/cdk/scrolling";
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
   Inject,
   Injector,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -20,7 +20,6 @@ import {
   isObservable,
   map,
   Observable,
-  of,
   pairwise,
   shareReplay,
   Subject,
@@ -33,7 +32,7 @@ import { FinalApplicationConfiguration } from "../../config/FinalApplicationConf
 import { MenuAnchors } from "../menu-base/MenuAnchors";
 import { LayerSizes } from "./layer/layer.component";
 import { LayoutRegions } from "./LayoutRegions";
-import { MenuMode } from "./MenuMode";
+import { MenuLayoutBehavior, MenuRelativeLocation } from "./MenuMode";
 import { ScrollBehavior } from "./ScrollBehavior";
 
 export class ScrollBehaviorWatcher {
@@ -58,6 +57,10 @@ function anyTrue$(conditions: Observable<boolean>[]) {
     distinctUntilChanged(),
     shareReplay(1)
   );
+}
+
+function isEqual$(obs: Observable<any>, toValue: any) {
+  return obs.pipe(map((v) => v === toValue));
 }
 
 function not$(obs: Observable<boolean>): Observable<boolean> {
@@ -159,6 +162,7 @@ function AttributeBindingAsync(config?: string | AttributeBindingAsyncConfig) {
   selector: "cpng-app-layout",
   templateUrl: "./layout.component.html",
   styleUrls: ["./layout.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
   regions = LayoutRegions;
@@ -168,8 +172,12 @@ export class LayoutComponent implements OnInit {
     observe(this.config.header.scrollBehavior!)
   );
 
+  public readonly headerLocation$ = this.headerScroll.fixed$.pipe(
+    map((f) => (f ? this.regions.content.top : this.regions.scroll.top))
+  );
+
   public readonly footerScroll = new ScrollBehaviorWatcher(
-    observe(this.config.layout.footerScrollBehavior!)
+    observe(this.config.header.scrollBehavior!)
   );
 
   public readonly rightToLeft$ = observe(this.config.layout.rightToLeft);
@@ -179,41 +187,47 @@ export class LayoutComponent implements OnInit {
     observe(this.config.menuStart.scrollBehavior!)
   );
 
-  public menuStartWhere$ = combineLatest([
-    this.menuStartScroll.fixed$,
+  public menuStartLocation$ = combineLatest([
     this.menuStartMode$,
+    this.headerScroll.fixed$,
   ]).pipe(
-    map(([fixed, mode]) => {
-      if (fixed) {
-        if (mode === MenuMode.FIXED || mode === MenuMode.SLIDE) {
-          return this.regions.application.base.left;
-        } else {
-          return this.regions.scroll.overlay.left;
-        }
-      } else {
-        if(mode === MenuMode.OVER || mode === MenuMode.PUSH){
-          return this.regions.scroll.overlay.left;
-        }
-        return this.regions.scroll.base.left;
-      }
-    }),
-    tap((v) => {
-      console.log("menuStartWhere$", this);
-    })
-  );
+    map(([mode, headerFixed]) => {
+      const location =
+        mode & MenuRelativeLocation.UNDER ||
+        mode & MenuRelativeLocation.OVER ||
+        mode & MenuRelativeLocation.VIEWPORT;
+      const behavior =
+        mode & MenuLayoutBehavior.INLINE || mode & MenuLayoutBehavior.OVER;
 
-  /*@AttributeBindingAsync({
-    attributeName: "show-menu-button-start",
-    elementRef: 'elmRef'
-  })*/
-  @AttributeBindingAsync("show-menu-button-start")
-  public menuButtonStartShow$ = combineLatest([this.menuStartMode$]).pipe(
-    map(([mode]) => {
-      if (mode === MenuMode.FIXED) {
-        return false;
+      if (location === MenuRelativeLocation.VIEWPORT) {
+        return behavior === MenuLayoutBehavior.INLINE
+          ? this.regions.viewport.left
+          : this.regions.viewport.overlay.left;
       }
-      return true;
+
+      if (location === MenuRelativeLocation.OVER) {
+        if (headerFixed) {
+          return behavior === MenuLayoutBehavior.INLINE
+            ? this.regions.application.left
+            : this.regions.application.overlay.left;
+        }
+        return behavior === MenuLayoutBehavior.INLINE
+          ? this.regions.content.left
+          : this.regions.content.overlay.left;
+      }else if(location === MenuRelativeLocation.UNDER){
+        if (headerFixed) {
+          return behavior === MenuLayoutBehavior.INLINE
+            ? this.regions.content.left
+            : this.regions.content.innerOverlay.left;
+        }
+        return behavior === MenuLayoutBehavior.INLINE
+          ? this.regions.scroll.left
+          : this.regions.scroll.innerOverlay.left;
+      }
+      
+      return this.regions.scroll.left;
     })
+    //tap(console.log)
   );
 
   private _menuStartOpened$: BehaviorSubject<boolean> =
@@ -228,50 +242,76 @@ export class LayoutComponent implements OnInit {
   }
 
   public menuStartModal$ = combineLatest([
-    this.menuStartMode$,
-    this.menuStartScroll.fixed$,
     this._menuStartOpened$,
+    this.menuStartMode$,
+    this.headerLocation$,
   ]).pipe(
-    map(([mode, fixed, opened]) => {
-      if (!opened) return 0;
-      switch (mode) {
-        case MenuMode.OVER:
-        case MenuMode.PUSH:
-          return 2;
-        default:
-          return 0;
+    map(([opened, mode, header]) => {
+      const behavior =
+        mode & MenuLayoutBehavior.INLINE || mode & MenuLayoutBehavior.OVER;
+
+      if (!opened || behavior === MenuLayoutBehavior.INLINE) return 0;
+
+      const location =
+        mode & MenuRelativeLocation.UNDER ||
+        mode & MenuRelativeLocation.OVER ||
+        mode & MenuRelativeLocation.VIEWPORT;
+      switch (location) {
+        case MenuRelativeLocation.UNDER:
+          return header === this.regions.content.top ? 2 : 1;
+        case MenuRelativeLocation.OVER:
+          return header === this.regions.content.top ? 3 : 2;
+        case MenuRelativeLocation.VIEWPORT:
+          return 4;
       }
+      return 0;
     }),
     distinctUntilChanged()
   );
 
-  public menuEndMode$ = observe(this.config.menuStart.mode);
+  public menuEndMode$ = observe(this.config.menuEnd.mode);
   public readonly menuEndScroll = new ScrollBehaviorWatcher(
-    observe(this.config.layout.menuEndScrollBehavior!)
-  );
-  public menuEndWhere$ = combineLatest([
-    this.menuEndScroll.fixed$,
-    this.menuEndMode$,
-  ]).pipe(
-    map(([fixed, mode]) => {
-      if (fixed) {
-        if (mode === MenuMode.FIXED || mode === MenuMode.SLIDE) {
-          return this.regions.application.base.right;
-        } else {
-          return this.regions.application.overlay.right;
-        }
-      } else {
-        return this.regions.scroll.base.right;
-      }
-    })
+    observe(this.config.menuEnd.scrollBehavior!)
   );
 
-  public menuButtonEndShow$ = combineLatest([this.menuStartMode$]).pipe(
-    map(([mode]) => {
-      if (mode === MenuMode.FIXED) {
-        return false;
+  public menuEndLocation$ = combineLatest([
+    this.menuEndMode$,
+    this.headerScroll.fixed$,
+  ]).pipe(
+    map(([mode, headerFixed]) => {
+      const location =
+        mode & MenuRelativeLocation.UNDER ||
+        mode & MenuRelativeLocation.OVER ||
+        mode & MenuRelativeLocation.VIEWPORT;
+      const behavior =
+        mode & MenuLayoutBehavior.INLINE || mode & MenuLayoutBehavior.OVER;
+
+      if (location === MenuRelativeLocation.VIEWPORT) {
+        return behavior === MenuLayoutBehavior.INLINE
+          ? this.regions.viewport.right
+          : this.regions.viewport.overlay.right;
       }
-      return true;
+
+      if (location === MenuRelativeLocation.OVER) {
+        if (headerFixed) {
+          return behavior === MenuLayoutBehavior.INLINE
+            ? this.regions.application.right
+            : this.regions.application.overlay.right;
+        }
+        return behavior === MenuLayoutBehavior.INLINE
+          ? this.regions.content.right
+          : this.regions.content.overlay.right;
+      }else if(location === MenuRelativeLocation.UNDER){
+        if (headerFixed) {
+          return behavior === MenuLayoutBehavior.INLINE
+            ? this.regions.content.right
+            : this.regions.content.innerOverlay.right;
+        }
+        return behavior === MenuLayoutBehavior.INLINE
+          ? this.regions.scroll.right
+          : this.regions.scroll.innerOverlay.right;
+      }
+      return this.regions.scroll.right;
     })
   );
 
@@ -287,19 +327,29 @@ export class LayoutComponent implements OnInit {
   }
 
   public menuEndModal$ = combineLatest([
-    this.menuEndMode$,
-    this.menuEndScroll.fixed$,
     this._menuEndOpened$,
+    this.menuEndMode$,
+    this.headerLocation$,
   ]).pipe(
-    map(([mode, fixed, opened]) => {
-      if (!opened) return 0;
-      switch (mode) {
-        case MenuMode.OVER:
-        case MenuMode.PUSH:
-          return 2;
-        default:
-          return 0;
+    map(([opened, mode, header]) => {
+      const behavior =
+        mode & MenuLayoutBehavior.INLINE || mode & MenuLayoutBehavior.OVER;
+
+      if (!opened || behavior === MenuLayoutBehavior.INLINE) return 0;
+
+      const location =
+        mode & MenuRelativeLocation.UNDER ||
+        mode & MenuRelativeLocation.OVER ||
+        mode & MenuRelativeLocation.VIEWPORT;
+      switch (location) {
+        case MenuRelativeLocation.UNDER:
+          return header === this.regions.content.top ? 2 : 1;
+        case MenuRelativeLocation.OVER:
+          return header === this.regions.content.top ? 3 : 2;
+        case MenuRelativeLocation.VIEWPORT:
+          return 4;
       }
+      return 0;
     }),
     distinctUntilChanged()
   );
@@ -312,6 +362,7 @@ export class LayoutComponent implements OnInit {
     distinctUntilChanged(),
     tap((v) => {
       this._modal = v;
+      this.changeRef.detectChanges();
     })
   );
 
@@ -322,7 +373,7 @@ export class LayoutComponent implements OnInit {
     return this._modal;
   }
 
-  public modalClicked$ = new Subject<MouseEvent>();
+  public modalClicked$ = new Subject<any>();
 
   public readonly noticeStartScroll = new ScrollBehaviorWatcher(
     observe(ScrollBehavior.FIXED)
@@ -335,44 +386,73 @@ export class LayoutComponent implements OnInit {
   public readonly hasViewportOverlayTop$ = anyTrue$([
     this.viewAnchorService.hasViewChange(this.regions.viewport.overlay.top),
   ]);
-
   public readonly hasViewportOverlayLeft$ = anyTrue$([
+    isEqual$(this.menuStartLocation$, this.regions.viewport.overlay.left),
     this.viewAnchorService.hasViewChange(this.regions.viewport.overlay.left),
   ]);
   public readonly hasViewportOverlayBottom$ = anyTrue$([
     this.viewAnchorService.hasViewChange(this.regions.viewport.overlay.bottom),
   ]);
   public readonly hasViewportOverlayRight$ = anyTrue$([
+    isEqual$(this.menuEndLocation$, this.regions.viewport.overlay.right),
     this.viewAnchorService.hasViewChange(this.regions.viewport.overlay.right),
   ]);
   public readonly hasViewportOverlayCenter$ = anyTrue$([
     this.viewAnchorService.hasViewChange(this.regions.viewport.overlay.center),
   ]);
 
-  // Viewport Visibility //
-  public readonly hasViewportTop$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.viewport.base.top),
+  // Viewport Inner Overlay Visibility //
+  public readonly hasViewportInnerOverlayTop$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.viewport.innerOverlay.top
+    ),
+  ]);
+  public readonly hasViewportInnerOverlayLeft$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.viewport.innerOverlay.left
+    ),
+  ]);
+  public readonly hasViewportInnerOverlayBottom$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.viewport.innerOverlay.bottom
+    ),
+  ]);
+  public readonly hasViewportInnerOverlayRight$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.viewport.innerOverlay.right
+    ),
+  ]);
+  public readonly hasViewportInnerOverlayCenter$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.viewport.innerOverlay.center
+    ),
   ]);
 
+  // Viewport Visibility //
+  public readonly hasViewportTop$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.viewport.top),
+  ]);
   public readonly hasViewportLeft$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.viewport.base.left),
+    isEqual$(this.menuStartLocation$, this.regions.viewport.left),
+    this.viewAnchorService.hasViewChange(this.regions.viewport.left),
   ]);
   public readonly hasViewportBottom$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.viewport.base.bottom),
+    this.viewAnchorService.hasViewChange(this.regions.viewport.bottom),
   ]);
   public readonly hasViewportRight$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.viewport.base.right),
+    isEqual$(this.menuEndLocation$, this.regions.viewport.right),
+    this.viewAnchorService.hasViewChange(this.regions.viewport.right),
   ]);
   public readonly hasViewportCenter$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.viewport.base.center),
+    this.viewAnchorService.hasViewChange(this.regions.viewport.center),
   ]);
 
   // Application Overlay Visibility //
   public readonly hasApplicationOverlayTop$ = anyTrue$([
     this.viewAnchorService.hasViewChange(this.regions.application.overlay.top),
   ]);
-
   public readonly hasApplicationOverlayLeft$ = anyTrue$([
+    isEqual$(this.menuStartLocation$, this.regions.application.overlay.left),
     this.viewAnchorService.hasViewChange(this.regions.application.overlay.left),
   ]);
   public readonly hasApplicationOverlayBottom$ = anyTrue$([
@@ -381,6 +461,7 @@ export class LayoutComponent implements OnInit {
     ),
   ]);
   public readonly hasApplicationOverlayRight$ = anyTrue$([
+    isEqual$(this.menuEndLocation$, this.regions.application.overlay.right),
     this.viewAnchorService.hasViewChange(
       this.regions.application.overlay.right
     ),
@@ -391,30 +472,127 @@ export class LayoutComponent implements OnInit {
     ),
   ]);
 
+  // Application Inner Overlay Visibility //
+  public readonly hasApplicationInnerOverlayTop$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.application.innerOverlay.top
+    ),
+  ]);
+  public readonly hasApplicationInnerOverlayLeft$ = anyTrue$([
+    isEqual$(
+      this.menuStartLocation$,
+      this.regions.application.innerOverlay.left
+    ),
+    this.viewAnchorService.hasViewChange(
+      this.regions.application.innerOverlay.left
+    ),
+  ]);
+  public readonly hasApplicationInnerOverlayBottom$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.application.innerOverlay.bottom
+    ),
+  ]);
+  public readonly hasApplicationInnerOverlayRight$ = anyTrue$([
+    isEqual$(
+      this.menuEndLocation$,
+      this.regions.application.innerOverlay.right
+    ),
+    this.viewAnchorService.hasViewChange(
+      this.regions.application.innerOverlay.right
+    ),
+  ]);
+  public readonly hasApplicationInnerOverlayCenter$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.application.innerOverlay.center
+    ),
+  ]);
+
   // Application Visibility //
   public readonly hasApplicationTop$ = anyTrue$([
-    this.headerScroll.fixed$,
-    this.noticeStartScroll.fixed$,
-    this.viewAnchorService.hasViewChange(this.regions.application.base.top),
+    isEqual$(this.headerLocation$, this.regions.application.top),
+    this.viewAnchorService.hasViewChange(this.regions.application.top),
   ]);
-
   public readonly hasApplicationLeft$ = anyTrue$([
-    this.menuStartWhere$.pipe(map((v) => v === this.regions.application.base.left)),
-    this.viewAnchorService.hasViewChange(this.regions.application.base.left),
+    isEqual$(this.menuStartLocation$, this.regions.application.left),
+    this.viewAnchorService.hasViewChange(this.regions.application.left),
   ]);
   public readonly hasApplicationBottom$ = anyTrue$([
-    this.footerScroll.fixed$,
-    this.noticeEndScroll.fixed$,
-    this.viewAnchorService.hasViewChange(this.regions.application.base.bottom),
+    this.viewAnchorService.hasViewChange(this.regions.application.bottom),
   ]);
   public readonly hasApplicationRight$ = anyTrue$([
-    this.menuEndWhere$.pipe(map((v) => v === this.regions.application.base.right)),
-    this.viewAnchorService.hasViewChange(this.regions.application.base.right),
+    isEqual$(this.menuEndLocation$, this.regions.application.right),
+    this.viewAnchorService.hasViewChange(this.regions.application.right),
   ]);
   public readonly hasApplicationCenter$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.application.base.center),
+    this.viewAnchorService.hasViewChange(this.regions.application.center),
   ]);
 
+  // Content Overlay Visibility //
+  public readonly hasContentOverlayTop$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.content.overlay.top),
+  ]);
+  public readonly hasContentOverlayLeft$ = anyTrue$([
+    isEqual$(this.menuStartLocation$, this.regions.content.overlay.left),
+    this.viewAnchorService.hasViewChange(this.regions.content.overlay.left),
+  ]);
+  public readonly hasContentOverlayBottom$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.content.overlay.bottom),
+  ]);
+  public readonly hasContentOverlayRight$ = anyTrue$([
+    isEqual$(this.menuEndLocation$, this.regions.content.overlay.right),
+    this.viewAnchorService.hasViewChange(this.regions.content.overlay.right),
+  ]);
+  public readonly hasContentOverlayCenter$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.content.overlay.center),
+  ]);
+
+  // Content Inner Overlay Visibility //
+  public readonly hasContentInnerOverlayTop$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.content.innerOverlay.top),
+  ]);
+  public readonly hasContentInnerOverlayLeft$ = anyTrue$([
+    isEqual$(this.menuStartLocation$, this.regions.content.innerOverlay.left),
+    this.viewAnchorService.hasViewChange(
+      this.regions.content.innerOverlay.left
+    ),
+  ]);
+  public readonly hasContentInnerOverlayBottom$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.content.innerOverlay.bottom
+    ),
+  ]);
+  public readonly hasContentInnerOverlayRight$ = anyTrue$([
+    isEqual$(this.menuEndLocation$, this.regions.content.innerOverlay.right),
+    this.viewAnchorService.hasViewChange(
+      this.regions.content.innerOverlay.right
+    ),
+  ]);
+  public readonly hasContentInnerOverlayCenter$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(
+      this.regions.content.innerOverlay.center
+    ),
+  ]);
+
+  // Content Visibility //
+  public readonly hasContentTop$ = anyTrue$([
+    isEqual$(this.headerLocation$, this.regions.content.top),
+    this.viewAnchorService.hasViewChange(this.regions.content.top),
+  ]);
+
+  public readonly hasContentLeft$ = anyTrue$([
+    isEqual$(this.menuStartLocation$, this.regions.content.left),
+    this.viewAnchorService.hasViewChange(this.regions.content.left),
+  ]);
+  public readonly hasContentBottom$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.content.bottom),
+  ]);
+  public readonly hasContentRight$ = anyTrue$([
+    isEqual$(this.menuEndLocation$, this.regions.content.right),
+    this.viewAnchorService.hasViewChange(this.regions.content.right),
+  ]);
+  public readonly hasContentCenter$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.content.center),
+  ]);
 
   // Scroll Overlay Visibility //
   public readonly hasScrollOverlayTop$ = anyTrue$([
@@ -422,48 +600,66 @@ export class LayoutComponent implements OnInit {
   ]);
 
   public readonly hasScrollOverlayLeft$ = anyTrue$([
-    this.menuStartWhere$.pipe(map((v) => v === this.regions.scroll.overlay.left)),
+    isEqual$(this.menuStartLocation$, this.regions.scroll.overlay.left),
     this.viewAnchorService.hasViewChange(this.regions.scroll.overlay.left),
   ]);
   public readonly hasScrollOverlayBottom$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(
-      this.regions.scroll.overlay.bottom
-    ),
+    this.viewAnchorService.hasViewChange(this.regions.scroll.overlay.bottom),
   ]);
   public readonly hasScrollOverlayRight$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(
-      this.regions.scroll.overlay.right
-    ),
+    isEqual$(this.menuEndLocation$, this.regions.scroll.overlay.right),
+    this.viewAnchorService.hasViewChange(this.regions.scroll.overlay.right),
   ]);
   public readonly hasScrollOverlayCenter$ = anyTrue$([
-    this.modal$.pipe(map(v => v === 2)),
+    isEqual$(this.modal$, 2),
+    this.viewAnchorService.hasViewChange(this.regions.scroll.overlay.center),
+  ]);
+
+  // Scroll Inner Overlay Visibility //
+  public readonly hasScrollInnerOverlayTop$ = anyTrue$([
+    this.viewAnchorService.hasViewChange(this.regions.scroll.innerOverlay.top),
+  ]);
+  public readonly hasScrollInnerOverlayLeft$ = anyTrue$([
+    isEqual$(this.menuStartLocation$, this.regions.scroll.innerOverlay.left),
+    this.viewAnchorService.hasViewChange(this.regions.scroll.innerOverlay.left),
+  ]);
+  public readonly hasScrollInnerOverlayBottom$ = anyTrue$([
     this.viewAnchorService.hasViewChange(
-      this.regions.scroll.overlay.center
+      this.regions.scroll.innerOverlay.bottom
+    ),
+  ]);
+  public readonly hasScrollInnerOverlayRight$ = anyTrue$([
+    isEqual$(this.menuEndLocation$, this.regions.scroll.innerOverlay.right),
+    this.viewAnchorService.hasViewChange(
+      this.regions.scroll.innerOverlay.right
+    ),
+  ]);
+  public readonly hasScrollInnerOverlayCenter$ = anyTrue$([
+    isEqual$(this.modal$, 2),
+    this.viewAnchorService.hasViewChange(
+      this.regions.scroll.innerOverlay.center
     ),
   ]);
 
   // Scroll Visibility //
   public readonly hasScrollTop$ = anyTrue$([
-    this.headerScroll.fixed$,
-    this.noticeStartScroll.fixed$,
-    this.viewAnchorService.hasViewChange(this.regions.scroll.base.top),
+    isEqual$(this.headerLocation$, this.regions.scroll.top),
+    this.viewAnchorService.hasViewChange(this.regions.scroll.top),
   ]);
 
   public readonly hasScrollLeft$ = anyTrue$([
-    this.menuStartWhere$.pipe(map((v) => v === this.regions.scroll.base.left)),
-    this.viewAnchorService.hasViewChange(this.regions.scroll.base.left),
+    isEqual$(this.menuStartLocation$, this.regions.scroll.left),
+    this.viewAnchorService.hasViewChange(this.regions.scroll.left),
   ]);
   public readonly hasScrollBottom$ = anyTrue$([
-    this.footerScroll.fixed$,
-    this.noticeEndScroll.fixed$,
-    this.viewAnchorService.hasViewChange(this.regions.scroll.base.bottom),
+    this.viewAnchorService.hasViewChange(this.regions.scroll.bottom),
   ]);
   public readonly hasScrollRight$ = anyTrue$([
-    this.menuEndWhere$.pipe(map((v) => v === this.regions.scroll.base.right)),
-    this.viewAnchorService.hasViewChange(this.regions.scroll.base.right),
+    isEqual$(this.menuEndLocation$, this.regions.scroll.right),
+    this.viewAnchorService.hasViewChange(this.regions.scroll.right),
   ]);
   public readonly hasScrollCenter$ = anyTrue$([
-    this.viewAnchorService.hasViewChange(this.regions.scroll.base.center),
+    this.viewAnchorService.hasViewChange(this.regions.scroll.center),
   ]);
 
   @ViewChild(CdkScrollable, { static: true })
@@ -479,7 +675,7 @@ export class LayoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-     this.scrollHide$ = this.scrollContainer.elementScrolled().pipe(
+    this.scrollHide$ = this.scrollContainer.elementScrolled().pipe(
       throttleTime(100, undefined, { leading: true, trailing: true }),
       map((evt) => this.scrollContainer.measureScrollOffset("top")),
       pairwise(),
@@ -498,7 +694,7 @@ export class LayoutComponent implements OnInit {
         : this.elementRef.nativeElement.classList.remove("scroll-hide")
     );
 
-    this.modalClicked$.subscribe((v) => {
+    this.modalClicked$.pipe(filter((v) => this.modal !== 0)).subscribe((v) => {
       if (this.menuStartOpened) {
         this.menuStartOpened = false;
       }

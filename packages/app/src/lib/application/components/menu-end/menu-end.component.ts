@@ -6,7 +6,7 @@ import { ApplicationMenuBaseComponent } from "../menu-base/menu-base.component";
 @Component({
   selector: "cpng-application-menu-end",
   templateUrl: "./menu-end.component.html",
-  styleUrls: ["./menu-end.component.scss"],
+  styleUrls: ["../menu-base/menu-base.component.scss", "./menu-end.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApplicationMenuEndComponent extends ApplicationMenuBaseComponent {
@@ -15,6 +15,6 @@ export class ApplicationMenuEndComponent extends ApplicationMenuBaseComponent {
     config: IApplicationConfiguration,
     elmRef:ElementRef<HTMLElement>
   ) {
-    super(config, elmRef);
+    super("end", config, elmRef);
   }
 }

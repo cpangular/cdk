@@ -6,7 +6,7 @@ export const defaultHeaderConfiguration: IHeaderConfiguration = {
   preHeaderToolbarColor: "",
   postHeaderToolbarColor: "",
   actionToolbarColor: "primary",
-  scrollBehavior: ScrollBehavior.FLOAT,
+  scrollBehavior: ScrollBehavior.FIXED,
 };
 
 export interface IHeaderConfiguration {

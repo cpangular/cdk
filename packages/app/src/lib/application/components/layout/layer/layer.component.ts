@@ -1,5 +1,6 @@
 import { BooleanInput, coerceBooleanProperty } from "@angular/cdk/coercion";
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChild,
   EventEmitter,
@@ -22,6 +23,7 @@ export interface LayerSizes {
   selector: "div[layer]",
   templateUrl: "./layer.component.html",
   styleUrls: ["./layer.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayerComponent {
   @ContentChild("top")

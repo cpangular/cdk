@@ -1,6 +1,7 @@
 import { IResolvable } from "@cpangular/cdk/value-resolver";
 import { MenuMode } from "../components/layout/MenuMode";
 import { ScrollBehavior } from "../components/layout/ScrollBehavior";
+import {NestedTreeControl} from '@angular/cdk/tree';
 
 export interface IMenuConfiguration {
   mode: IResolvable<MenuMode>;
@@ -8,16 +9,15 @@ export interface IMenuConfiguration {
 }
 
 const baseMenuConfiguration: IMenuConfiguration = {
-  mode: MenuMode.FIXED,
+  mode: MenuMode.scrollToggle,
   scrollBehavior: ScrollBehavior.FIXED,
 };
 
 export const defaultMenuStartConfiguration: IMenuConfiguration = {
   ...baseMenuConfiguration,
-  mode: MenuMode.OVER,
-  scrollBehavior: ScrollBehavior.FLOAT,
 };
 
 export const defaultMenuEndConfiguration: IMenuConfiguration = {
   ...baseMenuConfiguration,
 };
+

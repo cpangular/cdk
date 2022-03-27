@@ -11,6 +11,7 @@ import {
 } from "@angular/core";
 import { ResizeObservable } from "@cpangular/cdk/resize";
 import { observe } from "@cpangular/cdk/value-resolver";
+
 import {
   BehaviorSubject,
   distinctUntilChanged,
@@ -20,9 +21,10 @@ import {
   switchMap,
   takeUntil,
   tap,
+  filter
 } from "rxjs";
 import { IApplicationConfiguration } from "../../config/ApplicationConfiguration";
-import { MenuMode } from "../layout/MenuMode";
+import { MenuMode, MenuToggle } from "../layout/MenuMode";
 import { MenuAnchors } from "./MenuAnchors";
 
 @Directive()
@@ -31,9 +33,7 @@ export class ApplicationMenuBaseComponent implements OnInit, OnDestroy {
 
   protected readonly destroy$ = new Subject<void>();
 
-  private readonly _side: BehaviorSubject<string> = new BehaviorSubject(
-    "start"
-  );
+  private readonly _side: BehaviorSubject<string> = new BehaviorSubject('');
   @Input()
   @HostBinding("attr.side")
   public get side(): string {
@@ -45,7 +45,7 @@ export class ApplicationMenuBaseComponent implements OnInit, OnDestroy {
     }
   }
   @Output()
-  public readonly sideChange = this._side.asObservable();
+  public readonly sideChange = this._side.pipe(filter(v => v !== ''));
 
   protected readonly config$ = this._side.pipe(
     map((side) =>
@@ -53,14 +53,14 @@ export class ApplicationMenuBaseComponent implements OnInit, OnDestroy {
     )
   );
 
-  @HostBinding("attr.mode")
-  private _modeAttr: string = MenuMode[MenuMode.SLIDE].toLowerCase();
+  //@HostBinding("attr.mode")
+  //private _modeAttr: string = MenuMode[MenuMode.SLIDE].toLowerCase();
 
   @Output()
   public readonly modeChange = this.config$.pipe(
     map((c) => c.mode),
     switchMap((m) => observe(m)),
-    tap((m) => (this._modeAttr = MenuMode[m]?.toLowerCase()))
+   // tap((m) => (this._modeAttr = MenuMode[m]?.toLowerCase()))
   );
 
   private readonly _opened: BehaviorSubject<boolean> =
@@ -84,20 +84,21 @@ export class ApplicationMenuBaseComponent implements OnInit, OnDestroy {
   @Output()
   public readonly openedChange = this._opened.asObservable();
 
-  public readonly _initiallyOpen$ = this.modeChange.pipe(
+  @Output()
+  public readonly showButton$ = this.modeChange.pipe(
     takeUntil(this.destroy$),
-    map((m) => m === MenuMode.FIXED),
+    map((m) => (m & MenuToggle.TOGGLE) === MenuToggle.TOGGLE),
+
+  ); 
+
+  public readonly _initiallyOpen$ = this.showButton$.pipe(
+    takeUntil(this.destroy$),
+    map((t) => !t),
     distinctUntilChanged(),
     shareReplay(1)
   );
 
-  @Output()
-  public readonly showButton$ = this.modeChange.pipe(
-    takeUntil(this.destroy$),
-    map((m) => m !== MenuMode.FIXED),
-    distinctUntilChanged(),
-    shareReplay(1)
-  );
+
 
   @ViewChild("menuButtonContainer")
   private menuButtonContainer?: ElementRef<HTMLDivElement>;
@@ -113,9 +114,12 @@ export class ApplicationMenuBaseComponent implements OnInit, OnDestroy {
   public width$ = this.resize$.pipe(map((s) => s.contentRect.width));
 
   constructor(
+    side: "start" | "end",
     protected readonly _config: IApplicationConfiguration,
     protected readonly _elmRef: ElementRef<HTMLElement>
-  ) {}
+  ) {
+    this._side.next(side);
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -134,7 +138,7 @@ export class ApplicationMenuBaseComponent implements OnInit, OnDestroy {
 
   private setButtonCssProps(width: number) {
     if (this.menuButtonContainer?.nativeElement) {
-      this.menuButtonContainer.nativeElement.style.minWidth = `${width}px`;
+      //this.menuButtonContainer.nativeElement.style.minWidth = `${width}px`;
     }
   }
 }
