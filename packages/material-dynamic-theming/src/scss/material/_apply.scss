@@ -1,0 +1,30 @@
+@use "sass:map";
+@use "@angular/material" as mat;
+@use "./theme";
+
+@mixin styles($themes) {
+
+  $defaultDark: map.get($themes, "defaultDark");
+  $prefix: 'theme';
+
+  $darkTheme: theme.darkTheme($prefix);
+  $lightTheme: theme.lightTheme($prefix);
+
+  @if $defaultDark {
+    html,
+    html[themeMode="dark"] {
+      @include mat.all-component-themes($darkTheme);
+    }
+    html[themeMode="light"] {
+      @include mat.all-component-colors($lightTheme);
+    }
+  } @else {
+    html,
+    html[themeMode="light"] {
+      @include mat.all-component-themes($lightTheme);
+    }
+    html[themeMode="dark"] {
+      @include mat.all-component-colors($darkTheme);
+    }
+  }
+}

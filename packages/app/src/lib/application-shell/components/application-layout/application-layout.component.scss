@@ -27,31 +27,31 @@
 
     > [notices] {
       grid-area: notices;
-      background: var(--background-status-bar);
+      background: var(--theme-background-status-bar);
       z-index: 10;
     }
 
     > [header] {
       grid-area: header;
-      background: var(--background-app-bar);
+      background: var(--theme-background-app-bar);
       z-index: 9;
     }
 
     > [start-h-toolbar] {
       grid-area: start-h-toolbar;
-      background: var(--background-app-bar);
+      background: var(--theme-background-app-bar);
       z-index: 8;
     }
 
     > [start-v-toolbar] {
       grid-area: start-v-toolbar;
-      background: var(--background-status-bar);
+      background: var(--theme-background-status-bar);
       z-index: 7;
     }
 
     > [start-menu] {
       grid-area: start-menu;
-      background: var(--background-app-bar);
+      background: var(--theme-background-app-bar);
       z-index: 6;
     }
 
@@ -63,25 +63,25 @@
 
     > [end-menu] {
       grid-area: end-menu;
-      background: var(--background-app-bar);
+      background: var(--theme-background-app-bar);
       z-index: 6;
     }
 
     > [end-v-toolbar] {
       grid-area: end-v-toolbar;
-      background: var(--background-status-bar);
+      background: var(--theme-background-status-bar);
       z-index: 7;
     }
 
     > [footer] {
       grid-area: footer;
-      background: var(--background-app-bar);
+      background: var(--theme-background-app-bar);
       z-index: 8;
     }
 
     > [end-h-toolbar] {
       grid-area: end-h-toolbar;
-      background: var(--background-status-bar);
+      background: var(--theme-background-status-bar);
       z-index: 9;
     }
   }
@@ -109,7 +109,7 @@
   }
 
   > [scroll-container] {
-    background: var(--background-background);
+    background: var(--theme-background);
     z-index: 1;
     max-width: 100%;
 
@@ -200,7 +200,7 @@
 :host {
   &[show-modal]{
     div[modal]{
-      background-color: var(--background-disabled-button);
+      background-color: var(--theme-background-disabled-button);
       z-index: 4;
     }
   }

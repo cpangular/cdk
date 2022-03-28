@@ -1,57 +1,384 @@
-@use '../../material-dynamic-theming' as theme;
-@use '@angular/material' as mat;
+@use "../../material-dynamic-theming" as theme;
+@use "../../material-dynamic-theming/material";
 
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
 
-$red: theme.define-palette(mat.$red-palette);
-$orange: theme.define-palette(mat.$orange-palette);
+$orange: theme.palette(mat.$orange-palette);
+$blue: theme.palette(mat.$blue-palette);
 
-$light-primary: theme.define-palette(mat.$indigo-palette);
-$light-accent: theme.define-palette(mat.$pink-palette);
+$myTheme: theme.define(
+  "my-theme",
+  (
+    dark: (
+      primary: $blue,
+      accent: $orange,
+    ),
+    shared: (
+      sizes: (
+        small: 1px,
+        large: 5px,
+      ),
+    ),
+  )
+);
 
-$light-theme: theme.define-light-theme((
- color: (
-   primary: $light-primary,
-   accent: $light-accent,
- )
-));
+$myThemeReversed: theme.define(
+  "my-theme-rev",
+  (
+    dark: (
+      primary: $orange,
+      accent: $blue,
+    ),
+    shared: (
+      sizes: (
+        small: 1px,
+        large: 5px,
+      ),
+    ),
+  )
+);
 
-$dark-theme: theme.define-dark-theme((
- color: (
-   primary: $light-accent,
-   accent: $light-primary,
- )
-));
+$themes: theme.register($myTheme);
+$themes: theme.register($myThemeReversed, $themes);
 
-$darkred-theme: theme.define-dark-theme((
- color: (
-   primary: $red,
-   accent: $orange,
- )
-));
+$themes: theme.build($themes, "my-theme");
 
-$darkorange-theme: theme.define-dark-theme((
- color: (
-   primary: $orange,
-   accent: $red,
- )
-));
+@debug $themes;
 
+@include theme.styles($themes);
 
+@include material.core();
+@include material.styles($themes);
 
-
-@include theme.add-theme('blue',  $light-theme);
-@include theme.add-theme('blue',  $dark-theme);
-@include theme.add-theme('orange', $darkorange-theme);
-
-
-@include theme.build-themes('orange', true);
-
-
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   position: relative;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+$EEE: (
+  defaultTheme: "my-theme",
+  defaultDark: false,
+  propertyPrefix: "theme",
+  registry: (
+    my-theme: (
+      id: "my-theme",
+      shared: (
+        sizes: (
+          small: 1px,
+          large: 5px,
+        ),
+      ),
+      light: (
+        primary: (
+          50: #e3f2fd,
+          100: #bbdefb,
+          200: #90caf9,
+          300: #64b5f6,
+          400: #42a5f5,
+          500: #2196f3,
+          600: #1e88e5,
+          700: #1976d2,
+          800: #1565c0,
+          900: #0d47a1,
+          A100: #82b1ff,
+          A200: #448aff,
+          A400: #2979ff,
+          A700: #2962ff,
+          contrast: (
+            50: rgba(0, 0, 0, 0.87),
+            100: rgba(0, 0, 0, 0.87),
+            200: rgba(0, 0, 0, 0.87),
+            300: rgba(0, 0, 0, 0.87),
+            400: rgba(0, 0, 0, 0.87),
+            500: white,
+            600: white,
+            700: white,
+            800: white,
+            900: white,
+            A100: rgba(0, 0, 0, 0.87),
+            A200: white,
+            A400: white,
+            A700: white,
+          ),
+          _aliases: (
+            default: 500,
+            lighter: 100,
+            darker: 700,
+            text: 500,
+          ),
+        ),
+        accent: (
+          50: #fff3e0,
+          100: #ffe0b2,
+          200: #ffcc80,
+          300: #ffb74d,
+          400: #ffa726,
+          500: #ff9800,
+          600: #fb8c00,
+          700: #f57c00,
+          800: #ef6c00,
+          900: #e65100,
+          A100: #ffd180,
+          A200: #ffab40,
+          A400: #ff9100,
+          A700: #ff6d00,
+          contrast: (
+            50: rgba(0, 0, 0, 0.87),
+            100: rgba(0, 0, 0, 0.87),
+            200: rgba(0, 0, 0, 0.87),
+            300: rgba(0, 0, 0, 0.87),
+            400: rgba(0, 0, 0, 0.87),
+            500: rgba(0, 0, 0, 0.87),
+            600: rgba(0, 0, 0, 0.87),
+            700: rgba(0, 0, 0, 0.87),
+            800: white,
+            900: white,
+            A100: rgba(0, 0, 0, 0.87),
+            A200: rgba(0, 0, 0, 0.87),
+            A400: rgba(0, 0, 0, 0.87),
+            A700: black,
+          ),
+          _aliases: (
+            default: 500,
+            lighter: 100,
+            darker: 700,
+            text: 500,
+          ),
+        ),
+        background: (
+          status-bar: #e0e0e0,
+          app-bar: #f5f5f5,
+          background: #fafafa,
+          hover: rgba(0, 0, 0, 0.04),
+          card: white,
+          dialog: white,
+          disabled-button: rgba(0, 0, 0, 0.12),
+          raised-button: white,
+          focused-button: rgba(0, 0, 0, 0.12),
+          selected-button: #e0e0e0,
+          selected-disabled-button: #bdbdbd,
+          disabled-button-toggle: #eeeeee,
+          unselected-chip: #e0e0e0,
+          disabled-list-option: #eeeeee,
+          tooltip: #616161,
+        ),
+        foreground: (
+          base: black,
+          divider: rgba(0, 0, 0, 0.12),
+          dividers: rgba(0, 0, 0, 0.12),
+          disabled: rgba(0, 0, 0, 0.38),
+          disabled-button: rgba(0, 0, 0, 0.26),
+          disabled-text: rgba(0, 0, 0, 0.38),
+          elevation: black,
+          hint-text: rgba(0, 0, 0, 0.38),
+          secondary-text: rgba(0, 0, 0, 0.54),
+          icon: rgba(0, 0, 0, 0.54),
+          icons: rgba(0, 0, 0, 0.54),
+          text: rgba(0, 0, 0, 0.87),
+          slider-min: rgba(0, 0, 0, 0.87),
+          slider-off: rgba(0, 0, 0, 0.26),
+          slider-off-active: rgba(0, 0, 0, 0.38),
+        ),
+        warn: (
+          50: #ffebee,
+          100: #ffcdd2,
+          200: #ef9a9a,
+          300: #e57373,
+          400: #ef5350,
+          500: #f44336,
+          600: #e53935,
+          700: #d32f2f,
+          800: #c62828,
+          900: #b71c1c,
+          A100: #ff8a80,
+          A200: #ff5252,
+          A400: #ff1744,
+          A700: #d50000,
+          contrast: (
+            50: rgba(0, 0, 0, 0.87),
+            100: rgba(0, 0, 0, 0.87),
+            200: rgba(0, 0, 0, 0.87),
+            300: rgba(0, 0, 0, 0.87),
+            400: rgba(0, 0, 0, 0.87),
+            500: white,
+            600: white,
+            700: white,
+            800: white,
+            900: white,
+            A100: rgba(0, 0, 0, 0.87),
+            A200: white,
+            A400: white,
+            A700: white,
+          ),
+          _aliases: (
+            default: 500,
+            lighter: 100,
+            darker: 700,
+            text: 500,
+          ),
+        ),
+      ),
+      dark: (
+        primary: (
+          50: #e3f2fd,
+          100: #bbdefb,
+          200: #90caf9,
+          300: #64b5f6,
+          400: #42a5f5,
+          500: #2196f3,
+          600: #1e88e5,
+          700: #1976d2,
+          800: #1565c0,
+          900: #0d47a1,
+          A100: #82b1ff,
+          A200: #448aff,
+          A400: #2979ff,
+          A700: #2962ff,
+          contrast: (
+            50: rgba(0, 0, 0, 0.87),
+            100: rgba(0, 0, 0, 0.87),
+            200: rgba(0, 0, 0, 0.87),
+            300: rgba(0, 0, 0, 0.87),
+            400: rgba(0, 0, 0, 0.87),
+            500: white,
+            600: white,
+            700: white,
+            800: white,
+            900: white,
+            A100: rgba(0, 0, 0, 0.87),
+            A200: white,
+            A400: white,
+            A700: white,
+          ),
+          _aliases: (
+            default: 500,
+            lighter: 100,
+            darker: 700,
+            text: 500,
+          ),
+        ),
+        accent: (
+          50: #fff3e0,
+          100: #ffe0b2,
+          200: #ffcc80,
+          300: #ffb74d,
+          400: #ffa726,
+          500: #ff9800,
+          600: #fb8c00,
+          700: #f57c00,
+          800: #ef6c00,
+          900: #e65100,
+          A100: #ffd180,
+          A200: #ffab40,
+          A400: #ff9100,
+          A700: #ff6d00,
+          contrast: (
+            50: rgba(0, 0, 0, 0.87),
+            100: rgba(0, 0, 0, 0.87),
+            200: rgba(0, 0, 0, 0.87),
+            300: rgba(0, 0, 0, 0.87),
+            400: rgba(0, 0, 0, 0.87),
+            500: rgba(0, 0, 0, 0.87),
+            600: rgba(0, 0, 0, 0.87),
+            700: rgba(0, 0, 0, 0.87),
+            800: white,
+            900: white,
+            A100: rgba(0, 0, 0, 0.87),
+            A200: rgba(0, 0, 0, 0.87),
+            A400: rgba(0, 0, 0, 0.87),
+            A700: black,
+          ),
+          _aliases: (
+            default: 500,
+            lighter: 100,
+            darker: 700,
+            text: 500,
+          ),
+        ),
+        warn: (
+          50: #ffebee,
+          100: #ffcdd2,
+          200: #ef9a9a,
+          300: #e57373,
+          400: #ef5350,
+          500: #f44336,
+          600: #e53935,
+          700: #d32f2f,
+          800: #c62828,
+          900: #b71c1c,
+          A100: #ff8a80,
+          A200: #ff5252,
+          A400: #ff1744,
+          A700: #d50000,
+          contrast: (
+            50: rgba(0, 0, 0, 0.87),
+            100: rgba(0, 0, 0, 0.87),
+            200: rgba(0, 0, 0, 0.87),
+            300: rgba(0, 0, 0, 0.87),
+            400: rgba(0, 0, 0, 0.87),
+            500: white,
+            600: white,
+            700: white,
+            800: white,
+            900: white,
+            A100: rgba(0, 0, 0, 0.87),
+            A200: white,
+            A400: white,
+            A700: white,
+          ),
+          _aliases: (
+            default: 500,
+            lighter: 100,
+            darker: 700,
+            text: 500,
+          ),
+        ),
+        background: (
+          status-bar: black,
+          app-bar: #212121,
+          background: #303030,
+          hover: rgba(255, 255, 255, 0.04),
+          card: #424242,
+          dialog: #424242,
+          disabled-button: rgba(255, 255, 255, 0.12),
+          raised-button: #424242,
+          focused-button: rgba(255, 255, 255, 0.12),
+          selected-button: #212121,
+          selected-disabled-button: #424242,
+          disabled-button-toggle: black,
+          unselected-chip: #616161,
+          disabled-list-option: rgba(255, 255, 255, 0.12),
+          tooltip: #616161,
+        ),
+        foreground: (
+          base: white,
+          divider: rgba(255, 255, 255, 0.12),
+          dividers: rgba(255, 255, 255, 0.12),
+          disabled: rgba(255, 255, 255, 0.5),
+          disabled-button: rgba(255, 255, 255, 0.3),
+          disabled-text: rgba(255, 255, 255, 0.5),
+          elevation: black,
+          hint-text: rgba(255, 255, 255, 0.5),
+          secondary-text: rgba(255, 255, 255, 0.7),
+          icon: white,
+          icons: white,
+          text: white,
+          slider-min: white,
+          slider-off: rgba(255, 255, 255, 0.3),
+          slider-off-active: rgba(255, 255, 255, 0.3),
+        ),
+      ),
+    ),
+  ),
+);

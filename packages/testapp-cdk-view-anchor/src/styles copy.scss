@@ -1,0 +1,119 @@
+@use "../../material-dynamic-theming" as theme;
+@use "@angular/material" as mat;
+
+/* You can add global styles to this file, and also import other style files */
+
+$orange: theme.palette(mat.$orange-palette);
+$blue: theme.palette(mat.$blue-palette);
+
+$myTheme: theme.define(
+  "my-theme",
+  (
+    dark: (
+      primary: $blue,
+      accent: $orange,
+    ),
+    shared: (
+      sizes: (
+        small: 1px,
+        large: 5px,
+      ),
+    ),
+  )
+);
+
+$myThemeReversed: theme.define(
+  "my-theme-rev",
+  (
+    dark: (
+      primary: $orange,
+      accent: $blue,
+    ),
+    shared: (
+      sizes: (
+        small: 1px,
+        large: 5px,
+      ),
+    ),
+  )
+);
+
+$themes: theme.register($myTheme);
+//$themes: theme.register($myThemeReversed, $themes);
+
+$themes: theme.build($themes, "my-theme");
+
+@include theme.styles($themes);
+
+
+/*
+$red: theme.define-palette(mat.$red-palette);
+
+$light-primary: theme.define-palette(mat.$indigo-palette);
+$light-accent: theme.define-palette(mat.$pink-palette);
+
+
+
+/*
+$ttt: theme.define((
+  light: (
+    primary: $light-primary,
+    accent: $orange
+  )
+));
+
+$themes: theme.add('asdfg', $ttt);
+$themes: theme.add('asdf', $ttt, $themes);
+@debug($themes);
+
+
+
+
+/*
+$light-theme: theme.define-light-theme((
+ color: (
+   primary: $light-primary,
+   accent: $light-accent,
+ )
+));
+
+$dark-theme: theme.define-dark-theme((
+ color: (
+   primary: $light-accent,
+   accent: $light-primary,
+ )
+));
+
+$darkred-theme: theme.define-dark-theme((
+ color: (
+   primary: $red,
+   accent: $orange,
+ )
+));
+
+$darkorange-theme: theme.define-dark-theme((
+ color: (
+   primary: $orange,
+   accent: $red,
+ )
+));
+
+
+
+
+@include theme.add-theme('blue',  $light-theme);
+@include theme.add-theme('blue',  $dark-theme);
+@include theme.add-theme('orange', $darkorange-theme);
+
+
+@include theme.build-themes('orange', true);
+
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  position: relative;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+*/

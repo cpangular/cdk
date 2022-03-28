@@ -35,9 +35,9 @@ $animation-speed: 0.2s;
   Background colors
 **************************/
 :host {
-  background-color: var(--background-app-bar);
+  background-color: var(--theme-background-app-bar);
   [layer-group="scroll"] {
-    background-color: var(--background-background);
+    background-color: var(--theme-background);
   }
   .application-border{
     pointer-events: none;
@@ -53,20 +53,20 @@ $animation-speed: 0.2s;
   width: 14px;
   height: 14px;
   &-button {
-    background-color: var(--background-background);
+    background-color: var(--theme-background);
     height: 0;
     width: 0;
     display: none;
   }
   &-track {
-    background-color: var(--background-background);
-    outline: 1px solid var(--background-raised-button);
+    background-color: var(--theme-background);
+    outline: 1px solid var(--theme-background-raised-button);
   }
   &-thumb {
     border-radius: 6px;
     background-clip: content-box;
     border: 2px solid transparent;
-    background-color: var(--background-app-bar);
+    background-color: var(--theme-background-app-bar);
   }
 }
 
@@ -83,7 +83,7 @@ $animation-speed: 0.2s;
   }
   [layer-group="application"] {
     z-index: 30;
-    // border: 1px solid var(--background-raised-button);
+    // border: 1px solid var(--theme-background-raised-button);
   }
   [layer-group="content"] {
     z-index: 20;
@@ -216,10 +216,10 @@ $animation-speed: 0.2s;
 :host {
   div[layer-group="application"],
   div[layer-group="scroll"] {
-    --area-top-background: var(--background-app-bar);
-    --area-left-background: var(--background-app-bar);
-    --area-bottom-background: var(--background-app-bar);
-    --area-right-background: var(--background-app-bar);
+    --area-top-background: var(--theme-background-app-bar);
+    --area-left-background: var(--theme-background-app-bar);
+    --area-bottom-background: var(--theme-background-app-bar);
+    --area-right-background: var(--theme-background-app-bar);
   }
 }
 

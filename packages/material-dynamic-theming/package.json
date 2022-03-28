@@ -21,6 +21,9 @@
     ".": {
       "sass": "./_index.scss"
     },
+    "./material": {
+      "sass": "./_material.scss"
+    },
     "./prebuilt-themes/indigo-pink.css": {
       "style": "./prebuilt-themes/indigo-pink.css"
     },

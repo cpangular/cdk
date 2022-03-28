@@ -214,7 +214,7 @@ export class LayoutComponent implements OnInit {
         return behavior === MenuLayoutBehavior.INLINE
           ? this.regions.content.left
           : this.regions.content.overlay.left;
-      }else if(location === MenuRelativeLocation.UNDER){
+      } else if (location === MenuRelativeLocation.UNDER) {
         if (headerFixed) {
           return behavior === MenuLayoutBehavior.INLINE
             ? this.regions.content.left
@@ -224,7 +224,7 @@ export class LayoutComponent implements OnInit {
           ? this.regions.scroll.left
           : this.regions.scroll.innerOverlay.left;
       }
-      
+
       return this.regions.scroll.left;
     })
     //tap(console.log)
@@ -301,7 +301,7 @@ export class LayoutComponent implements OnInit {
         return behavior === MenuLayoutBehavior.INLINE
           ? this.regions.content.right
           : this.regions.content.overlay.right;
-      }else if(location === MenuRelativeLocation.UNDER){
+      } else if (location === MenuRelativeLocation.UNDER) {
         if (headerFixed) {
           return behavior === MenuLayoutBehavior.INLINE
             ? this.regions.content.right

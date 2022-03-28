@@ -42,7 +42,7 @@
 :host[mode="over"],
 :host[mode="push"] {
   position: absolute;
-  background: var(--background-app-bar);
+  background: var(--theme-background-app-bar);
   inset: 0 auto 0 0;
   &[side="end"] {
     inset: 0 0 0 auto;
