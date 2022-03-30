@@ -5,6 +5,7 @@
     "./packages/*"
   ],
   "scripts": {
+    "prepare": "husky install",
     "package": "ts-node .scripts/run.ts -P package",
     "release": "ts-node .scripts/run.ts -P release",
     "update:versions": "ts-node .scripts/update_versions.ts",
@@ -13,7 +14,9 @@
     "build-dev": "ts-node .scripts/run.ts -p build-dev",
     "watch": "yarn run build-dev && ts-node .scripts/run.ts -P watch",
     "format": "run-p format:*",
-    "format:prettier": "prettier --write ."
+    "format:prettier": "prettier --write .",
+    "precommit": "run-p precommit:*",
+    "precommit:format": "yarn run format"
   },
   "private": true,
   "repository": "https://github.com/cpangular/cdk",
@@ -48,6 +51,7 @@
     "concurrently": "^7.0.0",
     "copyfiles": "^2.4.1",
     "dependency-graph": "^0.11.0",
+    "husky": "^7.0.4",
     "immer": "^9.0.12",
     "jsdom": "^19.0.0",
     "lerna": "4",
