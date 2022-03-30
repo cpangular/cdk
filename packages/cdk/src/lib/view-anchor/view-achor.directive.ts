@@ -81,7 +81,6 @@ export class ViewAnchorDirective
       this._views.splice(idx, 1);
     }
     this.removeViewNodes(view);
-    this.changeDetectorRef.detectChanges();
   }
 
   private addViewNodes(view: IViewDirective) {

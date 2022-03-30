@@ -1,10 +1,3 @@
-/*export enum MenuMode {
-  FIXED,
-  SLIDE,
-  OVER,
-  PUSH,
-}*/
-
 export enum MenuToggle {
   NO_TOGGLE,
   TOGGLE,
@@ -23,40 +16,18 @@ export enum MenuLayoutBehavior {
 
 // menu position is relative to header
 export enum MenuMode {
-  scrollNoToggle = MenuRelativeLocation.SCROLL |
-  MenuLayoutBehavior.INLINE |
-  MenuToggle.NO_TOGGLE,
-  scrollToggle = MenuRelativeLocation.SCROLL |
-  MenuLayoutBehavior.INLINE |
-  MenuToggle.TOGGLE,
+  scrollNoToggle = MenuRelativeLocation.SCROLL | MenuLayoutBehavior.INLINE | MenuToggle.NO_TOGGLE,
+  scrollToggle = MenuRelativeLocation.SCROLL | MenuLayoutBehavior.INLINE | MenuToggle.TOGGLE,
 
-  underHeaderInlineNoToggle = MenuRelativeLocation.UNDER |
-    MenuLayoutBehavior.INLINE |
-    MenuToggle.NO_TOGGLE,
-  underHeaderInlineToggle = MenuRelativeLocation.UNDER |
-    MenuLayoutBehavior.INLINE |
-    MenuToggle.TOGGLE,
-  underHeaderOverContentToggle = MenuRelativeLocation.UNDER |
-    MenuLayoutBehavior.OVER |
-    MenuToggle.TOGGLE,
+  underHeaderInlineNoToggle = MenuRelativeLocation.UNDER | MenuLayoutBehavior.INLINE | MenuToggle.NO_TOGGLE,
+  underHeaderInlineToggle = MenuRelativeLocation.UNDER | MenuLayoutBehavior.INLINE | MenuToggle.TOGGLE,
+  underHeaderOverContentToggle = MenuRelativeLocation.UNDER | MenuLayoutBehavior.OVER | MenuToggle.TOGGLE,
 
-  overHeaderInlineNoToggle = MenuRelativeLocation.OVER |
-    MenuLayoutBehavior.INLINE |
-    MenuToggle.NO_TOGGLE,
-  overHeaderInlineToggle = MenuRelativeLocation.OVER |
-    MenuLayoutBehavior.INLINE |
-    MenuToggle.TOGGLE,
-  overHeaderToggle = MenuRelativeLocation.OVER |
-    MenuLayoutBehavior.OVER |
-    MenuToggle.TOGGLE,
+  overHeaderInlineNoToggle = MenuRelativeLocation.OVER | MenuLayoutBehavior.INLINE | MenuToggle.NO_TOGGLE,
+  overHeaderInlineToggle = MenuRelativeLocation.OVER | MenuLayoutBehavior.INLINE | MenuToggle.TOGGLE,
+  overHeaderToggle = MenuRelativeLocation.OVER | MenuLayoutBehavior.OVER | MenuToggle.TOGGLE,
 
-  viewportInlineNoToggle = MenuRelativeLocation.VIEWPORT |
-    MenuLayoutBehavior.INLINE |
-    MenuToggle.NO_TOGGLE,
-  viewportInlineToggle = MenuRelativeLocation.VIEWPORT |
-    MenuLayoutBehavior.INLINE |
-    MenuToggle.TOGGLE,
-  viewportOverToggle = MenuRelativeLocation.VIEWPORT |
-    MenuLayoutBehavior.OVER |
-    MenuToggle.TOGGLE,
+  viewportInlineNoToggle = MenuRelativeLocation.VIEWPORT | MenuLayoutBehavior.INLINE | MenuToggle.NO_TOGGLE,
+  viewportInlineToggle = MenuRelativeLocation.VIEWPORT | MenuLayoutBehavior.INLINE | MenuToggle.TOGGLE,
+  viewportOverToggle = MenuRelativeLocation.VIEWPORT | MenuLayoutBehavior.OVER | MenuToggle.TOGGLE,
 }

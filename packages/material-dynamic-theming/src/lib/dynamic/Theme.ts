@@ -141,9 +141,7 @@ export class Theme extends CSSStyleDeclarationBase {
   private constructor(public readonly source: CSSStyleRule) {
     super(source.style, "theme");
 
-    console.log(this.id, this.name, this.isDark);
-    this.setProperty("name", "AAAAAAAAAAAAAAAAA");
-    console.log(this.name);
+
     /*this.id = source.style.getPropertyValue("--theme-id").trim();
     this.name = source.style.getPropertyValue("--theme-name").trim();
     this.isDark =

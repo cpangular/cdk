@@ -99,6 +99,6 @@ export class Theme2 {
   }
 
   private constructor(source: CSSStyleRule | HTMLStyleElement) {
-    console.log("THEME", source);
+    
   }
 }

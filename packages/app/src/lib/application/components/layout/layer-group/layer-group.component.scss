@@ -8,28 +8,28 @@
     grid-row: 1 / -1;
     z-index: 1;
   }
-  > [layer="overlay"] {
+  > [layer='overlay'] {
     z-index: 20;
   }
-  > [layer="content"] {
+  > [layer='content'] {
     z-index: 10;
   }
-  > [layer="inner-overlay"] {
+  > [layer='inner-overlay'] {
     z-index: 0;
-    inset: var(--content-top) var(--content-right)  var(--content-bottom) var(--content-left);
+    inset: var(--content-top) var(--content-right) var(--content-bottom) var(--content-left);
   }
 
-  &.content{
-    > [layer="inner-overlay"] {
+  &.content {
+    > [layer='inner-overlay'] {
       z-index: 15;
     }
   }
 }
-:host[contentDisabled]:not([contentDisabled="false"]):not([contentDisabled="0"]) > [layer="content"],
-:host[contentDisabled]:not([contentDisabled="false"]):not([contentDisabled="0"]) > [layer="inner-overlay"],
-:host[disabled]:not([disabled="false"]):not([disabled="0"]) {
+:host[contentDisabled]:not([contentDisabled='false']):not([contentDisabled='0']) > [layer='content'],
+:host[contentDisabled]:not([contentDisabled='false']):not([contentDisabled='0']) > [layer='inner-overlay'],
+:host[disabled]:not([disabled='false']):not([disabled='0']) {
   &::after {
-    content: " ";
+    content: ' ';
     pointer-events: all;
     grid-column: 1 / -1;
     grid-row: 1 / -1;

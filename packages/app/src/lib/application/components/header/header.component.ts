@@ -19,7 +19,7 @@ import { MenuAnchors } from "../menu-base/MenuAnchors";
   selector: "cpng-application-header",
   templateUrl: "./header.component.html",
   styleUrls: ["./header.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+ // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApplicationHeaderComponent implements OnInit, OnDestroy {
   menuAnchors = MenuAnchors;

@@ -1,12 +1,5 @@
 <ng-container *ngIf="showButton$ | async">
-  <div
-    #menuButtonContainer
-    *cpngProjectToAnchor="
-      (menuButtonAnchor$ | async) ?? anchors.menuStartButton
-    "
-    class="menu-button-container"
-    
-  >
+  <div #menuButtonContainer *cpngProjectToAnchor="(menuButtonAnchor$ | async) ?? anchors.menuStartButton" class="menu-button-container">
     <button mat-icon-button (click)="opened = !opened; $event.stopImmediatePropagation()">
       <mat-icon>menu</mat-icon>
     </button>

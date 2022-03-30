@@ -1,25 +1,24 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, delay, Observable, of } from "rxjs";
-import { IUser } from "../models/IUser";
-import { IAuthenticationService } from "./IAuthenticationService";
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, delay, Observable, of } from 'rxjs';
+import { IUser } from '../models/IUser';
+import { IAuthenticationService } from './IAuthenticationService';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class FakeAuthenticationService implements IAuthenticationService {
   private __user: IUser = {
-    id: "fakeUser1234",
-    username: "fake@user.com",
-    displayName: "Fake User",
+    id: 'fakeUser1234',
+    username: 'fake@user.com',
+    displayName: 'Fake User',
     data: {
-      id: "fakeUser1234",
-      username: "fake@user.com",
-      displayName: "Fake User",
+      id: 'fakeUser1234',
+      username: 'fake@user.com',
+      displayName: 'Fake User',
     },
   };
 
-  private _user: BehaviorSubject<IUser | null> =
-    new BehaviorSubject<IUser | null>(null);
+  private _user: BehaviorSubject<IUser | null> = new BehaviorSubject<IUser | null>(null);
 
   public get currentUser$(): Observable<IUser | null> {
     return this._user;

@@ -37,7 +37,6 @@ export class IFrameComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit', this.iframe)
     if(this.iframe){
       this.iframe.src = this._src ?? '';
     }

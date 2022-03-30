@@ -28,7 +28,7 @@ export class AppComponent {
   }
   */
   constructor() {
-    setTimeout(() => {
+   /* setTimeout(() => {
       toggleDarkMode();
       setTimeout(() => {
         toggleDarkMode();
@@ -41,6 +41,6 @@ export class AppComponent {
           }, 2000);
         }, 2000);
       }, 2000);
-    }, 2000);
+    }, 2000);*/
   }
 }

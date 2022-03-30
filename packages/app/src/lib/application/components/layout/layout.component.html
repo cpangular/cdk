@@ -11,144 +11,74 @@
 >
   <ng-container *ngIf="hasViewportOverlayTop$ | async">
     <ng-template #overlayTop>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.overlay.top }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.overlay.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportOverlayLeft$ | async">
     <ng-template #overlayLeft>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.overlay.left }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.overlay.left }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportOverlayBottom$ | async">
     <ng-template #overlayBottom>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.overlay.bottom }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.overlay.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportOverlayRight$ | async">
     <ng-template #overlayRight>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.overlay.right }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.overlay.right }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportOverlayCenter$ | async">
     <ng-template #overlayCenter>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.overlay.center }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.overlay.center }"></ng-container>
     </ng-template>
   </ng-container>
 
   <ng-container *ngIf="hasViewportTop$ | async">
     <ng-template #top>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.top }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportLeft$ | async">
     <ng-template #left>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.left }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.left }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportBottom$ | async">
     <ng-template #bottom>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.bottom }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportRight$ | async">
     <ng-template #right>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.right }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.right }"></ng-container>
     </ng-template>
   </ng-container>
 
   <ng-container *ngIf="hasViewportInnerOverlayTop$ | async">
     <ng-template #innerOverlayTop>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.innerOverlay.top }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.innerOverlay.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportInnerOverlayLeft$ | async">
     <ng-template #innerOverlayLeft>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.innerOverlay }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.innerOverlay }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportInnerOverlayBottom$ | async">
     <ng-template #innerOverlayBottom>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.innerOverlay.bottom }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.innerOverlay.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportInnerOverlayRight$ | async">
     <ng-template #innerOverlayRight>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.innerOverlay.right }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.innerOverlay.right }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportInnerOverlayCenter$ | async">
     <ng-template #innerOverlayCenter>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.viewport.innerOverlay.center }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.innerOverlay.center }"></ng-container>
     </ng-template>
   </ng-container>
 </div>
@@ -167,154 +97,79 @@
 >
   <ng-container *ngIf="hasApplicationOverlayTop$ | async">
     <ng-template #overlayTop>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.overlay.top }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.overlay.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationOverlayLeft$ | async">
     <ng-template #overlayLeft>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.overlay.left }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.overlay.left }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationOverlayBottom$ | async">
     <ng-template #overlayBottom>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.overlay.bottom }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.overlay.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationOverlayRight$ | async">
     <ng-template #overlayRight>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.overlay.right }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.overlay.right }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationOverlayCenter$ | async">
     <ng-template #overlayCenter>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.overlay.center }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.overlay.center }"></ng-container>
     </ng-template>
   </ng-container>
 
   <ng-container *ngIf="hasApplicationInnerOverlayTop$ | async">
     <ng-template #innerOverlayTop>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.innerOverlay.top }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.innerOverlay.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationInnerOverlayLeft$ | async">
     <ng-template #innerOverlayLeft>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.innerOverlay.left }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.innerOverlay.left }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationInnerOverlayBottom$ | async">
     <ng-template #innerOverlayBottom>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.innerOverlay.bottom }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.innerOverlay.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationInnerOverlayRight$ | async">
     <ng-template #innerOverlayRight>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.innerOverlay.right }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.innerOverlay.right }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationInnerOverlayCenter$ | async">
     <ng-template #innerOverlayCenter>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.innerOverlay.center }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.innerOverlay.center }"></ng-container>
     </ng-template>
   </ng-container>
 
   <ng-container *ngIf="hasApplicationTop$ | async">
     <ng-template #top>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.top }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationLeft$ | async">
     <ng-template #left>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.left }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.left }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationBottom$ | async">
     <ng-template #bottom>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.bottom }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationRight$ | async">
     <ng-template #right>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.right }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.right }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationCenter$ | async">
     <ng-template #center>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.application.center }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.center }"></ng-container>
     </ng-template>
   </ng-container>
 </div>
@@ -331,154 +186,79 @@
 >
   <ng-container *ngIf="hasContentOverlayTop$ | async">
     <ng-template #overlayTop>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.overlay.top }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.overlay.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasContentOverlayLeft$ | async">
     <ng-template #overlayLeft>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.overlay.left }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.overlay.left }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasContentOverlayBottom$ | async">
     <ng-template #overlayBottom>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.overlay.bottom }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.overlay.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasContentOverlayRight$ | async">
     <ng-template #overlayRight>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.overlay.right }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.overlay.right }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasContentOverlayCenter$ | async">
     <ng-template #overlayCenter>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.overlay.center }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.overlay.center }"></ng-container>
     </ng-template>
   </ng-container>
 
   <ng-container *ngIf="hasContentInnerOverlayTop$ | async">
     <ng-template #innerOverlayTop>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.innerOverlay.top }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.innerOverlay.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasContentInnerOverlayLeft$ | async">
     <ng-template #innerOverlayLeft>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.innerOverlay.left }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.innerOverlay.left }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasContentInnerOverlayBottom$ | async">
     <ng-template #innerOverlayBottom>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.innerOverlay.bottom }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.innerOverlay.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasContentInnerOverlayRight$ | async">
     <ng-template #innerOverlayRight>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.innerOverlay.right }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.innerOverlay.right }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasContentInnerOverlayCenter$ | async">
     <ng-template #innerOverlayCenter>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.innerOverlay.center }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.innerOverlay.center }"></ng-container>
     </ng-template>
   </ng-container>
 
   <ng-container *ngIf="hasContentTop$ | async">
     <ng-template #top>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.top }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasContentLeft$ | async">
     <ng-template #left>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.left }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.left }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasContentBottom$ | async">
     <ng-template #bottom>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.bottom }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasContentRight$ | async">
     <ng-template #right>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.right }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.right }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasContentCenter$ | async">
     <ng-template #center>
-      <ng-container
-        *ngTemplateOutlet="
-          regionTpl;
-          context: { $implicit: regions.content.center }
-        "
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.center }"></ng-container>
     </ng-template>
   </ng-container>
 </div>
@@ -502,158 +282,84 @@
   >
     <ng-container *ngIf="hasScrollOverlayTop$ | async">
       <ng-template #overlayTop>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.overlay.top }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.overlay.top }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollOverlayLeft$ | async">
       <ng-template #overlayLeft>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.overlay.left }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.overlay.left }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollOverlayBottom$ | async">
       <ng-template #overlayBottom>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.overlay.bottom }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.overlay.bottom }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollOverlayRight$ | async">
       <ng-template #overlayRight>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.overlay.right }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.overlay.right }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollOverlayCenter$ | async">
       <ng-template #overlayCenter>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.overlay.center }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.overlay.center }"></ng-container>
       </ng-template>
     </ng-container>
 
     <ng-container *ngIf="hasScrollInnerOverlayTop$ | async">
       <ng-template #innerOverlayTop>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.innerOverlay.top }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.innerOverlay.top }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollInnerOverlayLeft$ | async">
       <ng-template #innerOverlayLeft>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.innerOverlay.left }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.innerOverlay.left }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollInnerOverlayBottom$ | async">
       <ng-template #innerOverlayBottom>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.innerOverlay.bottom }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.innerOverlay.bottom }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollInnerOverlayRight$ | async">
       <ng-template #innerOverlayRight>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.innerOverlay.right }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.innerOverlay.right }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollInnerOverlayCenter$ | async">
       <ng-template #innerOverlayCenter>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.innerOverlay.center }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.innerOverlay.center }"></ng-container>
       </ng-template>
     </ng-container>
 
     <ng-container *ngIf="hasScrollTop$ | async">
       <ng-template #top>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.top }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.top }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollLeft$ | async">
       <ng-template #left>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.left }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.left }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollBottom$ | async">
       <ng-template #bottom>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.bottom }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.bottom }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollRight$ | async">
       <ng-template #right>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.right }
-          "
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.right }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollCenter$ | async">
       <ng-template #center>
-        <ng-container
-          *ngTemplateOutlet="
-            regionTpl;
-            context: { $implicit: regions.scroll.center }
-          "
-        >
-        </ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.center }"> </ng-container>
       </ng-template>
     </ng-container>
-    <div content-container class="modal"
+    <div
+      content-container
+      class="modal"
       [class.modal-tint]="modal === 1"
       [class.modal-blur]="modal === 1"
       [class.modal-gray]="modal === 1"
@@ -695,22 +401,16 @@
 
 <!-- header -->
 <ng-template #header>
-  <cpng-application-header
-    addSizeCssVars
-    [class.hides-on-scroll]="headerScroll.hideOnScroll$ | async"
-    class="horizontal start"
-  >
+  <cpng-application-header addSizeCssVars [class.hides-on-scroll]="headerScroll.hideOnScroll$ | async" class="horizontal start">
     <ng-template #start> Title </ng-template>
     <ng-container xcpngIfAnchorHasViews="menuAnchors.menuStartButton">
       <ng-template #startActions>
-        <ng-container [cpngViewAnchor]="menuAnchors.menuStartButton">
-        </ng-container>
+        <ng-container [cpngViewAnchor]="menuAnchors.menuStartButton"> </ng-container>
       </ng-template>
     </ng-container>
     <ng-container xcpngIfAnchorHasViews="menuAnchors.menuEndButton">
       <ng-template #endActions>
-        <ng-container [cpngViewAnchor]="menuAnchors.menuEndButton">
-        </ng-container>
+        <ng-container [cpngViewAnchor]="menuAnchors.menuEndButton"> </ng-container>
       </ng-template>
     </ng-container>
   </cpng-application-header>
@@ -730,20 +430,18 @@
 </ng-template>
 
 <!-- Menu End -->
-<ng-template #menuEnd> 
+<ng-template #menuEnd>
   <cpng-application-menu-end
-  addSizeCssVars
-  [class.hides-on-scroll]="menuEndScroll.hideOnScroll$ | async"
-  class="vertical end"
-  [(opened)]="menuEndOpened"
-></cpng-application-menu-end>
-
+    addSizeCssVars
+    [class.hides-on-scroll]="menuEndScroll.hideOnScroll$ | async"
+    class="vertical end"
+    [(opened)]="menuEndOpened"
+  ></cpng-application-menu-end>
 </ng-template>
 
 <ng-template #debugTpl>
   <pre>
-    menuStartLocation: {{
-      (menuStartLocation$ | async)?.toString()
-    }}  - modal: {{ modal | json }}
+    menuStartLocation: {{ (menuStartLocation$ | async)?.toString() }}  - modal: {{ modal | json }}
+    headerLocation: {{ (headerLocation$ | async)?.toString() }}  
   </pre>
 </ng-template>

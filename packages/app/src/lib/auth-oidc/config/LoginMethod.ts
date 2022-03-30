@@ -1,6 +1,5 @@
-
 export enum LoginMethod {
-  INLINE = "inline",
-  POPUP = "popup",
-  REFRESH = "refresh"
+  INLINE = 'inline',
+  POPUP = 'popup',
+  REFRESH = 'refresh',
 }

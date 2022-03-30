@@ -7,9 +7,9 @@
   grid-template-columns: auto 1fr auto;
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
-    "top    top    top"
-    "left   rest   right"
-    "left bottom   right";
+    'top    top    top'
+    'left   rest   right'
+    'left bottom   right';
 
   > [area] {
     display: flex;
@@ -18,7 +18,7 @@
     }
   }
 
-  > [area="top"] {
+  > [area='top'] {
     --background: var(--area-top-background, transparent);
     background: var(--background);
     grid-area: top;
@@ -30,7 +30,7 @@
     }
   }
 
-  > [area="left"] {
+  > [area='left'] {
     --background: var(--area-left-background, transparent);
     background: var(--background);
     grid-area: left;
@@ -42,7 +42,7 @@
     }
   }
 
-  > [area="bottom"] {
+  > [area='bottom'] {
     --background: var(--area-bottom-background, transparent);
     background: var(--background);
     grid-area: bottom;
@@ -54,7 +54,7 @@
     }
   }
 
-  > [area="right"] {
+  > [area='right'] {
     --background: var(--area-right-background, transparent);
     background: var(--background);
     grid-area: right;
@@ -65,8 +65,8 @@
       margin-right: calc(-1 * var(--width));
     }
   }
-  
-  > [area="rest"] {
+
+  > [area='rest'] {
     --background: var(--area-rest-background, transparent);
     background: var(--background);
     grid-area: rest;

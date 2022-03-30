@@ -4,10 +4,7 @@ import { NgModule } from '@angular/core';
 @NgModule({
   declarations: [],
   exports: [],
-  imports: [
-    CommonModule,
-    //NgxsModule.forFeature([AuthenticationState])
-  ],
+  imports: [CommonModule],
   providers: [],
 })
-export class AuthenticationModule {}
+export class NavigationModule {}

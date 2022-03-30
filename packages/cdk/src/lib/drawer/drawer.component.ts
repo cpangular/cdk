@@ -173,7 +173,6 @@ export class DrawerComponent implements OnInit {
   private _openAnim(duration: number) {
     const startValue = this._currentMeasure[this.dimension];
     const endValue = this._targetMeasure[this.dimension];
-    console.log("open", this.dimension, startValue, "->", endValue);
     return [
       style({ [this.dimension]: startValue }),
      /* style({
@@ -186,7 +185,6 @@ export class DrawerComponent implements OnInit {
   private _closeAnim(duration: number) {
     const startValue = this._currentMeasure[this.dimension];
     const endValue = 0;
-    console.log("close", this.dimension, startValue, "->", endValue);
     return [
       style({ [this.dimension]: "*" }),
      /* style({

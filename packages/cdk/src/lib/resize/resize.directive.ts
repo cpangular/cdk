@@ -137,7 +137,7 @@ export class ResizeDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-   // this.elmRef.nativeElement.addEventListener("scroll", console.log);
+
     this._resize$.subscribe(this.resize);
     this._widthChange$.subscribe(this.widthChange);
     this._heightChange$.subscribe(this.heightChange);

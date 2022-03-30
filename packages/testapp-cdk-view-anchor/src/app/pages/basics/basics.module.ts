@@ -6,6 +6,8 @@ import { OverviewComponent } from './sections/overview/overview.component';
 
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {LayoutModule} from '@angular/cdk/layout';
 import { CpNgViewAnchorModule } from '@cpangular/cdk/view-anchor';
 import { ExamplesComponent } from './sections/examples/examples.component';
@@ -27,7 +29,9 @@ import { IFrameModule } from '@cpangular/cdk/iframe';
     MatListModule,
     CpNgViewAnchorModule,
     ApplicationShellModule,
-    IFrameModule
+    IFrameModule,
+    MatSelectModule,
+    MatFormFieldModule
   ]
 })
 export class BasicsModule { }

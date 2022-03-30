@@ -1,27 +1,14 @@
-import { APP_BASE_HREF } from "@angular/common";
-import { Inject, Injectable, NgZone, Optional } from "@angular/core";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
-import {
-  Router
-} from "@angular/router";
-import { IAuthenticationService, IUser } from "@cpangular/app/auth";
-import { OidcSecurityService } from "angular-auth-oidc-client";
-import {
-  distinctUntilChanged,
-  filter,
-  first,
-  fromEvent,
-  map,
-  Observable,
-  of,
-  shareReplay,
-  Subject,
-  switchMap
-} from "rxjs";
-import { AuthIFrameComponent } from "./auth-iframe/auth-iframe.component";
-import { Configuration } from "./config/Configuration";
-import { LoginMethod } from "./config/LoginMethod";
-import {isEqual} from 'lodash'
+import { APP_BASE_HREF } from '@angular/common';
+import { Inject, Injectable, NgZone, Optional } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { IAuthenticationService, IUser } from '@cpangular/app/auth';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { isEqual } from 'lodash';
+import { distinctUntilChanged, filter, first, fromEvent, map, Observable, of, shareReplay, Subject, switchMap } from 'rxjs';
+import { AuthIFrameComponent } from './auth-iframe/auth-iframe.component';
+import { Configuration } from './config/Configuration';
+import { LoginMethod } from './config/LoginMethod';
 @Injectable()
 export class OIDCAuthenticationService implements IAuthenticationService {
   constructor(
@@ -66,9 +53,7 @@ export class OIDCAuthenticationService implements IAuthenticationService {
       return {
         id: u.userData.sub,
         username: u.userData.preferred_username,
-        displayName:
-          u.userData.display_name ??
-          `${u.userData.given_name} ${u.userData.family_name}`.trim(),
+        displayName: u.userData.display_name ?? `${u.userData.given_name} ${u.userData.family_name}`.trim(),
         data,
       } as IUser;
     }),
@@ -77,9 +62,7 @@ export class OIDCAuthenticationService implements IAuthenticationService {
   );
 
   loadCurrentUser(): Observable<IUser | null> {
-    return this.oidcSecurityService
-      .checkAuthIncludingServer()
-      .pipe(switchMap((_) => this.currentUser$));
+    return this.oidcSecurityService.checkAuthIncludingServer().pipe(switchMap((_) => this.currentUser$));
   }
 
   authenticate(): Observable<IUser> {
@@ -116,12 +99,12 @@ export class OIDCAuthenticationService implements IAuthenticationService {
       urlHandler: (url: string) => {
         this.zone.run(() => {
           dRef = this.dialogService.open(AuthIFrameComponent, {
-            minWidth: "100%",
-            maxWidth: "100%",
-            width: "100%",
-            minHeight: "100%",
-            maxHeight: "100%",
-            height: "100%",
+            minWidth: '100%',
+            maxWidth: '100%',
+            width: '100%',
+            minHeight: '100%',
+            maxHeight: '100%',
+            height: '100%',
             data: {
               url,
             },
@@ -134,10 +117,8 @@ export class OIDCAuthenticationService implements IAuthenticationService {
 
   private get originUrl(): string {
     let baseRef = `${window.location.protocol}//${window.location.host}`;
-    baseRef += this.baseRef ? `/${this.baseRef}` : "";
-    return `${baseRef}/${
-      this.router.getCurrentNavigation()?.finalUrl?.toString() ?? ""
-    }`;
+    baseRef += this.baseRef ? `/${this.baseRef}` : '';
+    return `${baseRef}/${this.router.getCurrentNavigation()?.finalUrl?.toString() ?? ''}`;
   }
 
   logout(): Observable<void> {
@@ -146,8 +127,7 @@ export class OIDCAuthenticationService implements IAuthenticationService {
         if (!user?.isAuthenticated) {
           return of();
         }
-        const config =
-          this.oidcSecurityService.getConfiguration() as Configuration;
+        const config = this.oidcSecurityService.getConfiguration() as Configuration;
         switch (config.loginMethod) {
           case LoginMethod.INLINE:
             return this.logoutInline();
@@ -176,7 +156,6 @@ export class OIDCAuthenticationService implements IAuthenticationService {
     let dRef: MatDialogRef<any> | undefined;
 
     this.waitForLogout().subscribe((s) => {
-      console.log("waitForLogout", s);
       this.oidcSecurityService.logoffLocal();
       logout.next();
       logout.complete();
@@ -184,12 +163,12 @@ export class OIDCAuthenticationService implements IAuthenticationService {
     });
 
     dRef = this.dialogService.open(AuthIFrameComponent, {
-      minWidth: "100%",
-      maxWidth: "100%",
-      width: "100%",
-      minHeight: "100%",
-      maxHeight: "100%",
-      height: "100%",
+      minWidth: '100%',
+      maxWidth: '100%',
+      width: '100%',
+      minHeight: '100%',
+      maxHeight: '100%',
+      height: '100%',
       data: {
         url: this.oidcSecurityService.getEndSessionUrl(),
       },
@@ -199,9 +178,9 @@ export class OIDCAuthenticationService implements IAuthenticationService {
   }
 
   private waitForRenew() {
-    return fromEvent(window, "oidc-silent-renew-message").pipe(first());
+    return fromEvent(window, 'oidc-silent-renew-message').pipe(first());
   }
   private waitForLogout() {
-    return fromEvent(window, "oidc-logout-message").pipe(first());
+    return fromEvent(window, 'oidc-logout-message').pipe(first());
   }
 }

@@ -1,4 +1,4 @@
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
 
 :host {
   display: flex;
@@ -14,51 +14,25 @@
 
 :host {
   --close-speed: 0.2s;
-  &[side="start"] {
+  &[side='start'] {
     &.init > div {
       transition: margin-left ease-in var(--close-speed);
     }
-    &[opened="false"] {
+    &[opened='false'] {
       overflow: hidden;
       > div {
         margin-left: calc(-1 * var(--width));
       }
     }
   }
-  &[side="end"] {
+  &[side='end'] {
     &.init > div {
       transition: margin-right ease-in var(--close-speed);
     }
-    &[opened="false"] {
+    &[opened='false'] {
       > div {
         margin-right: calc(-1 * var(--width));
       }
     }
   }
 }
-
-/*
-
-:host {
-  display: flex;
-  flex-direction: column;
-  > div {
-    display: flex;
-    flex-direction: row;
-    > * {
-      flex: 0 0 auto;
-      &.full {
-        flex: 1 1 100%;
-      }
-    }
-  }
-}
-
-:host mat-toolbar {
-  width: auto;
-  height: auto;
-  &:not(:empty) {
-    min-height: 56px;
-  }
-}
-*/

@@ -1,6 +1,9 @@
 import { ITheme } from "./ITheme";
 import { IThemes } from "./IThemes";
 
+const STORE_MODE = "theme-mode";
+const STORE_THEME = "theme-id";
+
 let listThemes_cache: IThemes;
 
 function toPropName(name: string, prefix: string = "theme") {
@@ -92,6 +95,13 @@ function preferredMode() {
     : "light";
 }
 
+export function darkMode(): "light" | "dark" | undefined {
+  return (
+    (document.documentElement.getAttribute("theme-mode") as "light" | "dark") ||
+    undefined
+  );
+}
+
 export function isDarkMode(): boolean {
   const themes = listThemes();
   const themeMode =
@@ -102,13 +112,17 @@ export function isDarkMode(): boolean {
 }
 
 export function setDarkMode(value: boolean | undefined) {
-  if (value === undefined) {
+  setMode(value === false ? "light" : !value ? undefined : "dark");
+}
+
+export function setMode(mode: string | undefined) {
+  if (!mode) {
     document.documentElement.removeAttribute("theme-mode");
+    localStorage.removeItem(STORE_MODE);
   } else {
-    document.documentElement.setAttribute(
-      "theme-mode",
-      value ? "dark" : "light"
-    );
+    mode = mode === "dark" ? "dark" : "light";
+    document.documentElement.setAttribute("theme-mode", mode);
+    localStorage.setItem(STORE_MODE, mode);
   }
 }
 
@@ -124,6 +138,9 @@ export function activeTheme(): string {
 
 export function setActiveTheme(theme: string | undefined) {
   overrideTheme(document.documentElement, theme);
+  theme
+    ? localStorage.setItem(STORE_THEME, theme)
+    : localStorage.removeItem(STORE_THEME);
 }
 
 export function overrideTheme(element: HTMLElement, theme: string | undefined) {
@@ -142,3 +159,8 @@ export function resetActiveTheme() {
   setDarkMode(undefined);
   setActiveTheme(undefined);
 }
+
+(() => {
+  setMode(localStorage.getItem(STORE_MODE) ?? undefined);
+  setActiveTheme(localStorage.getItem(STORE_THEME) ?? undefined)
+})();
