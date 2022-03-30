@@ -1,4 +1,4 @@
-import { IViewDirective } from "./IViewDirective";
+import { IViewDirective } from './IViewDirective';
 
 export interface IViewAnchorDirective {
   removeView(view: IViewDirective): void;

@@ -2,9 +2,8 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-
 }
-button.selected{
+button.selected {
   color: var(--theme-primary-text);
   font-weight: 500;
 }

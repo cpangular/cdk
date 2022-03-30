@@ -1,62 +1,44 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ContentChild,
-  Inject,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-} from "@angular/core";
-import { observe } from "@cpangular/cdk/value-resolver";
-import { Subject, takeUntil } from "rxjs";
-import { IApplicationConfiguration } from "../../config/ApplicationConfiguration";
-import { FinalApplicationConfiguration } from "../../config/FinalApplicationConfiguration";
-import { MenuAnchors } from "../menu-base/MenuAnchors";
+import { ChangeDetectionStrategy, Component, ContentChild, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { observe } from '@cpangular/cdk/value-resolver';
+import { Subject, takeUntil } from 'rxjs';
+import { IApplicationConfiguration } from '../../config/ApplicationConfiguration';
+import { FinalApplicationConfiguration } from '../../config/FinalApplicationConfiguration';
+import { MenuAnchors } from '../menu-base/MenuAnchors';
 
 //import { InternalApplicationLayoutViewAnchors } from "../application-layout/InternalApplicationLayoutViewAnchors";
 
 @Component({
-  selector: "cpng-application-header",
-  templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.scss"],
- // changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'cpng-application-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApplicationHeaderComponent implements OnInit, OnDestroy {
   menuAnchors = MenuAnchors;
 
   private destroy$ = new Subject<void>();
 
-  @ContentChild("preStart")
+  @ContentChild('preStart')
   public _preStartTemplate?: TemplateRef<any>;
-  @ContentChild("preEnd")
+  @ContentChild('preEnd')
   public _preEndTemplate?: TemplateRef<any>;
-  @ContentChild("startActions")
+  @ContentChild('startActions')
   public _startActionsTemplate?: TemplateRef<any>;
-  @ContentChild("endActions")
+  @ContentChild('endActions')
   public _endActionsTemplate?: TemplateRef<any>;
-  @ContentChild("start")
+  @ContentChild('start')
   public _startTemplate?: TemplateRef<any>;
-  @ContentChild("end")
+  @ContentChild('end')
   public _endTemplate?: TemplateRef<any>;
-  @ContentChild("postStart")
+  @ContentChild('postStart')
   public _postStartTemplate?: TemplateRef<any>;
-  @ContentChild("postEnd")
+  @ContentChild('postEnd')
   public _postEndTemplate?: TemplateRef<any>;
 
-
-  public headerToolbarColor$ = observe(this._config.header.headerToolbarColor).pipe(
-    takeUntil(this.destroy$)
-  );
-  public actionToolbarColor$ = observe(this._config.header.actionToolbarColor).pipe(
-    takeUntil(this.destroy$)
-  );
-  public postHeaderToolbarColor$ = observe(this._config.header.postHeaderToolbarColor).pipe(
-    takeUntil(this.destroy$)
-  );
-  public preHeaderToolbarColor$ = observe(this._config.header.preHeaderToolbarColor).pipe(
-    takeUntil(this.destroy$)
-  );
-
+  public headerToolbarColor$ = observe(this._config.header.headerToolbarColor).pipe(takeUntil(this.destroy$));
+  public actionToolbarColor$ = observe(this._config.header.actionToolbarColor).pipe(takeUntil(this.destroy$));
+  public postHeaderToolbarColor$ = observe(this._config.header.postHeaderToolbarColor).pipe(takeUntil(this.destroy$));
+  public preHeaderToolbarColor$ = observe(this._config.header.preHeaderToolbarColor).pipe(takeUntil(this.destroy$));
 
   //public viewAnchors = InternalApplicationLayoutViewAnchors;
   /*

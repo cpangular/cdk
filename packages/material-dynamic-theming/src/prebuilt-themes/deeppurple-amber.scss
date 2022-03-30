@@ -1,7 +1,7 @@
-@use "@angular/material" as mat;
-@use "@cpangular/material-dynamic-theming" as theme;
+@use '@angular/material' as mat;
+@use '@cpangular/material-dynamic-theming' as theme;
 
-$themeName: "deeppurple-amber";
+$themeName: 'deeppurple-amber';
 
 $primary: theme.palette(mat.$deep-purple-palette);
 $accent: theme.palette(mat.$amber-palette, A200, A100, A400);

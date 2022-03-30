@@ -1,15 +1,9 @@
-import { Injectable, Optional, SkipSelf } from "@angular/core";
-import Enumerable from "linq";
-import {
-  BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  map,
-  shareReplay,
-} from "rxjs";
-import { IViewAnchorDirective } from "./IViewAnchorDirective";
-import { IViewDirective } from "./IViewDirective";
-import { ViewAnchorId } from "./ViewAnchorId";
+import { Injectable, Optional, SkipSelf } from '@angular/core';
+import Enumerable from 'linq';
+import { BehaviorSubject, combineLatest, distinctUntilChanged, map, shareReplay } from 'rxjs';
+import { IViewAnchorDirective } from './IViewAnchorDirective';
+import { IViewDirective } from './IViewDirective';
+import { ViewAnchorId } from './ViewAnchorId';
 
 interface ViewAnchorRegistration {
   id: ViewAnchorId;
@@ -22,7 +16,7 @@ interface ViewDirectiveRegistration {
 }
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ViewAnchorService {
   private _views: ViewDirectiveRegistration[] = [];
@@ -74,9 +68,7 @@ export class ViewAnchorService {
 
   private ttt = Math.random();
 
-  public constructor(
-    @Optional() @SkipSelf() private readonly parent: ViewAnchorService
-  ) {}
+  public constructor(@Optional() @SkipSelf() private readonly parent: ViewAnchorService) {}
 
   private findViewByDirective(directive: IViewDirective) {
     return this.views.firstOrDefault((v) => {
@@ -129,9 +121,7 @@ export class ViewAnchorService {
   }
 
   private _removeAnchor(anchor: ViewAnchorRegistration) {
-    this._anchors = this._anchors.filter(
-      (a) => a.directive !== anchor.directive
-    );
+    this._anchors = this._anchors.filter((a) => a.directive !== anchor.directive);
     this.views
       .where((v) => v.id === anchor.id)
       .forEach((v) => {

@@ -1,4 +1,4 @@
-import { distinctUntilChanged, Observable, shareReplay } from "rxjs";
+import { distinctUntilChanged, Observable, shareReplay } from 'rxjs';
 
 export class ResizeObservable extends Observable<ResizeObserverEntry> {
   constructor(element: Element, box?: ResizeObserverBoxOptions) {
@@ -15,11 +15,7 @@ export class ResizeObservable extends Observable<ResizeObserverEntry> {
     });
 
     return this.pipe(
-      distinctUntilChanged(
-        (a, b) =>
-          a.contentRect.width === b.contentRect.width &&
-          a.contentRect.height === b.contentRect.height
-      ),
+      distinctUntilChanged((a, b) => a.contentRect.width === b.contentRect.width && a.contentRect.height === b.contentRect.height),
       shareReplay(1)
     );
   }

@@ -1,13 +1,5 @@
-import {
-  BackgroundPalette,
-  ForegroundPalette,
-  Palette,
-  PaletteColor,
-  Theme,
-  Theme2,
-  ThemePalettes,
-} from "./Theme.old";
-import { camelCase } from "change-case";
+import { BackgroundPalette, ForegroundPalette, Palette, PaletteColor, Theme, Theme2, ThemePalettes } from './Theme.old';
+import { camelCase } from 'change-case';
 interface ICssThemeData {
   theme: { [key: string]: string };
   color: { [key: string]: string };
@@ -24,7 +16,7 @@ export class CssUtils {
           for (let j = 0; j < sheet.cssRules.length; j++) {
             const rule = sheet.cssRules.item(j);
             if (rule instanceof CSSStyleRule) {
-              if (rule.selectorText.startsWith("-theme-definition-")) {
+              if (rule.selectorText.startsWith('-theme-definition-')) {
                 themes.push(Theme2.for(rule));
               }
             }
@@ -34,7 +26,7 @@ export class CssUtils {
     }
     return themes;
   }
-/*
+  /*
   private static findCssThemeData() {
     this.initializeThemes();
 

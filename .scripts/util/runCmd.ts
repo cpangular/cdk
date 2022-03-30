@@ -1,17 +1,14 @@
-import path from "path";
-import { concurrently } from "concurrently";
+import path from 'path';
+import { concurrently } from 'concurrently';
 
-import { IProject } from "./dependency-graph";
-import { exit } from "process";
+import { IProject } from './dependency-graph';
+import { exit } from 'process';
 
-export async function runCmd(
-  phases: Array<IProject | IProject[]>,
-  cmd: string
-) {
+export async function runCmd(phases: Array<IProject | IProject[]>, cmd: string) {
   const cmdInfo = {
     command: `yarn ${cmd}`,
-    cwd: "",
-    name: "",
+    cwd: '',
+    name: '',
   };
   for (let phase of phases) {
     const commands = [];
@@ -28,16 +25,12 @@ export async function runCmd(
     if (commands.length) {
       const run = concurrently(commands);
       for (const command of run.commands) {
-        command.stdout.subscribe(
-          (b) => console.info(`${command.name}:\n${b.toString("utf8")}`)
-        );
-        command.stderr.subscribe(
-          (b) => console.info(`${command.name}:\n${b.toString("utf8")}`)
-        );
+        command.stdout.subscribe((b) => console.info(`${command.name}:\n${b.toString('utf8')}`));
+        command.stderr.subscribe((b) => console.info(`${command.name}:\n${b.toString('utf8')}`));
       }
-      try{
+      try {
         await run.result;
-      }catch(e){
+      } catch (e) {
         console.error('error:', e);
         exit(e.exitCode);
       }

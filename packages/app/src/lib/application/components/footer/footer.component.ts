@@ -1,29 +1,22 @@
-
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnDestroy,
-  OnInit,
-} from "@angular/core";
-import { observe } from "@cpangular/cdk/value-resolver";
-import { Subject, takeUntil } from "rxjs";
-import { IApplicationConfiguration } from "../../config/ApplicationConfiguration";
-import { FinalApplicationConfiguration } from "../../config/FinalApplicationConfiguration";
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { observe } from '@cpangular/cdk/value-resolver';
+import { Subject, takeUntil } from 'rxjs';
+import { IApplicationConfiguration } from '../../config/ApplicationConfiguration';
+import { FinalApplicationConfiguration } from '../../config/FinalApplicationConfiguration';
 
 //import { InternalApplicationLayoutViewAnchors } from "../application-layout/InternalApplicationLayoutViewAnchors";
 
 @Component({
-  selector: "cpng-application-footer",
-  templateUrl: "./footer.component.html",
-  styleUrls: ["./footer.component.scss"],
+  selector: 'cpng-application-footer',
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ApplicationFooterComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   //public viewAnchors = InternalApplicationLayoutViewAnchors;
-/*
+  /*
   public headerColor$ = observe(this._config.headerColor).pipe(
     takeUntil(this.destroy$)
   );

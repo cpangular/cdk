@@ -1,5 +1,5 @@
-@use "@angular/material" as mat;
-@use "sass:map";
+@use '@angular/material' as mat;
+@use 'sass:map';
 
 @function values($base-palette, $aliases: null) {
   @if not $aliases {
@@ -21,13 +21,7 @@
   );
 }
 
-@function palette(
-  $palette,
-  $default: 500,
-  $lighter: 100,
-  $darker: 700,
-  $text: $default
-) {
+@function palette($palette, $default: 500, $lighter: 100, $darker: 700, $text: $default) {
   @return values(
     $palette,
     (
@@ -40,23 +34,18 @@
 }
 
 @function define($themeId, $config) {
-  $lightTheme: map.get($config, "light");
-  $darkTheme: map.get($config, "dark");
-  $sharedTheme: map.get($config, "shared");
+  $lightTheme: map.get($config, 'light');
+  $darkTheme: map.get($config, 'dark');
+  $sharedTheme: map.get($config, 'shared');
 
   @if not $lightTheme and not $darkTheme {
     @error ('No theme data provided');
   }
-  @return (
-    id: $themeId,
-    shared: $sharedTheme,
-    light: $lightTheme,
-    dark: $darkTheme
-  );
+  @return (id: $themeId, shared: $sharedTheme, light: $lightTheme, dark: $darkTheme);
 }
 
 @function register($config, $registry: null) {
-  $configId: map.get($config, "id");
+  $configId: map.get($config, 'id');
   @if not $registry {
     @return (#{$configId}: $config);
   }
@@ -103,13 +92,13 @@ $defaultTheme: (
   shared: (),
   light: (
     warn: palette(mat.$red-palette),
-    background: map.get($matDefaultLight, "background"),
-    foreground: map.get($matDefaultLight, "foreground"),
+    background: map.get($matDefaultLight, 'background'),
+    foreground: map.get($matDefaultLight, 'foreground'),
   ),
   dark: (
     warn: palette(mat.$red-palette),
-    background: map.get($matDefaultDark, "background"),
-    foreground: map.get($matDefaultDark, "foreground"),
+    background: map.get($matDefaultDark, 'background'),
+    foreground: map.get($matDefaultDark, 'foreground'),
   ),
 );
 
@@ -117,20 +106,20 @@ $defaultTheme: (
 }
 
 @function -private-apply-defaults-to-mode($theme, $mode) {
-  $isDark: if($mode == "dark", true, false);
+  $isDark: if($mode == 'dark', true, false);
   $data: map.get($theme, $mode);
 
   @if not $data {
-    $otherMode: if($mode == "dark", "light", "dark");
+    $otherMode: if($mode == 'dark', 'light', 'dark');
     $otherData: map.get($theme, $otherMode);
     $data: -private-gen-mode-from($otherData, $isDark);
   }
 
   $modeDefaults: map.get($defaultTheme, $mode);
 
-  $warn: map.get($data, "warn");
+  $warn: map.get($data, 'warn');
   @if not $warn {
-    $warn: map.get($modeDefaults, "warn");
+    $warn: map.get($modeDefaults, 'warn');
     $data: map.merge(
       $data,
       (
@@ -139,9 +128,9 @@ $defaultTheme: (
     );
   }
 
-  $background: map.get($data, "background");
+  $background: map.get($data, 'background');
   @if not $background {
-    $background: map.get($modeDefaults, "background");
+    $background: map.get($modeDefaults, 'background');
 
     $data: map.merge(
       $data,
@@ -151,9 +140,9 @@ $defaultTheme: (
     );
   }
 
-  $foreground: map.get($data, "foreground");
+  $foreground: map.get($data, 'foreground');
   @if not $foreground {
-    $foreground: map.get($modeDefaults, "foreground");
+    $foreground: map.get($modeDefaults, 'foreground');
     $data: map.merge(
       $data,
       (
@@ -173,11 +162,11 @@ $defaultTheme: (
 
 @function -private-apply-defaults-to-theme($theme) {
   // dark
-  $dark: -private-apply-defaults-to-mode($theme, "dark");
+  $dark: -private-apply-defaults-to-mode($theme, 'dark');
   // light
-  $light: -private-apply-defaults-to-mode($theme, "light");
+  $light: -private-apply-defaults-to-mode($theme, 'light');
   // shared
-  $shared: -private-apply-defaults-to-shared(map.get($theme, "shared"));
+  $shared: -private-apply-defaults-to-shared(map.get($theme, 'shared'));
 
   @return map.merge(
     $theme,
@@ -191,21 +180,13 @@ $defaultTheme: (
 
 @function -private-apply-defaults-to-registry($registry) {
   @each $key, $theme in $registry {
-    $registry: map.merge(
-      $registry,
-      (#{$key}: -private-apply-defaults-to-theme($theme))
-    );
+    $registry: map.merge($registry, (#{$key}: -private-apply-defaults-to-theme($theme)));
   }
 
   @return $registry;
 }
 
-@function build(
-  $registry,
-  $defaultThemeId,
-  $defaultDark: false,
-  $propertyPrefix: "theme"
-) {
+@function build($registry, $defaultThemeId, $defaultDark: false, $propertyPrefix: 'theme') {
   $defaultTheme: map.get($registry, $defaultThemeId);
   @if not $defaultTheme {
     @error 'Cannot set default theme to "#{$defaultThemeId}". Does not exist.';

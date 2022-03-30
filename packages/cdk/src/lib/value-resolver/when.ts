@@ -1,10 +1,5 @@
-import {
-  distinctUntilChanged,
-  Observable,
-  shareReplay,
-  Subscription,
-} from "rxjs";
-import { IfThen } from "./IfThen";
+import { distinctUntilChanged, Observable, shareReplay, Subscription } from 'rxjs';
+import { IfThen } from './IfThen';
 
 export function when<T>(...ifThens: IfThen<T>[]): Observable<T> {
   const conditionResults: boolean[] = [];

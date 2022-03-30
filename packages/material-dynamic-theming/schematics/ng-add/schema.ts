@@ -11,10 +11,5 @@ export interface Schema {
   project: string;
 
   /** Name of pre-built theme to install. */
-  theme:
-    | "indigo-pink"
-    | "deeppurple-amber"
-    | "pink-bluegrey"
-    | "purple-green"
-    | "custom";
+  theme: 'indigo-pink' | 'deeppurple-amber' | 'pink-bluegrey' | 'purple-green' | 'custom';
 }

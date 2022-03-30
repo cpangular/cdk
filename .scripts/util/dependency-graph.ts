@@ -1,19 +1,19 @@
-import { DepGraph } from "dependency-graph";
-import { existsSync, readdirSync, readFileSync } from "fs";
+import { DepGraph } from 'dependency-graph';
+import { existsSync, readdirSync, readFileSync } from 'fs';
 
 function readJson(path: string): any {
-  return JSON.parse(readFileSync(path, "utf8"));
+  return JSON.parse(readFileSync(path, 'utf8'));
 }
 
-export interface IProject{
-    name: string;
-    path: string;
-    project: string;
-    packageFile: string;
-    scripts: string[];
+export interface IProject {
+  name: string;
+  path: string;
+  project: string;
+  packageFile: string;
+  scripts: string[];
 }
 
-let _graph_cache:Map<string, DepGraph<IProject>> = new Map();
+let _graph_cache: Map<string, DepGraph<IProject>> = new Map();
 
 export function buildDependencyGraph(workspaceDir: string = './packages') {
   const projects = readdirSync(workspaceDir);
@@ -57,42 +57,40 @@ export function buildDependencyGraph(workspaceDir: string = './packages') {
     }
     const projectPkgFile = `${workspaceDir}/${project}/package.json`;
     depGraph.setNodeData(project, {
-        name: pkg.name,
-        path: `${workspaceDir}/${project}`,
-        project: project,
-        packageFile: projectPkgFile,
-        scripts: Object.keys(pkg.scripts)
+      name: pkg.name,
+      path: `${workspaceDir}/${project}`,
+      project: project,
+      packageFile: projectPkgFile,
+      scripts: Object.keys(pkg.scripts),
     });
   }
   _graph_cache.set(workspaceDir, depGraph as DepGraph<IProject>);
 }
 
-
 export function getDependencyGraph(workspaceDir: string = './packages') {
-    if(!_graph_cache.has(workspaceDir)){
-        buildDependencyGraph(workspaceDir);
-    }
-    return _graph_cache.get(workspaceDir)?.clone()!;
+  if (!_graph_cache.has(workspaceDir)) {
+    buildDependencyGraph(workspaceDir);
+  }
+  return _graph_cache.get(workspaceDir)?.clone()!;
 }
 
 function projectIdsSortedByDependencies(workspaceDir: string = './packages') {
-    return getDependencyGraph(workspaceDir).overallOrder();
+  return getDependencyGraph(workspaceDir).overallOrder();
 }
 
 export function getProjectsSortedByDependencies(workspaceDir: string = './packages') {
-    return projectIdsSortedByDependencies(workspaceDir).map(p => _graph_cache.get(workspaceDir).getNodeData(p));
+  return projectIdsSortedByDependencies(workspaceDir).map((p) => _graph_cache.get(workspaceDir).getNodeData(p));
 }
 
-
 export function getParallelProjectsSortedByDependencies(workspaceDir: string = './packages') {
-    const graph = getDependencyGraph(workspaceDir);
-    const run: IProject[][] = [];
+  const graph = getDependencyGraph(workspaceDir);
+  const run: IProject[][] = [];
 
-    let nextSet = graph.overallOrder(true).map(p => graph.getNodeData(p));
-    while(nextSet?.length){
-        run.push(nextSet);
-        nextSet.forEach(p => graph.removeNode(p.project));
-        nextSet = graph.overallOrder(true).map(p => graph.getNodeData(p));
-    }
-    return run;
+  let nextSet = graph.overallOrder(true).map((p) => graph.getNodeData(p));
+  while (nextSet?.length) {
+    run.push(nextSet);
+    nextSet.forEach((p) => graph.removeNode(p.project));
+    nextSet = graph.overallOrder(true).map((p) => graph.getNodeData(p));
+  }
+  return run;
 }

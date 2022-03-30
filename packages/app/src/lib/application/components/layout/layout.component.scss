@@ -1,4 +1,4 @@
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
 
 $animation-speed: 0.2s;
 
@@ -29,17 +29,16 @@ $animation-speed: 0.2s;
       min-height: 100%;
     }
   }
-  
 }
 /**************************
   Background colors
 **************************/
 :host {
   background-color: var(--theme-background-app-bar);
-  [layer-group="scroll"] {
+  [layer-group='scroll'] {
     background-color: var(--theme-background);
   }
-  .application-border{
+  .application-border {
     pointer-events: none;
     position: absolute;
     @include mat.elevation(2);
@@ -78,14 +77,14 @@ $animation-speed: 0.2s;
   [layer-group] {
     width: 100%;
   }
-  [layer-group="viewport"] {
+  [layer-group='viewport'] {
     z-index: 40;
   }
-  [layer-group="application"] {
+  [layer-group='application'] {
     z-index: 30;
     // border: 1px solid var(--theme-background-raised-button);
   }
-  [layer-group="content"] {
+  [layer-group='content'] {
     z-index: 20;
   }
   > [cdkScrollable] {
@@ -98,14 +97,8 @@ $animation-speed: 0.2s;
 **************************/
 
 :host {
-  --max-app-width: var(
-    --constrain-app-width,
-    var(--viewport-center-width, 0px)
-  );
-  --viewport-space: max(
-    calc(var(--viewport-center-width, 0px) - var(--max-app-width)),
-    0px
-  );
+  --max-app-width: var(--constrain-app-width, var(--viewport-center-width, 0px));
+  --viewport-space: max(calc(var(--viewport-center-width, 0px) - var(--max-app-width)), 0px);
 }
 
 /**************************
@@ -116,11 +109,11 @@ $animation-speed: 0.2s;
   --viewport-space-left: 0px;
   --viewport-space-right: var(--viewport-space);
 
-  &[constrain="center"] {
+  &[constrain='center'] {
     --viewport-space-left: calc(var(--viewport-space) / 2);
     --viewport-space-right: calc(var(--viewport-space) / 2);
   }
-  &[constrain="right"] {
+  &[constrain='right'] {
     --viewport-space-left: var(--viewport-space);
     --viewport-space-right: 0px;
   }
@@ -214,8 +207,8 @@ $animation-speed: 0.2s;
   Background colors
 ******************************************/
 :host {
-  div[layer-group="application"],
-  div[layer-group="scroll"] {
+  div[layer-group='application'],
+  div[layer-group='scroll'] {
     --area-top-background: var(--theme-background-app-bar);
     --area-left-background: var(--theme-background-app-bar);
     --area-bottom-background: var(--theme-background-app-bar);
@@ -285,11 +278,11 @@ $animation-speed: 0.2s;
     flex: 1;
   }
 
-  .modal-base ::ng-deep > [layer="content"],
+  .modal-base ::ng-deep > [layer='content'],
   .modal {
     transition: filter ease-in var(--modal-hide-duration);
     &::after {
-      content: " ";
+      content: ' ';
       pointer-events: none;
       transition: background-color ease-in var(--modal-hide-duration);
       position: absolute;
@@ -298,7 +291,7 @@ $animation-speed: 0.2s;
     }
   }
 
-  .modal-base.modal-disable ::ng-deep > [layer="content"],
+  .modal-base.modal-disable ::ng-deep > [layer='content'],
   .modal-disable:not(.modal-base) {
     pointer-events: none !important;
     ::ng-deep {
@@ -310,11 +303,10 @@ $animation-speed: 0.2s;
 
   .modal-disable:not(.modal-base) ::ng-deep * {
     pointer-events: none !important;
-
   }
   [content-container].modal-disable:not(.modal-base) {
     pointer-events: all !important;
-    &::after{
+    &::after {
       content: ' ';
       background: red;
       position: absolute;
@@ -323,35 +315,34 @@ $animation-speed: 0.2s;
       pointer-events: all;
     }
   }
-  
 
-  &[modal="3"] {
+  &[modal='3'] {
     > div.modal {
       z-index: 25;
     }
   }
-  &[modal="4"],
-  &[modal="3"],
-  &[modal="2"],
-  &[modal="1"] {
-    .modal-base.modal-blur ::ng-deep > [layer="content"],
+  &[modal='4'],
+  &[modal='3'],
+  &[modal='2'],
+  &[modal='1'] {
+    .modal-base.modal-blur ::ng-deep > [layer='content'],
     .modal-blur:not(.modal-base) {
       filter: blur(1px);
     }
 
-    .modal-base.modal-gray ::ng-deep > [layer="content"],
+    .modal-base.modal-gray ::ng-deep > [layer='content'],
     .modal-gray:not(.modal-base) {
       filter: grayscale(0.69) brightness(69%);
     }
 
-    .modal-base.modal-tint ::ng-deep > [layer="content"],
+    .modal-base.modal-tint ::ng-deep > [layer='content'],
     .modal-tint:not(.modal-base) {
       &::after {
         background-color: var(--foreground-disabled);
       }
     }
 
-    .modal-base.modal-blur.modal-gray ::ng-deep > [layer="content"],
+    .modal-base.modal-blur.modal-gray ::ng-deep > [layer='content'],
     .modal-blur.modal-gray:not(.modal-base) {
       filter: blur(1px) grayscale(0.69) brightness(69%);
     }

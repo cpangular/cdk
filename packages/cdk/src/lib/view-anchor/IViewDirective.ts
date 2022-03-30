@@ -1,4 +1,4 @@
-import { EmbeddedViewRef, TemplateRef } from "@angular/core";
+import { EmbeddedViewRef, TemplateRef } from '@angular/core';
 
 export interface IViewDirective<T = any> {
   removed(): void;

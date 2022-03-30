@@ -1,4 +1,4 @@
-import { paramCase } from "change-case";
+import { paramCase } from 'change-case';
 
 export class CSSStyleDeclarationBase {
   protected getProperty(name: string): string {
@@ -20,14 +20,11 @@ export class CSSStyleDeclarationBase {
   protected boolean(val: string): boolean;
   protected boolean(val: boolean): string;
   protected boolean(val: string | boolean): string | boolean {
-    if (typeof val === "string") {
-      return val === "1";
+    if (typeof val === 'string') {
+      return val === '1';
     }
-    return val ? "1" : "0";
+    return val ? '1' : '0';
   }
 
-  constructor(
-    private readonly _props: CSSStyleDeclaration,
-    protected readonly prefix?: string
-  ) {}
+  constructor(private readonly _props: CSSStyleDeclaration, protected readonly prefix?: string) {}
 }

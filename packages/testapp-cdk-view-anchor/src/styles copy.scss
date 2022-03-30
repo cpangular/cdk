@@ -1,5 +1,5 @@
-@use "../../material-dynamic-theming" as theme;
-@use "@angular/material" as mat;
+@use '../../material-dynamic-theming' as theme;
+@use '@angular/material' as mat;
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -7,7 +7,7 @@ $orange: theme.palette(mat.$orange-palette);
 $blue: theme.palette(mat.$blue-palette);
 
 $myTheme: theme.define(
-  "my-theme",
+  'my-theme',
   (
     dark: (
       primary: $blue,
@@ -23,7 +23,7 @@ $myTheme: theme.define(
 );
 
 $myThemeReversed: theme.define(
-  "my-theme-rev",
+  'my-theme-rev',
   (
     dark: (
       primary: $orange,
@@ -41,10 +41,9 @@ $myThemeReversed: theme.define(
 $themes: theme.register($myTheme);
 //$themes: theme.register($myThemeReversed, $themes);
 
-$themes: theme.build($themes, "my-theme");
+$themes: theme.build($themes, 'my-theme');
 
 @include theme.styles($themes);
-
 
 /*
 $red: theme.define-palette(mat.$red-palette);

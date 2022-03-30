@@ -1,4 +1,4 @@
-import { IThemePart } from "./IThemePart";
+import { IThemePart } from './IThemePart';
 
 export interface ITheme {
   id: string;

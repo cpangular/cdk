@@ -1,7 +1,7 @@
-@use "@angular/material" as mat;
-@use "@cpangular/material-dynamic-theming" as theme;
+@use '@angular/material' as mat;
+@use '@cpangular/material-dynamic-theming' as theme;
 
-$themeName: "purple-green";
+$themeName: 'purple-green';
 
 $primary: theme.palette(mat.$purple-palette, 700, 500, 800);
 $accent: theme.palette(mat.$green-palette, A200, A100, A400);

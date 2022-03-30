@@ -1,30 +1,19 @@
-import {
-  Directive,
-  EmbeddedViewRef,
-  Input,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges,
-  TemplateRef,
-  ViewContainerRef,
-} from "@angular/core";
-import { IViewDirective } from "./IViewDirective";
-import { ViewAnchorService } from "./view-anchor.service";
+import { Directive, EmbeddedViewRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewContainerRef } from '@angular/core';
+import { IViewDirective } from './IViewDirective';
+import { ViewAnchorService } from './view-anchor.service';
 
 @Directive({
-  selector: "[cpngProjectToAnchor]",
+  selector: '[cpngProjectToAnchor]',
 })
-export class ProjectToAnchorDirective
-  implements OnChanges, OnDestroy, IViewDirective
-{
+export class ProjectToAnchorDirective implements OnChanges, OnDestroy, IViewDirective {
   private _attached: boolean = false;
   private _inlineFallback: boolean = true;
   private _viewRef: EmbeddedViewRef<any>;
 
-  @Input("cpngProjectToAnchor")
+  @Input('cpngProjectToAnchor')
   public projectToAnchor?: string | symbol;
 
-  @Input("cpngProjectToAnchorInlineFallback")
+  @Input('cpngProjectToAnchorInlineFallback')
   public get inlineFallback(): boolean {
     return this._inlineFallback;
   }
@@ -45,12 +34,11 @@ export class ProjectToAnchorDirective
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const projectToAnchorChange = changes["projectToAnchor"];
+    const projectToAnchorChange = changes['projectToAnchor'];
     if (projectToAnchorChange) {
       this.service.viewAdded(this, projectToAnchorChange.currentValue);
     }
-    const inlineFallbackChange =
-      changes["inlineFallback"] ?? changes["projectToAnchorInlineFallback"];
+    const inlineFallbackChange = changes['inlineFallback'] ?? changes['projectToAnchorInlineFallback'];
     if (inlineFallbackChange) {
       if (!this._attached) {
         this._remove();
@@ -86,8 +74,6 @@ export class ProjectToAnchorDirective
   private _addInline() {
     this._viewRef?.rootNodes.forEach((n) => n.remove());
     const target = this.viewContainer.element.nativeElement as HTMLElement;
-    this._viewRef?.rootNodes.forEach((n) =>
-      target.parentElement?.insertBefore(n, target)
-    );
+    this._viewRef?.rootNodes.forEach((n) => target.parentElement?.insertBefore(n, target));
   }
 }

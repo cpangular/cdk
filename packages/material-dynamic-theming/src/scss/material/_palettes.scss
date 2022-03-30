@@ -1,6 +1,6 @@
 @function palette($name, $prefix: null) {
   @if $prefix {
-    $name: "#{$prefix}-#{$name}";
+    $name: '#{$prefix}-#{$name}';
   }
 
   @return (
@@ -59,18 +59,18 @@
 }
 
 @function primaryPalette($prefix: null) {
-  @return palette("primary", $prefix);
+  @return palette('primary', $prefix);
 }
 @function accentPalette($prefix: null) {
-  @return palette("accent", $prefix);
+  @return palette('accent', $prefix);
 }
 
 @function warnPalette($prefix: null) {
-  @return palette("warn", $prefix);
+  @return palette('warn', $prefix);
 }
 
 @function background($prefix: null) {
-  $name: if($prefix, "#{$prefix}-background", "background");
+  $name: if($prefix, '#{$prefix}-background', 'background');
 
   @return (
     status-bar: var(--#{$name}-status-bar),
@@ -92,7 +92,7 @@
 }
 
 @function foreground($prefix: null) {
-  $name: if($prefix, "#{$prefix}-foreground", "foreground");
+  $name: if($prefix, '#{$prefix}-foreground', 'foreground');
   @return (
     base: var(--#{$name}-base),
     divider: var(--#{$name}-divider),

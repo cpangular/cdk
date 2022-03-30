@@ -1,6 +1,4 @@
 {
-    "name": "resize",
-    "peerDependencies": {
-        
-    }
+  "name": "resize",
+  "peerDependencies": {}
 }

@@ -1,6 +1,4 @@
 {
-    "name": "value-resolver",
-    "peerDependencies": {
-        
-    }
+  "name": "value-resolver",
+  "peerDependencies": {}
 }

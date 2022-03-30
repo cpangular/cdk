@@ -9,19 +9,17 @@ import {
   SimpleChanges,
   Type,
   ViewContainerRef,
-} from "@angular/core";
-import { IViewAnchorDirective } from "./IViewAnchorDirective";
-import { IViewDirective } from "./IViewDirective";
-import { ViewAnchorService } from "./view-anchor.service";
+} from '@angular/core';
+import { IViewAnchorDirective } from './IViewAnchorDirective';
+import { IViewDirective } from './IViewDirective';
+import { ViewAnchorService } from './view-anchor.service';
 
 @Directive({
-  selector: "ng-container[cpngViewAnchor]",
-  exportAs: "viewAnchor",
+  selector: 'ng-container[cpngViewAnchor]',
+  exportAs: 'viewAnchor',
 })
-export class ViewAnchorDirective
-  implements IViewAnchorDirective, OnChanges, OnDestroy
-{
-  @Input("cpngViewAnchor")
+export class ViewAnchorDirective implements IViewAnchorDirective, OnChanges, OnDestroy {
+  @Input('cpngViewAnchor')
   public id!: string | symbol;
 
   private _views: IViewDirective[] = [];
@@ -47,7 +45,7 @@ export class ViewAnchorDirective
   ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const idChange = changes["id"];
+    const idChange = changes['id'];
     if (idChange) {
       const id = idChange.currentValue;
       if (id) {
@@ -57,7 +55,7 @@ export class ViewAnchorDirective
       }
     }
 
-    const wrapperChange = changes["wrapperComponent"];
+    const wrapperChange = changes['wrapperComponent'];
     if (wrapperChange) {
       if (!wrapperChange.firstChange) {
         this.updateWrappers();
@@ -103,24 +101,20 @@ export class ViewAnchorDirective
     if (!this.wrapperComponent) {
       return [nodes];
     }
-    const factory = this.componentFactoryResolver.resolveComponentFactory(
-      this.wrapperComponent
-    );
+    const factory = this.componentFactoryResolver.resolveComponentFactory(this.wrapperComponent);
     let selectors = factory.ngContentSelectors;
 
     const projectedNodes = selectors
       .map((s) => {
-        if (s !== "*") {
-          const matches = nodes.filter((node) =>
-            node.matches ? node.matches(s) : false
-          );
+        if (s !== '*') {
+          const matches = nodes.filter((node) => (node.matches ? node.matches(s) : false));
           nodes = nodes.filter((n) => matches.indexOf(n) === -1);
           return matches;
         }
         return s;
       })
       .map((s) => {
-        if (s === "*") {
+        if (s === '*') {
           return [...nodes];
         }
         return s;

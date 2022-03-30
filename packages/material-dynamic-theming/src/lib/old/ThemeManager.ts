@@ -1,10 +1,10 @@
-import { CssUtils } from "./CssUtils";
+import { CssUtils } from './CssUtils';
 //import { Theme } from "./Theme.old";
-import Enumerable from "linq";
-import { BehaviorSubject, distinctUntilChanged, map, Observable } from "rxjs";
+import Enumerable from 'linq';
+import { BehaviorSubject, distinctUntilChanged, map, Observable } from 'rxjs';
 
 export class ThemeManager {
-    /*
+  /*
   private readonly _themes: Theme[] = CssUtils.readThemesFromDom();
   private readonly _themesEnumerable: Enumerable.IEnumerable<Theme> =
     Enumerable.from(this._themes);

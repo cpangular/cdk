@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
-import { isDarkMode, setDarkMode, toggleDarkMode, setActiveTheme } from "@cpangular/material-dynamic-theming";
+import { Component } from '@angular/core';
+import { isDarkMode, setDarkMode, toggleDarkMode, setActiveTheme } from '@cpangular/material-dynamic-theming';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   themes = isDarkMode();
@@ -28,7 +28,7 @@ export class AppComponent {
   }
   */
   constructor() {
-   /* setTimeout(() => {
+    /* setTimeout(() => {
       toggleDarkMode();
       setTimeout(() => {
         toggleDarkMode();

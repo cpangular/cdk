@@ -1,7 +1,7 @@
-@use "../../material-dynamic-theming" as theme;
-@use "../../material-dynamic-theming/material";
+@use '../../material-dynamic-theming' as theme;
+@use '../../material-dynamic-theming/material';
 
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
 
 $orange: theme.palette(mat.$orange-palette);
 $blue: theme.palette(mat.$blue-palette);
@@ -9,7 +9,7 @@ $pink: theme.palette(mat.$pink-palette);
 $purple: theme.palette(mat.$purple-palette);
 
 $myTheme: theme.define(
-  "my-theme",
+  'my-theme',
   (
     dark: (
       primary: $blue,
@@ -25,7 +25,7 @@ $myTheme: theme.define(
 );
 
 $myThemeReversed: theme.define(
-  "my-theme-rev",
+  'my-theme-rev',
   (
     dark: (
       primary: $orange,
@@ -41,7 +41,7 @@ $myThemeReversed: theme.define(
 );
 
 $mike: theme.define(
-  "mike",
+  'mike',
   (
     dark: (
       primary: $pink,
@@ -60,7 +60,7 @@ $themes: theme.register($myTheme);
 $themes: theme.register($myThemeReversed, $themes);
 $themes: theme.register($mike, $themes);
 
-$themes: theme.build($themes, "my-theme");
+$themes: theme.build($themes, 'my-theme');
 
 @include theme.styles($themes);
 
@@ -80,5 +80,5 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }

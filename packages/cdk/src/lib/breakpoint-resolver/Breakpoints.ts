@@ -1,4 +1,4 @@
-import { BreakpointValues } from "./BreakpointValues";
+import { BreakpointValues } from './BreakpointValues';
 
 export class Breakpoints {
   public static Handset: string = BreakpointValues.Handset;
@@ -18,12 +18,12 @@ export class Breakpoints {
   public static Large: string = BreakpointValues.Large;
   public static XLarge: string = BreakpointValues.XLarge;
 
-  public static SmallOrSmaller: string = "SmallOrSmaller";
-  public static SmallOrLarger: string = "SmallOrLarger";
+  public static SmallOrSmaller: string = 'SmallOrSmaller';
+  public static SmallOrLarger: string = 'SmallOrLarger';
 
-  public static MediumOrSmaller: string = "MediumOrSmaller";
-  public static MediumOrLarger: string = "MediumOrLarger";
+  public static MediumOrSmaller: string = 'MediumOrSmaller';
+  public static MediumOrLarger: string = 'MediumOrLarger';
 
-  public static LargeOrSmaller: string = "LargeOrSmaller";
-  public static LargeOrLarger: string = "LargeOrLarger";
+  public static LargeOrSmaller: string = 'LargeOrSmaller';
+  public static LargeOrLarger: string = 'LargeOrLarger';
 }

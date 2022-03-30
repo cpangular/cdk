@@ -1,7 +1,7 @@
-@use "@angular/material" as mat;
-@use "@cpangular/material-dynamic-theming" as theme;
+@use '@angular/material' as mat;
+@use '@cpangular/material-dynamic-theming' as theme;
 
-$themeName: "pink-bluegrey";
+$themeName: 'pink-bluegrey';
 
 $primary: theme.palette(mat.$pink-palette, 700, 500, 900);
 $accent: theme.palette(mat.$blue-grey-palette, A200, A100, A400);

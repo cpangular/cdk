@@ -1,4 +1,3 @@
-
 export interface IMaterialScssPalette {
   50: string;
   100: string;
@@ -35,9 +34,7 @@ export interface IMaterialScssPalette {
   darker?: string;
   text?: string;
 
-  "default-contrast"?: string;
-  "lighter-contrast"?: string;
-  "darker-contrast"?: string;
+  'default-contrast'?: string;
+  'lighter-contrast'?: string;
+  'darker-contrast'?: string;
 }
-
-
