@@ -541,9 +541,9 @@ export class LayoutComponent implements OnInit {
   }
 
   public setInsetProperties(elm: HTMLElement, sizes: LayerSizes, prefix?: string) {
-    elm.style.setProperty(`--${prefix ? `${prefix}-` : ''}top`, `${sizes.top.height}px`);
+     elm.style.setProperty(`--${prefix ? `${prefix}-` : ''}top`, `${sizes.top.height}px`);
     elm.style.setProperty(`--${prefix ? `${prefix}-` : ''}left`, `${sizes.left.width}px`);
-          elm.style.setProperty(`--${prefix ? `${prefix}-` : ''}bottom`, `${sizes.bottom.height}px`);
+    elm.style.setProperty(`--${prefix ? `${prefix}-` : ''}bottom`, `${sizes.bottom.height}px`);
     elm.style.setProperty(`--${prefix ? `${prefix}-` : ''}right`, `${sizes.right.width}px`);
   }
 }
