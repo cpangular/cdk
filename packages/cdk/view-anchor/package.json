@@ -1,6 +1,4 @@
 {
-    "name": "view-anchor",
-    "peerDependencies": {
-        
-    }
+  "name": "view-anchor",
+  "peerDependencies": {}
 }

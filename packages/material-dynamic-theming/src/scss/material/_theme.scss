@@ -1,0 +1,33 @@
+@use './palettes';
+
+@function -private-theme($dark, $prefix: null) {
+  $primary: palettes.palette('primary', $prefix);
+  $accent: palettes.palette('accent', $prefix);
+  $warn: palettes.palette('warn', $prefix);
+  $foreground: palettes.foreground($prefix);
+  $background: palettes.background($prefix);
+  @return (
+    color: (
+      primary: $primary,
+      accent: $accent,
+      warn: $warn,
+      is-dark: $dark,
+      foreground: $foreground,
+      background: $background,
+    ),
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+    is-dark: $dark,
+    foreground: $foreground,
+    background: $background
+  );
+}
+
+@function lightTheme($prefix: null) {
+  @return -private-theme(false, $prefix);
+}
+
+@function darkTheme($prefix: null) {
+  @return -private-theme(true, $prefix);
+}

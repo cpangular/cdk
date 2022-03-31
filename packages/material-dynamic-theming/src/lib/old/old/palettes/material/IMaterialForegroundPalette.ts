@@ -1,4 +1,4 @@
-import { IBackgroundPalette } from "../IBackgroundPalette";
+import { IBackgroundPalette } from '../IBackgroundPalette';
 
 export interface IMaterialForegroundPalette extends IBackgroundPalette {
   base: string;

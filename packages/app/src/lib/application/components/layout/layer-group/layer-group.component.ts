@@ -1,28 +1,22 @@
-import { BooleanInput, coerceBooleanProperty } from "@angular/cdk/coercion";
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterViewInit,
   Component,
   ContentChild,
   ElementRef,
   EventEmitter,
+  HostBinding,
+  HostListener,
   Input,
   OnDestroy,
   Output,
   QueryList,
   TemplateRef,
   ViewChildren,
-} from "@angular/core";
-import {
-  BehaviorSubject,
-  combineLatest,
-  map,
-  shareReplay,
-  Subject,
-  takeUntil,
-  tap,
-} from "rxjs";
-import { LayerComponent } from "../layer/layer.component";
-import { LayoutComponent } from "../layout.component";
+} from '@angular/core';
+import { combineLatest, filter, map, merge, of, startWith, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { LayerComponent } from '../layer/layer.component';
+import { LayoutComponent } from '../layout.component';
 
 export interface LayerSizes {
   top: DOMRect;
@@ -47,43 +41,96 @@ export interface ILayer {
 }
 
 @Component({
-  selector: "div[layer-group]",
-  templateUrl: "./layer-group.component.html",
-  styleUrls: ["./layer-group.component.scss"],
+  selector: 'div[layer-group]',
+  templateUrl: './layer-group.component.html',
+  styleUrls: ['./layer-group.component.scss'],
 })
 export class LayerGroupComponent implements AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  public constructor(
-    public readonly elementRef: ElementRef<HTMLElement>,
-    private readonly layout: LayoutComponent,
-    ) {}
+  @HostListener('click')
+  protected handleHostClick(evt: MouseEvent) {
+    this.hostClicked$.next(evt);
+  }
 
-  @Input("layer-group")
-  public layerGroup: string = "";
+  @Output()
+  public hostClicked$ = new Subject<MouseEvent>();
+  @Output()
+  public overlayClicked$ = new Subject<MouseEvent>();
+  @Output()
+  public contentClicked$ = new Subject<MouseEvent>();
+  @Output()
+  public innerOverlayClicked$ = new Subject<MouseEvent>();
 
-  @ContentChild("top")
+  @Output()
+  public disabledClicked$ = merge(
+    this.hostClicked$.pipe(filter((v) => this.disabled)),
+    this.contentClicked$.pipe(filter((v) => this.disabled || this.contentDisabled)),
+    this.innerOverlayClicked$.pipe(filter((v) => this.disabled || this.contentDisabled))
+  );
+
+  public constructor(public readonly elementRef: ElementRef<HTMLElement>, private readonly layout: LayoutComponent) {}
+
+  @Input('layer-group')
+  public layerGroup: string = '';
+
+  public get innerOverlayClass() {
+    return {
+      [`${this.layerGroup}-inner-inset-padding`]: true,
+    };
+  }
+
+  private _disabled: boolean = false;
+  @Input()
+  @HostBinding('attr.disabled')
+  public get disabled(): boolean {
+    return this._disabled;
+  }
+  public set disabled(value: BooleanInput) {
+    this._disabled = coerceBooleanProperty(value);
+  }
+  private _contentDisabled: boolean = false;
+  @Input()
+  @HostBinding('attr.contentDisabled')
+  public get contentDisabled(): boolean {
+    return this._contentDisabled;
+  }
+  public set contentDisabled(value: BooleanInput) {
+    this._contentDisabled = coerceBooleanProperty(value);
+  }
+
+  @ContentChild('top')
   public _topTemplate: TemplateRef<any> | null = null;
-  @ContentChild("overlayTop")
+  @ContentChild('overlayTop')
   public _overlayTopTemplate: TemplateRef<any> | null = null;
+  @ContentChild('innerOverlayTop')
+  public _innerOverlayTopTemplate: TemplateRef<any> | null = null;
 
-  @ContentChild("left")
+  @ContentChild('left')
   public _leftTemplate?: TemplateRef<any>;
-  @ContentChild("overlayLeft")
+  @ContentChild('overlayLeft')
   public _overlayLeftTemplate?: TemplateRef<any>;
+  @ContentChild('innerOverlayLeft')
+  public _innerOverlayLeftTemplate?: TemplateRef<any>;
 
-  @ContentChild("bottom")
+  @ContentChild('bottom')
   public _bottomTemplate?: TemplateRef<any>;
-  @ContentChild("overlayBottom")
+  @ContentChild('overlayBottom')
   public _overlayBottomTemplate?: TemplateRef<any>;
+  @ContentChild('innerOverlayBottom')
+  public _innerOverlayBottomTemplate?: TemplateRef<any>;
 
-  @ContentChild("right")
+  @ContentChild('right')
   public _rightTemplate!: TemplateRef<any>;
-  @ContentChild("overlayRight")
+  @ContentChild('overlayRight')
   public _overlayRightTemplate?: TemplateRef<any>;
-  
-  @ContentChild("overlayCenter")
+  @ContentChild('innerOverlayRight')
+  public _innerOverlayRightTemplate?: TemplateRef<any>;
+
+  @ContentChild('overlayCenter')
   public _overlayCenterTemplate?: TemplateRef<any>;
+  @ContentChild('innerOverlayCenter')
+  public _innerOverlayCenterTemplate?: TemplateRef<any>;
 
   @ViewChildren(LayerComponent, { emitDistinctChangesOnly: true })
   private _layers?: QueryList<LayerComponent>;
@@ -92,148 +139,91 @@ export class LayerGroupComponent implements AfterViewInit, OnDestroy {
   public resizeLayers = new EventEmitter();
 
   public get overlayLayer(): ILayer | undefined {
-    return this._layers?.get(0);
+    return this._layers?.find((i) => i.layer === 'overlay');
   }
-  public get baseLayer(): ILayer | undefined {
-    return this._layers?.get(1);
+  public get contentLayer(): ILayer | undefined {
+    return this._layers?.find((i) => i.layer === 'content');
+  }
+  public get innerOverlayLayer(): ILayer | undefined {
+    return this._layers?.find((i) => i.layer === 'inner-overlay');
   }
 
   public closeOverlayLayer() {
     this.overlayLayer?.closeAll();
   }
+  public closeInnerOverlayLayer() {
+    this.innerOverlayLayer?.closeAll();
+  }
   public openOverlayLayer() {
     this.overlayLayer?.openAll();
   }
+  public openInnerOverlayLayer() {
+    this.innerOverlayLayer?.openAll();
+  }
   public closeBaseLayer() {
-    this.baseLayer?.closeAll();
+    this.contentLayer?.closeAll();
   }
   public openBaseLayer() {
-    this.baseLayer?.openAll();
+    this.contentLayer?.openAll();
   }
   public closeAll() {
     this.closeBaseLayer();
     this.closeOverlayLayer();
+    this.closeInnerOverlayLayer();
   }
   public openAll() {
     this.openBaseLayer();
     this.openOverlayLayer();
+    this.openInnerOverlayLayer();
   }
 
   public ngAfterViewInit(): void {
-    const a = combineLatest([
-      this.overlayLayer!.layerResize,
-      this.baseLayer!.layerResize,
-    ])
+    this._layers?.changes
       .pipe(
+        startWith(undefined),
         takeUntil(this.destroy$),
-        tap(([overlaySizes, sizes]) => {
-          const elm = this.layout.elementRef.nativeElement;
+        map((_) => this._layers),
+        map((ql) => {
+          var layers: (EventEmitter<LayerSizes> | undefined)[] = [undefined, undefined, undefined];
+          ql?.forEach((layer) => {
+            if (layer === this.overlayLayer) {
+              layers[0] = layer.layerResize as EventEmitter<LayerSizes>;
+            } else if (layer === this.contentLayer) {
+              layers[1] = layer.layerResize as EventEmitter<LayerSizes>;
+            } else {
+              layers[2] = layer.layerResize as EventEmitter<LayerSizes>;
+            }
+          });
+          return layers;
+        }),
 
+        switchMap((layers) => {
+          return combineLatest(layers.map((l) => (l ? l : (of({} as LayerSizes) as EventEmitter<LayerSizes>))));
+        }),
+
+        tap(([overlaySizes, sizes, inlineOverlaySizes]) => {
+          const size = this.elementRef.nativeElement.getBoundingClientRect();
+          this.elementRef.nativeElement.style.setProperty(`--content-top`, `${sizes!.top.height}px`);
+          this.elementRef.nativeElement.style.setProperty(`--content-left`, `${sizes!.left.width}px`);
+          this.elementRef.nativeElement.style.setProperty(`--content-bottom`, `${size.height - sizes!.bottom.height}px`);
+          this.elementRef.nativeElement.style.setProperty(`--content-right`, `${size.width - sizes!.right.width}px`);
+
+          const elm = this.layout.elementRef.nativeElement;
           if (elm) {
             const base = `--${this.layerGroup}`;
-            let grp = ``;
-            let prop = ``;
 
-            if (this._overlayTopTemplate) {
-              grp = `${base}-overlay-top`;
-              prop = `${grp}-top`;
-              elm.style.setProperty(prop, `${overlaySizes.top.top}px`);
-              prop = `${grp}-left`;
-              elm.style.setProperty(prop, `${overlaySizes.top.left}px`);
-              prop = `${grp}-width`;
-              elm.style.setProperty(prop, `${overlaySizes.top.width}px`);
-              prop = `${grp}-height`;
-              elm.style.setProperty(prop, `${overlaySizes.top.height}px`);
-            }
-            if (this._overlayLeftTemplate) {
-              grp = `${base}-overlay-left`;
-              prop = `${grp}-top`;
-              elm.style.setProperty(prop, `${overlaySizes.left.top}px`);
-              prop = `${grp}-left`;
-              elm.style.setProperty(prop, `${overlaySizes.left.left}px`);
-              prop = `${grp}-width`;
-              elm.style.setProperty(prop, `${overlaySizes.left.width}px`);
-              prop = `${grp}-height`;
-              elm.style.setProperty(prop, `${overlaySizes.left.height}px`);
-            }
-            if (this._overlayBottomTemplate) {
-              grp = `${base}-overlay-bottom`;
-              prop = `${grp}-top`;
-              elm.style.setProperty(prop, `${overlaySizes.bottom.top}px`);
-              prop = `${grp}-left`;
-              elm.style.setProperty(prop, `${overlaySizes.bottom.left}px`);
-              prop = `${grp}-width`;
-              elm.style.setProperty(prop, `${overlaySizes.bottom.width}px`);
-              prop = `${grp}-height`;
-              elm.style.setProperty(prop, `${overlaySizes.bottom.height}px`);
-            }
-            if (this._overlayRightTemplate) {
-              grp = `${base}-overlay-right`;
-              prop = `${grp}-top`;
-              elm.style.setProperty(prop, `${overlaySizes.right.top}px`);
-              prop = `${grp}-left`;
-              elm.style.setProperty(prop, `${overlaySizes.right.left}px`);
-              prop = `${grp}-width`;
-              elm.style.setProperty(prop, `${overlaySizes.right.width}px`);
-              prop = `${grp}-height`;
-              elm.style.setProperty(prop, `${overlaySizes.right.height}px`);
-            }
-            if (this._topTemplate) {
-              grp = `${base}-top`;
-              prop = `${grp}-top`;
-              elm.style.setProperty(prop, `${sizes.top.top}px`);
-              prop = `${grp}-left`;
-              elm.style.setProperty(prop, `${sizes.top.left}px`);
-              prop = `${grp}-width`;
-              elm.style.setProperty(prop, `${sizes.top.width}px`);
-              prop = `${grp}-height`;
-              elm.style.setProperty(prop, `${sizes.top.height}px`);
-            }
-            if (this._leftTemplate) {
-              grp = `${base}-left`;
-              prop = `${grp}-top`;
-              elm.style.setProperty(prop, `${sizes.left.top}px`);
-              prop = `${grp}-left`;
-              elm.style.setProperty(prop, `${sizes.left.left}px`);
-              prop = `${grp}-width`;
-              elm.style.setProperty(prop, `${sizes.left.width}px`);
-              prop = `${grp}-height`;
-              elm.style.setProperty(prop, `${sizes.left.height}px`);
-            }
-            if (this._bottomTemplate) {
-              grp = `${base}-bottom`;
-              prop = `${grp}-top`;
-              elm.style.setProperty(prop, `${sizes.bottom.top}px`);
-              prop = `${grp}-left`;
-              elm.style.setProperty(prop, `${sizes.bottom.left}px`);
-              prop = `${grp}-width`;
-              elm.style.setProperty(prop, `${sizes.bottom.width}px`);
-              prop = `${grp}-height`;
-              elm.style.setProperty(prop, `${sizes.bottom.height}px`);
-            }
-            if (this._rightTemplate) {
-              grp = `${base}-right`;
-              prop = `${grp}-top`;
-              elm.style.setProperty(prop, `${sizes.right.top}px`);
-              prop = `${grp}-left`;
-              elm.style.setProperty(prop, `${sizes.right.left}px`);
-              prop = `${grp}-width`;
-              elm.style.setProperty(prop, `${sizes.right.width}px`);
-              prop = `${grp}-height`;
-              elm.style.setProperty(prop, `${sizes.right.height}px`);
-            }
-            grp = `${base}-center`;
-            prop = `${grp}-top`;
-            elm.style.setProperty(prop, `${sizes.rest.top}px`);
-            prop = `${grp}-left`;
-            elm.style.setProperty(prop, `${sizes.rest.left}px`);
-            prop = `${grp}-width`;
-            elm.style.setProperty(prop, `${sizes.rest.width}px`);
-            prop = `${grp}-height`;
-            elm.style.setProperty(prop, `${sizes.rest.height}px`);
+            this.setDomRectProperties(elm, `${base}-overlay-top`, overlaySizes?.top);
+            this.setDomRectProperties(elm, `${base}-overlay-left`, overlaySizes?.left);
+            this.setDomRectProperties(elm, `${base}-overlay-bottom`, overlaySizes?.bottom);
+            this.setDomRectProperties(elm, `${base}-overlay-right`, overlaySizes?.right);
+            this.setDomRectProperties(elm, `${base}-overlay-center`, overlaySizes?.rest);
 
+            this.setDomRectProperties(elm, `${base}-top`, sizes?.top);
+            this.setDomRectProperties(elm, `${base}-left`, sizes?.left);
+            this.setDomRectProperties(elm, `${base}-bottom`, sizes?.bottom);
+            this.setDomRectProperties(elm, `${base}-right`, sizes?.right);
+            this.setDomRectProperties(elm, `${base}-center`, sizes?.rest);
           }
-          //sizes.bottom
         })
       )
       .subscribe(this.resizeLayers);
@@ -241,5 +231,19 @@ export class LayerGroupComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public setDomRectProperties(elm: HTMLElement, prefix: string, domRect: DOMRect | undefined) {
+    if (!domRect) {
+      elm.style.removeProperty(`${prefix}-top`);
+      elm.style.removeProperty(`${prefix}-left`);
+      elm.style.removeProperty(`${prefix}-width`);
+      elm.style.removeProperty(`${prefix}-height`);
+    } else {
+      elm.style.setProperty(`${prefix}-top`, `${domRect.top}px`);
+      elm.style.setProperty(`${prefix}-left`, `${domRect.left}px`);
+      elm.style.setProperty(`${prefix}-width`, `${domRect.width}px`);
+      elm.style.setProperty(`${prefix}-height`, `${domRect.height}px`);
+    }
   }
 }

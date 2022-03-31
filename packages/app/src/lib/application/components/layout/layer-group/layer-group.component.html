@@ -1,48 +1,90 @@
-<div layer="overlay">
-    <ng-container *ngIf="_overlayTopTemplate">
-        <ng-template #top>
-            <ng-container *ngTemplateOutlet="_overlayTopTemplate"></ng-container>
-        </ng-template>
-    </ng-container>
-    <ng-container *ngIf="_overlayLeftTemplate">
-        <ng-template #left>
-            <ng-container *ngTemplateOutlet="_overlayLeftTemplate"></ng-container>
-        </ng-template>
-    </ng-container>
-    <ng-container *ngIf="_overlayBottomTemplate">
-        <ng-template #bottom>
-            <ng-container *ngTemplateOutlet="_overlayBottomTemplate"></ng-container>
-        </ng-template>
-    </ng-container>
-    <ng-container *ngIf="_overlayRightTemplate">
-        <ng-template #right>
-            <ng-container *ngTemplateOutlet="_overlayRightTemplate"></ng-container>
-        </ng-template>
-    </ng-container>
-    <ng-container *ngIf="_overlayCenterTemplate">
-        <ng-container *ngTemplateOutlet="_overlayCenterTemplate"></ng-container>
-    </ng-container>
+<div
+  layer="overlay"
+  (click)="overlayClicked$.next($event)"
+  *ngIf="_overlayTopTemplate || _overlayLeftTemplate || _overlayBottomTemplate || _overlayRightTemplate || _overlayCenterTemplate"
+>
+  <ng-container *ngIf="_overlayTopTemplate">
+    <ng-template #top>
+      <ng-container *ngTemplateOutlet="_overlayTopTemplate"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="_overlayLeftTemplate">
+    <ng-template #left>
+      <ng-container *ngTemplateOutlet="_overlayLeftTemplate"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="_overlayBottomTemplate">
+    <ng-template #bottom>
+      <ng-container *ngTemplateOutlet="_overlayBottomTemplate"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="_overlayRightTemplate">
+    <ng-template #right>
+      <ng-container *ngTemplateOutlet="_overlayRightTemplate"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="_overlayCenterTemplate">
+    <ng-container *ngTemplateOutlet="_overlayCenterTemplate"></ng-container>
+  </ng-container>
 </div>
-<div layer="base">
-    <ng-container *ngIf="_topTemplate">
-        <ng-template #top>
-            <ng-container *ngTemplateOutlet="_topTemplate"></ng-container>
-        </ng-template>
-    </ng-container>
-    <ng-container *ngIf="_leftTemplate">
-        <ng-template #left>
-            <ng-container *ngTemplateOutlet="_leftTemplate"></ng-container>
-        </ng-template>
-    </ng-container>
-    <ng-container *ngIf="_bottomTemplate">
-        <ng-template #bottom>
-            <ng-container *ngTemplateOutlet="_bottomTemplate"></ng-container>
-        </ng-template>
-    </ng-container>
-    <ng-container *ngIf="_rightTemplate">
-        <ng-template #right>
-            <ng-container *ngTemplateOutlet="_rightTemplate"></ng-container>
-        </ng-template>
-    </ng-container>
-    <ng-content></ng-content>
+
+<div layer="content" (click)="contentClicked$.next($event)">
+  <ng-container *ngIf="_topTemplate">
+    <ng-template #top>
+      <ng-container *ngTemplateOutlet="_topTemplate"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="_leftTemplate">
+    <ng-template #left>
+      <ng-container *ngTemplateOutlet="_leftTemplate"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="_bottomTemplate">
+    <ng-template #bottom>
+      <ng-container *ngTemplateOutlet="_bottomTemplate"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="_rightTemplate">
+    <ng-template #right>
+      <ng-container *ngTemplateOutlet="_rightTemplate"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-content></ng-content>
+</div>
+
+<div
+  layer="inner-overlay"
+  [ngClass]="innerOverlayClass"
+  (click)="innerOverlayClicked$.next($event)"
+  *ngIf="
+    _innerOverlayTopTemplate ||
+    _innerOverlayLeftTemplate ||
+    _innerOverlayBottomTemplate ||
+    _innerOverlayRightTemplate ||
+    _innerOverlayCenterTemplate
+  "
+>
+  <ng-container *ngIf="_innerOverlayTopTemplate">
+    <ng-template #top>
+      <ng-container *ngTemplateOutlet="_innerOverlayTopTemplate"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="_innerOverlayLeftTemplate">
+    <ng-template #left>
+      <ng-container *ngTemplateOutlet="_innerOverlayLeftTemplate"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="_innerOverlayBottomTemplate">
+    <ng-template #bottom>
+      <ng-container *ngTemplateOutlet="_innerOverlayBottomTemplate"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="_innerOverlayRightTemplate">
+    <ng-template #right>
+      <ng-container *ngTemplateOutlet="_innerOverlayRightTemplate"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="_innerOverlayCenterTemplate">
+    <ng-container *ngTemplateOutlet="_innerOverlayCenterTemplate"></ng-container>
+  </ng-container>
 </div>

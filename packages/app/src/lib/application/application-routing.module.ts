@@ -6,24 +6,26 @@ import { RedirectComponent } from './pages/redirect/redirect.component';
 
 const routes: Routes = [
   {
-    path: "403",
-    component: Error403Component
+    path: '403',
+    component: Error403Component,
   },
   {
-    path: "404",
-    component: Error404Component
+    path: '404',
+    component: Error404Component,
   },
   {
-    path: "302",
-    children: [{
-      path: '**',
-      component: RedirectComponent
-    }]
-  }
+    path: '302',
+    children: [
+      {
+        path: '**',
+        component: RedirectComponent,
+      },
+    ],
+  },
 ];
-console.log('dasd')
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ApplicationRoutingModule { }
+export class ApplicationRoutingModule {}

@@ -1,4 +1,2 @@
-@forward "./core" show core, define-palette, define-light-theme,
-  define-dark-theme;
-@forward "./base-theme/theme-variables" show $theme-dark, $theme-light;
-@forward "./apply" show get-theme-id, has-theme, get-theme, add-theme, build-themes;
+@forward './core' show core, values, palette, define, register, build;
+@forward './apply' show styles;

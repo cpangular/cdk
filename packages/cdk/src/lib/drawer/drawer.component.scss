@@ -1,14 +1,14 @@
 :host {
   display: block;
   position: relative;
-  &[from="top"],
-  &[from="bottom"] {
+  &[from='top'],
+  &[from='bottom'] {
     > div {
       width: 100%;
     }
   }
-  &[from="left"],
-  &[from="right"] {
+  &[from='left'],
+  &[from='right'] {
     > div {
       height: 100%;
     }

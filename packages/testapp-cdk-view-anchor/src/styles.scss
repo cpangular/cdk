@@ -1,57 +1,84 @@
 @use '../../material-dynamic-theming' as theme;
+@use '../../material-dynamic-theming/material';
+
 @use '@angular/material' as mat;
 
-/* You can add global styles to this file, and also import other style files */
+$orange: theme.palette(mat.$orange-palette);
+$blue: theme.palette(mat.$blue-palette);
+$pink: theme.palette(mat.$pink-palette);
+$purple: theme.palette(mat.$purple-palette);
 
-$red: theme.define-palette(mat.$red-palette);
-$orange: theme.define-palette(mat.$orange-palette);
+$myTheme: theme.define(
+  'my-theme',
+  (
+    dark: (
+      primary: $blue,
+      accent: $orange,
+    ),
+    shared: (
+      sizes: (
+        small: 1px,
+        large: 5px,
+      ),
+    ),
+  )
+);
 
-$light-primary: theme.define-palette(mat.$indigo-palette);
-$light-accent: theme.define-palette(mat.$pink-palette);
+$myThemeReversed: theme.define(
+  'my-theme-rev',
+  (
+    dark: (
+      primary: $orange,
+      accent: $blue,
+    ),
+    shared: (
+      sizes: (
+        small: 1px,
+        large: 5px,
+      ),
+    ),
+  )
+);
 
-$light-theme: theme.define-light-theme((
- color: (
-   primary: $light-primary,
-   accent: $light-accent,
- )
-));
+$mike: theme.define(
+  'mike',
+  (
+    dark: (
+      primary: $pink,
+      accent: $purple,
+    ),
+    shared: (
+      sizes: (
+        small: 1px,
+        large: 5px,
+      ),
+    ),
+  )
+);
 
-$dark-theme: theme.define-dark-theme((
- color: (
-   primary: $light-accent,
-   accent: $light-primary,
- )
-));
+$themes: theme.register($myTheme);
+$themes: theme.register($myThemeReversed, $themes);
+$themes: theme.register($mike, $themes);
 
-$darkred-theme: theme.define-dark-theme((
- color: (
-   primary: $red,
-   accent: $orange,
- )
-));
+$themes: theme.build($themes, 'my-theme');
 
-$darkorange-theme: theme.define-dark-theme((
- color: (
-   primary: $orange,
-   accent: $red,
- )
-));
+@include theme.styles($themes);
 
+@include material.core();
+@include material.styles($themes);
 
-
-
-@include theme.add-theme('blue',  $light-theme);
-@include theme.add-theme('blue',  $dark-theme);
-@include theme.add-theme('orange', $darkorange-theme);
-
-
-@include theme.build-themes('orange', true);
-
-
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   position: relative;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}

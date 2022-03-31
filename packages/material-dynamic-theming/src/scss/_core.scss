@@ -1,43 +1,201 @@
-@use "@angular/material" as mat;
-@use "sass:map";
+@use '@angular/material' as mat;
+@use 'sass:map';
 
-@mixin core() {
-  @include mat.core();
-}
+@function values($base-palette, $aliases: null) {
+  @if not $aliases {
+    @return $base-palette;
+  }
 
-@function define-palette(
-  $base-palette,
-  $default: 500,
-  $lighter: 100,
-  $darker: 700,
-  $text: $default
-) {
-  $palette: map.merge(
-    mat.define-palette($base-palette, $default, $lighter, $darker, $text),
+  @each $key, $val in $aliases {
+    $baseVal: map.get($base-palette, $val);
+    @if not $baseVal {
+      @warn 'Alias "#{$key}" points to an invalid key "#{$val}"';
+    }
+  }
+
+  @return map.merge(
+    $base-palette,
     (
-      selections: (
-        default: $default,
-        lighter: $lighter,
-        darker: $darker,
-        text: $text,
-      ),
+      _aliases: $aliases,
     )
   );
-  @return $palette;
 }
 
-@function define-light-theme(
-  $primary,
-  $accent: null,
-  $warn: define-palette(mat.$red-palette)
-) {
-  @return mat.define-light-theme($primary, $accent, $warn);
+@function palette($palette, $default: 500, $lighter: 100, $darker: 700, $text: $default) {
+  @return values(
+    $palette,
+    (
+      default: $default,
+      lighter: $lighter,
+      darker: $darker,
+      text: $text,
+    )
+  );
 }
 
-@function define-dark-theme(
-  $primary,
-  $accent: null,
-  $warn: define-palette(mat.$red-palette)
-) {
-  @return mat.define-dark-theme($primary, $accent, $warn);
+@function define($themeId, $config) {
+  $lightTheme: map.get($config, 'light');
+  $darkTheme: map.get($config, 'dark');
+  $sharedTheme: map.get($config, 'shared');
+
+  @if not $lightTheme and not $darkTheme {
+    @error ('No theme data provided');
+  }
+  @return (id: $themeId, shared: $sharedTheme, light: $lightTheme, dark: $darkTheme);
+}
+
+@function register($config, $registry: null) {
+  $configId: map.get($config, 'id');
+  @if not $registry {
+    @return (#{$configId}: $config);
+  }
+
+  $existing: map.get($registry, $configId);
+  @if $existing {
+    @warn "Duplicate definition of theme #{$configId}";
+  }
+  @return map.set($registry, $configId, $config);
+}
+
+@function -private-gen-mode-from($mode, $isDark) {
+  @return map.merge(
+    $mode,
+    (
+      background: null,
+      foreground: null,
+    )
+  );
+}
+
+$gray: mat.define-palette(mat.$gray-palette);
+$matDefaultLight: mat.define-light-theme(
+  (
+    color: (
+      primary: $gray,
+      accent: $gray,
+      warn: $gray,
+    ),
+  )
+);
+
+$matDefaultDark: mat.define-dark-theme(
+  (
+    color: (
+      primary: $gray,
+      accent: $gray,
+      warn: $gray,
+    ),
+  )
+);
+
+$defaultTheme: (
+  shared: (),
+  light: (
+    warn: palette(mat.$red-palette),
+    background: map.get($matDefaultLight, 'background'),
+    foreground: map.get($matDefaultLight, 'foreground'),
+  ),
+  dark: (
+    warn: palette(mat.$red-palette),
+    background: map.get($matDefaultDark, 'background'),
+    foreground: map.get($matDefaultDark, 'foreground'),
+  ),
+);
+
+@function -private-apply-defaults-to-mode-sections($theme, $mode) {
+}
+
+@function -private-apply-defaults-to-mode($theme, $mode) {
+  $isDark: if($mode == 'dark', true, false);
+  $data: map.get($theme, $mode);
+
+  @if not $data {
+    $otherMode: if($mode == 'dark', 'light', 'dark');
+    $otherData: map.get($theme, $otherMode);
+    $data: -private-gen-mode-from($otherData, $isDark);
+  }
+
+  $modeDefaults: map.get($defaultTheme, $mode);
+
+  $warn: map.get($data, 'warn');
+  @if not $warn {
+    $warn: map.get($modeDefaults, 'warn');
+    $data: map.merge(
+      $data,
+      (
+        warn: $warn,
+      )
+    );
+  }
+
+  $background: map.get($data, 'background');
+  @if not $background {
+    $background: map.get($modeDefaults, 'background');
+
+    $data: map.merge(
+      $data,
+      (
+        background: $background,
+      )
+    );
+  }
+
+  $foreground: map.get($data, 'foreground');
+  @if not $foreground {
+    $foreground: map.get($modeDefaults, 'foreground');
+    $data: map.merge(
+      $data,
+      (
+        foreground: $foreground,
+      )
+    );
+  }
+  @return $data;
+}
+
+@function -private-apply-defaults-to-shared($shared) {
+  @if not $shared {
+    $shared: ();
+  }
+  @return $shared;
+}
+
+@function -private-apply-defaults-to-theme($theme) {
+  // dark
+  $dark: -private-apply-defaults-to-mode($theme, 'dark');
+  // light
+  $light: -private-apply-defaults-to-mode($theme, 'light');
+  // shared
+  $shared: -private-apply-defaults-to-shared(map.get($theme, 'shared'));
+
+  @return map.merge(
+    $theme,
+    (
+      shared: $shared,
+      light: $light,
+      dark: $dark,
+    )
+  );
+}
+
+@function -private-apply-defaults-to-registry($registry) {
+  @each $key, $theme in $registry {
+    $registry: map.merge($registry, (#{$key}: -private-apply-defaults-to-theme($theme)));
+  }
+
+  @return $registry;
+}
+
+@function build($registry, $defaultThemeId, $defaultDark: false, $propertyPrefix: 'theme') {
+  $defaultTheme: map.get($registry, $defaultThemeId);
+  @if not $defaultTheme {
+    @error 'Cannot set default theme to "#{$defaultThemeId}". Does not exist.';
+  }
+
+  @return (
+    defaultTheme: $defaultThemeId,
+    defaultDark: $defaultDark,
+    propertyPrefix: $propertyPrefix,
+    registry: -private-apply-defaults-to-registry($registry)
+  );
 }

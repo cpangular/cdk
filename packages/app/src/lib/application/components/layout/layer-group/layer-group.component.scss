@@ -1,94 +1,38 @@
 :host {
   display: grid;
   overflow: hidden;
-  width:100%;
+  width: 100%;
   pointer-events: none;
   > * {
     grid-column: 1 / -1;
     grid-row: 1 / -1;
     z-index: 1;
   }
-  > [layer="overlay"] {
+  > [layer='overlay'] {
+    z-index: 20;
+  }
+  > [layer='content'] {
     z-index: 10;
   }
-}
-
-/*
-:host {
-  --close-speed: 0.2s;
-  pointer-events: none;
-  display: grid;
-
-  overflow: hidden;
-
-  grid-template-columns: auto 1fr auto;
-  grid-template-rows: auto 1fr auto;
-  grid-template-areas:
-    "top    top    top"
-    "left   rest   right"
-    "left bottom   right";
-
-  > [area] {
-    display: flex;
-    ::ng-deep > * {
-      pointer-events: all;
-    }
+  > [layer='inner-overlay'] {
+    z-index: 0;
+    inset: var(--content-top) var(--content-right) var(--content-bottom) var(--content-left);
   }
 
-  > [area="top"] {
-    --background: var(--area-top-background, transparent);
-    background: var(--background);
-    grid-area: top;
-    margin-top: 0px;
-    flex-direction: column;
-    transition: margin-top ease-in var(--close-speed);
-    &.closed {
-      margin-top: calc(-1 * var(--height));
+  &.content {
+    > [layer='inner-overlay'] {
+      z-index: 15;
     }
-  }
-
-  > [area="left"] {
-    --background: var(--area-left-background, transparent);
-    background: var(--background);
-    grid-area: left;
-    margin-left: 0px;
-    flex-direction: row;
-    transition: margin-left ease-in var(--close-speed);
-    &.closed {
-      margin-left: calc(-1 * var(--width));
-    }
-  }
-
-  > [area="bottom"] {
-    --background: var(--area-bottom-background, transparent);
-    background: var(--background);
-    grid-area: bottom;
-    margin-bottom: 0px;
-    flex-direction: column-reverse;
-    transition: margin-bottom ease-in var(--close-speed);
-    &.closed {
-      margin-bottom: calc(-1 * var(--height));
-    }
-  }
-
-  > [area="right"] {
-    --background: var(--area-right-background, transparent);
-    background: var(--background);
-    grid-area: right;
-    margin-right: 0px;
-    flex-direction: row-reverse;
-    transition: margin-right ease-in var(--close-speed);
-    &.closed {
-      margin-right: calc(-1 * var(--width));
-    }
-  }
-  
-  > [area="rest"] {
-    --background: var(--area-rest-background, transparent);
-    background: var(--background);
-    grid-area: rest;
-    flex-direction: column;
   }
 }
-
-*/
+:host[contentDisabled]:not([contentDisabled='false']):not([contentDisabled='0']) > [layer='content'],
+:host[contentDisabled]:not([contentDisabled='false']):not([contentDisabled='0']) > [layer='inner-overlay'],
+:host[disabled]:not([disabled='false']):not([disabled='0']) {
+  &::after {
+    content: ' ';
+    pointer-events: all;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    z-index: 50;
+  }
+}

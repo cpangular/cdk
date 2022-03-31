@@ -1,15 +1,9 @@
-import { Injectable, Optional, SkipSelf } from "@angular/core";
-import Enumerable from "linq";
-import {
-  BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  map,
-  shareReplay,
-} from "rxjs";
-import { IViewAnchorDirective } from "./IViewAnchorDirective";
-import { IViewDirective } from "./IViewDirective";
-import { ViewAnchorId } from "./ViewAnchorId";
+import { Injectable, Optional, SkipSelf } from '@angular/core';
+import Enumerable from 'linq';
+import { BehaviorSubject, combineLatest, distinctUntilChanged, map, shareReplay } from 'rxjs';
+import { IViewAnchorDirective } from './IViewAnchorDirective';
+import { IViewDirective } from './IViewDirective';
+import { ViewAnchorId } from './ViewAnchorId';
 
 interface ViewAnchorRegistration {
   id: ViewAnchorId;
@@ -21,9 +15,8 @@ interface ViewDirectiveRegistration {
   directive: IViewDirective;
 }
 
-
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ViewAnchorService {
   private _views: ViewDirectiveRegistration[] = [];
@@ -73,11 +66,9 @@ export class ViewAnchorService {
     return Enumerable.from(this._anchors);
   }
 
-  public constructor(
-    @Optional() @SkipSelf() private readonly parent: ViewAnchorService
-  ){
-    
-  }
+  private ttt = Math.random();
+
+  public constructor(@Optional() @SkipSelf() private readonly parent: ViewAnchorService) {}
 
   private findViewByDirective(directive: IViewDirective) {
     return this.views.firstOrDefault((v) => {
@@ -104,6 +95,10 @@ export class ViewAnchorService {
     } else if (currentAnchor) {
       this._removeAnchor(currentAnchor);
     }
+    const otherAnchor = this.findAnchorById(id);
+    if (otherAnchor) {
+      this._removeAnchor(otherAnchor);
+    }
 
     this._anchors.push({
       id,
@@ -126,13 +121,13 @@ export class ViewAnchorService {
   }
 
   private _removeAnchor(anchor: ViewAnchorRegistration) {
+    this._anchors = this._anchors.filter((a) => a.directive !== anchor.directive);
     this.views
       .where((v) => v.id === anchor.id)
       .forEach((v) => {
         anchor.directive.removeView(v.directive);
         v.directive.removed();
       });
-    this._anchors = this._anchors.filter((a) => a !== anchor);
   }
 
   public viewAdded(directive: IViewDirective, id: ViewAnchorId) {

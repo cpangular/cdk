@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import { Tree } from "@angular-devkit/schematics";
+import { Tree } from '@angular-devkit/schematics';
 
 interface PackageJson {
   dependencies: Record<string, string>;
@@ -26,13 +26,9 @@ function sortObjectByKeys(obj: Record<string, string>) {
 }
 
 /** Adds a package to the package.json in the given host tree. */
-export function addPackageToPackageJson(
-  host: Tree,
-  pkg: string,
-  version: string
-): Tree {
-  if (host.exists("package.json")) {
-    const sourceText = host.read("package.json")!.toString("utf-8");
+export function addPackageToPackageJson(host: Tree, pkg: string, version: string): Tree {
+  if (host.exists('package.json')) {
+    const sourceText = host.read('package.json')!.toString('utf-8');
     const json = JSON.parse(sourceText) as PackageJson;
 
     if (!json.dependencies) {
@@ -44,24 +40,19 @@ export function addPackageToPackageJson(
       json.dependencies = sortObjectByKeys(json.dependencies);
     }
 
-    host.overwrite("package.json", JSON.stringify(json, null, 2));
+    host.overwrite('package.json', JSON.stringify(json, null, 2));
   }
 
   return host;
 }
 
 /** Gets the version of the specified package by looking at the package.json in the given tree. */
-export function getPackageVersionFromPackageJson(
-  tree: Tree,
-  name: string
-): string | null {
-  if (!tree.exists("package.json")) {
+export function getPackageVersionFromPackageJson(tree: Tree, name: string): string | null {
+  if (!tree.exists('package.json')) {
     return null;
   }
 
-  const packageJson = JSON.parse(
-    tree.read("package.json")!.toString("utf8")
-  ) as PackageJson;
+  const packageJson = JSON.parse(tree.read('package.json')!.toString('utf8')) as PackageJson;
 
   if (packageJson.dependencies && packageJson.dependencies[name]) {
     return packageJson.dependencies[name];

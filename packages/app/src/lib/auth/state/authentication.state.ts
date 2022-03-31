@@ -1,31 +1,14 @@
-import { Inject, Injectable, Injector, Optional } from "@angular/core";
-import { ActivatedRoute, CanActivate, Router, UrlTree } from "@angular/router";
-import { Action, NgxsOnInit, Selector, State, StateContext } from "@ngxs/store";
-import produce, { Draft } from "immer";
-import {
-  distinctUntilChanged,
-  first,
-  firstValueFrom,
-  isObservable,
-  Observable,
-  of,
-  shareReplay,
-  Subject,
-  switchMap,
-  tap,
-} from "rxjs";
-import { IUser } from "../models/IUser";
-import { InitAuthenticationGuard } from "../guards/init-authentication.guard";
-import { AuthenticationService } from "../service/authentication.service";
-import { IAuthenticationService } from "../service/IAuthenticationService";
-import {
-  Authenticate,
-  InitializeAuthentication,
-  Logout,
-  SetUser,
-} from "./authentication.actions";
-import { APP_BASE_HREF } from "@angular/common";
-
+import { APP_BASE_HREF } from '@angular/common';
+import { Inject, Injectable, Injector, Optional } from '@angular/core';
+import { Router } from '@angular/router';
+import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
+import produce, { Draft } from 'immer';
+import { first, Observable, of, shareReplay, Subject, switchMap, tap } from 'rxjs';
+import { InitAuthenticationGuard } from '../guards/init-authentication.guard';
+import { IUser } from '../models/IUser';
+import { AuthenticationService } from '../service/authentication.service';
+import { IAuthenticationService } from '../service/IAuthenticationService';
+import { Authenticate, InitializeAuthentication, Logout, SetUser } from './authentication.actions';
 
 export enum AuthenticationStatus {
   NONE,
@@ -43,7 +26,7 @@ export interface AuthenticationStateModel {
 }
 
 @State<AuthenticationStateModel>({
-  name: "authenticationState",
+  name: 'authenticationState',
   defaults: {
     status: AuthenticationStatus.NONE,
     user: null,
@@ -67,23 +50,6 @@ export class AuthenticationState implements NgxsOnInit {
     return !!state.user;
   }
 
-/*
-  public __init$ = this.service.loadCurrentUser().pipe(
-    tap({
-      next: v =>{
-        console.log('######### 1111111')
-      }
-    }),
-    first(),
-    tap({
-      next: v =>{
-        console.log('######### 2222222222')
-      }
-    }),
-    shareReplay(1)
-  );
-  */
-
   public constructor(
     @Inject(AuthenticationService)
     private readonly service: IAuthenticationService,
@@ -97,33 +63,16 @@ export class AuthenticationState implements NgxsOnInit {
       if (!Array.isArray(c.canActivate)) {
         c.canActivate = [InitAuthenticationGuard];
       } else {
-        c.canActivate = [
-          InitAuthenticationGuard,
-          ...c.canActivate.filter((g) => g !== InitAuthenticationGuard),
-        ];
+        c.canActivate = [InitAuthenticationGuard, ...c.canActivate.filter((g) => g !== InitAuthenticationGuard)];
       }
     });
   }
 
   public ngxsOnInit(ctx: StateContext<AuthenticationStateModel>) {
     //this.__init$.subscribe();
-setTimeout(()=>{
-
-  this.service.loadCurrentUser().pipe(
-    tap({
-      next: v =>{
-        console.log('######### 1111111')
-      }
-    }),
-    first(),
-    tap({
-      next: v =>{
-        console.log('######### 2222222222')
-      }
-    }),
-    shareReplay(1)
-  ).subscribe();
-})
+    setTimeout(() => {
+      this.service.loadCurrentUser().pipe(first(), shareReplay(1)).subscribe();
+    });
 
     this.service.currentUser$.subscribe((user) => {
       const status = ctx.getState().status;
@@ -133,10 +82,7 @@ setTimeout(()=>{
     });
   }
 
-  private setStatus(
-    ctx: StateContext<AuthenticationStateModel>,
-    status: AuthenticationStatus
-  ) {
+  private setStatus(ctx: StateContext<AuthenticationStateModel>, status: AuthenticationStatus) {
     ctx.setState(
       produce((draft: Draft<AuthenticationStateModel>) => {
         draft.status = status;
@@ -154,9 +100,7 @@ setTimeout(()=>{
         next: (user) => {
           ctx.setState({
             user,
-            status: user
-              ? AuthenticationStatus.AUTHENTICATED
-              : AuthenticationStatus.INITIALIZED,
+            status: user ? AuthenticationStatus.AUTHENTICATED : AuthenticationStatus.INITIALIZED,
           });
 
           sub.next(user);
@@ -176,33 +120,22 @@ setTimeout(()=>{
   }
 
   @Action(SetUser, { cancelUncompleted: true })
-  private setUser(
-    ctx: StateContext<AuthenticationStateModel>,
-    { user }: SetUser
-  ) {
+  private setUser(ctx: StateContext<AuthenticationStateModel>, { user }: SetUser) {
     ctx.setState(
       produce((draft: Draft<AuthenticationStateModel>) => {
         draft.user = user ?? null;
-        draft.status = user
-          ? AuthenticationStatus.AUTHENTICATED
-          : AuthenticationStatus.INITIALIZED;
+        draft.status = user ? AuthenticationStatus.AUTHENTICATED : AuthenticationStatus.INITIALIZED;
       })
     );
-
-    
   }
 
   private runGuards() {
-    const base = this.baseRef ?? "/";
+    const base = this.baseRef ?? '/';
     const path = window.location.pathname.substring(base.length);
-    console.log(
-      "+++++++++++++++++++++++++++++++++++++++++++",
-      path
-    );
-    return this.router.navigate(["302", ...path.split('/')], {
+    return this.router.navigate(['302', ...path.split('/')], {
       preserveFragment: true,
       queryParamsHandling: 'preserve',
-      replaceUrl: true
+      replaceUrl: true,
     });
   }
 
@@ -244,13 +177,13 @@ setTimeout(()=>{
           });
           this.runGuards();
         },
-        error: error =>{
+        error: (error) => {
           ctx.setState({
             user: null,
             status: AuthenticationStatus.ERROR,
           });
           this.runGuards();
-        }
+        },
       })
     );
   }

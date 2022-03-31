@@ -1,1 +1,1 @@
-export const EMPTY_PACKAGE: boolean = true; 
+export const EMPTY_PACKAGE: boolean = true;

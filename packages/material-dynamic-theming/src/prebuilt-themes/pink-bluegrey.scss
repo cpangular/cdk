@@ -3,26 +3,23 @@
 
 $themeName: 'pink-bluegrey';
 
-$primary: theme.define-palette(mat.$pink-palette, 700, 500, 900);
-$accent: theme.define-palette(mat.$blue-grey-palette, A200, A100, A400);
+$primary: theme.palette(mat.$pink-palette, 700, 500, 900);
+$accent: theme.palette(mat.$blue-grey-palette, A200, A100, A400);
 
-$light-theme: theme.define-light-theme((
- color: (
-   primary: $primary,
-   accent: $accent,
- )
-));
+$theme: theme.define(
+  $themeName,
+  (
+    dark: (
+      primary: $primary,
+      accent: $accent,
+    ),
+  )
+);
 
+$themes: theme.register($theme);
+$themes: theme.build($themes, $themeName, true);
 
-$dark-theme: theme.define-dark-theme((
- color: (
-   primary: $primary,
-   accent: $accent,
- )
-));
+@include theme.styles($themes);
 
-@include theme.add-theme($themeName,  $light-theme);
-@include theme.add-theme($themeName,  $dark-theme);
-
-/* output the theme css, specifying the name of the default theme and wether it starts in dark mode */
-@include theme.build-themes($themeName, true);
+@include material.core();
+@include material.styles($themes);

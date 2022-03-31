@@ -1,6 +1,6 @@
-import { IResolvable } from "@cpangular/cdk/value-resolver";
-import { MenuMode } from "../components/layout/MenuMode";
-import { ScrollBehavior } from "../components/layout/ScrollBehavior";
+import { IResolvable } from '@cpangular/cdk/value-resolver';
+import { MenuMode } from '../components/layout/MenuMode';
+import { ScrollBehavior } from '../components/layout/ScrollBehavior';
 
 export interface IMenuConfiguration {
   mode: IResolvable<MenuMode>;
@@ -8,14 +8,13 @@ export interface IMenuConfiguration {
 }
 
 const baseMenuConfiguration: IMenuConfiguration = {
-  mode: MenuMode.FIXED,
+  mode: MenuMode.underHeaderInlineToggle,
   scrollBehavior: ScrollBehavior.FIXED,
 };
 
 export const defaultMenuStartConfiguration: IMenuConfiguration = {
   ...baseMenuConfiguration,
-  mode: MenuMode.OVER,
-  scrollBehavior: ScrollBehavior.FLOAT,
+  mode: MenuMode.viewportOverToggle,
 };
 
 export const defaultMenuEndConfiguration: IMenuConfiguration = {

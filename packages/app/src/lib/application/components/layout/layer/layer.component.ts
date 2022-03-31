@@ -1,14 +1,17 @@
-import { BooleanInput, coerceBooleanProperty } from "@angular/cdk/coercion";
+import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChild,
   EventEmitter,
   Input,
+  NgZone,
   Output,
   TemplateRef,
-} from "@angular/core";
+} from '@angular/core';
 
-import { BehaviorSubject, combineLatest, map, shareReplay,tap } from "rxjs";
+import { BehaviorSubject, combineLatest, map, shareReplay, tap } from 'rxjs';
 
 export interface LayerSizes {
   top: DOMRect;
@@ -19,50 +22,38 @@ export interface LayerSizes {
 }
 
 @Component({
-  selector: "div[layer]",
-  templateUrl: "./layer.component.html",
-  styleUrls: ["./layer.component.scss"],
+  selector: 'div[layer]',
+  templateUrl: './layer.component.html',
+  styleUrls: ['./layer.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayerComponent {
-  @ContentChild("top")
+  @ContentChild('top')
   public _topTemplate!: TemplateRef<any>;
-  @ContentChild("left")
+  @ContentChild('left')
   public _leftTemplate!: TemplateRef<any>;
-  @ContentChild("bottom")
+  @ContentChild('bottom')
   public _bottomTemplate!: TemplateRef<any>;
-  @ContentChild("right")
+  @ContentChild('right')
   public _rightTemplate!: TemplateRef<any>;
 
-  public _resizeTop$: BehaviorSubject<ResizeObserverEntry | undefined> =
-    new BehaviorSubject<ResizeObserverEntry | undefined>(undefined);
-  public _resizeLeft$: BehaviorSubject<ResizeObserverEntry | undefined> =
-    new BehaviorSubject<ResizeObserverEntry | undefined>(undefined);
-  public _resizeBottom$: BehaviorSubject<ResizeObserverEntry | undefined> =
-    new BehaviorSubject<ResizeObserverEntry | undefined>(undefined);
-  public _resizeRight$: BehaviorSubject<ResizeObserverEntry | undefined> =
-    new BehaviorSubject<ResizeObserverEntry | undefined>(undefined);
-  public _resizeRest$: BehaviorSubject<ResizeObserverEntry | undefined> =
-    new BehaviorSubject<ResizeObserverEntry | undefined>(undefined);
+  public _resizeTop$: BehaviorSubject<ResizeObserverEntry | undefined> = new BehaviorSubject<ResizeObserverEntry | undefined>(undefined);
+  public _resizeLeft$: BehaviorSubject<ResizeObserverEntry | undefined> = new BehaviorSubject<ResizeObserverEntry | undefined>(undefined);
+  public _resizeBottom$: BehaviorSubject<ResizeObserverEntry | undefined> = new BehaviorSubject<ResizeObserverEntry | undefined>(undefined);
+  public _resizeRight$: BehaviorSubject<ResizeObserverEntry | undefined> = new BehaviorSubject<ResizeObserverEntry | undefined>(undefined);
+  public _resizeRest$: BehaviorSubject<ResizeObserverEntry | undefined> = new BehaviorSubject<ResizeObserverEntry | undefined>(undefined);
 
-  private _resizeRaw$ = combineLatest([
-    this._resizeRest$,
-    this._resizeTop$,
-    this._resizeLeft$,
-    this._resizeRight$,
-    this._resizeBottom$,
-  ]);
+  private _resizeRaw$ = combineLatest([this._resizeRest$, this._resizeTop$, this._resizeLeft$, this._resizeRight$, this._resizeBottom$]);
 
   private _resize$ = this._resizeRaw$.pipe(
-    map((sizes) =>
-    sizes.map((s) => s?.target.getBoundingClientRect() ?? new DOMRect())
-    ),
+    map((sizes) => sizes.map((s) => s?.target.getBoundingClientRect() ?? new DOMRect())),
     map((sizes) => {
       const rest = sizes[0];
       const top = sizes[1];
       const left = sizes[2];
       const right = sizes[3];
       const bottom = sizes[4];
-  
+
       return {
         rest,
         top,
@@ -73,7 +64,6 @@ export class LayerComponent {
     }),
     shareReplay(1)
   );
-
 
   @Input()
   public layer: string = '';
@@ -154,7 +144,9 @@ export class LayerComponent {
     this.rightOpened = false;
   }
 
-  constructor() {
-    this._resize$.subscribe(this.layerResize);
+  constructor(private changeRef: ChangeDetectorRef, zone: NgZone) {
+    this._resize$.subscribe((v) => {
+      zone.run(() => this.layerResize.next(v));
+    });
   }
 }

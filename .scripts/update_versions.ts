@@ -1,5 +1,5 @@
-import { getProjectsSortedByDependencies } from "./util/dependency-graph";
-import { loadPackageJson, savePackageJson } from "./util/package";
+import { getProjectsSortedByDependencies } from './util/dependency-graph';
+import { loadPackageJson, savePackageJson } from './util/package';
 
 const projects = getProjectsSortedByDependencies();
 
@@ -13,12 +13,12 @@ const depVersions: { [dep: string]: string } = {
   ...pkg.peerDependencies,
 };
 
-projects.forEach(p => depVersions[p.name] = version);
+projects.forEach((p) => (depVersions[p.name] = version));
 
 for (const p of projects) {
   const prjPkg = loadPackageJson(p.project);
   prjPkg.version = version;
-  
+
   let deps = prjPkg.dependencies ?? {};
   for (const dep in deps) {
     if (Object.prototype.hasOwnProperty.call(deps, dep)) {

@@ -1,2 +1,2 @@
+export * from './authentication.service';
 export * from './IAuthenticationService';
-export * from './authentication.service'

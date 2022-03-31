@@ -1,4 +1,22 @@
 <ng-container *cpngProjectToAnchor="'app.title'">Overview Title</ng-container>
+<mat-form-field appearance="outline">
+  <mat-select [(value)]="theme">
+    <mat-option value="auto"> Default </mat-option>
+    <mat-option *ngFor="let i of themeData.themes | keyvalue" [value]="i.key">
+      {{ i.value.id }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-select [(value)]="darkMode">
+    <mat-option value="auto"> Auto </mat-option>
+    <mat-option value="dark"> Dark </mat-option>
+    <mat-option value="light"> Light </mat-option>
+  </mat-select>
+</mat-form-field>
+
+{{ darkMode | json }}
+
 <h1>View Anchor Directive</h1>
 <div>dummy content</div>
 <div>dummy content</div>

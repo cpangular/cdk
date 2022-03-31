@@ -1,16 +1,19 @@
-export interface IThemeRule {
-  rule: CSSStyleRule;
-  id: string;
-  name: string;
-  isDark: string;
-  isDefaultTheme: string;
-  isDefaultAlternateTheme: string;
-  altThemeId: string;
-}
-let listThemes_cache: IThemeRule[];
+import { ITheme } from './ITheme';
+import { IThemes } from './IThemes';
 
-export function scanThemes(): IThemeRule[] {
-  const rules: IThemeRule[] = [];
+const STORE_MODE = 'theme-mode';
+const STORE_THEME = 'theme-id';
+
+let listThemes_cache: IThemes;
+
+function toPropName(name: string, prefix: string = 'theme') {
+  if (!name.startsWith(`${prefix}-`)) {
+    name = `${prefix}-${name}`;
+  }
+  return `--${name}`;
+}
+
+function forEachRule(predicate: (rule: CSSStyleRule) => void) {
   for (let i = 0; i < document.styleSheets.length; i++) {
     const sheet = document.styleSheets.item(i);
     let hasRules = false;
@@ -18,32 +21,62 @@ export function scanThemes(): IThemeRule[] {
     try {
       hasRules = (sheet?.cssRules.length ?? 0) > 0;
     } catch {}
-
     if (hasRules) {
       for (let j = 0; j < sheet!.cssRules.length; j++) {
-        const rule = sheet!.cssRules.item(j);
-        if (rule instanceof CSSStyleRule) {
-          if (rule.selectorText.startsWith("-theme-definition-")) {
-            rules.push({
-              id: rule.style.getPropertyValue("--theme-id").trim(),
-              name: rule.style.getPropertyValue("--theme-name").trim(),
-              isDark: rule.style.getPropertyValue("--theme-is-dark").trim(),
-              isDefaultTheme: rule.style
-                .getPropertyValue("--theme-is-default")
-                .trim(),
-              isDefaultAlternateTheme: rule.style
-                .getPropertyValue("--theme-is-default-alt")
-                .trim(),
-              altThemeId: rule.style.getPropertyValue("--theme-alt").trim(),
-              rule,
-            });
+        for (let j = 0; j < sheet!.cssRules.length; j++) {
+          const rule = sheet!.cssRules.item(j);
+          if (rule instanceof CSSStyleRule) {
+            predicate(rule);
           }
         }
       }
     }
   }
-  listThemes_cache = rules;
-  return rules;
+}
+
+export function scanThemes(): IThemes {
+  const themeData: IThemes = {
+    propertyPrefix: 'theme',
+    themes: {},
+  } as IThemes;
+
+  forEachRule((rule) => {
+    if (rule.selectorText.startsWith('-theme-prefix-')) {
+      themeData.propertyPrefix = rule.style.getPropertyValue('--prefix').trim();
+    }
+  });
+
+  const prefix = themeData.propertyPrefix;
+
+  forEachRule((rule) => {
+    if (rule.selectorText.startsWith('-theme-definition-,')) {
+      const isDefault = rule.selectorText.indexOf(':root,') !== -1;
+      const themeIdProp = toPropName('theme-id', prefix);
+      const themeId = rule.style.getPropertyValue(themeIdProp).trim();
+      const themeModeProp = toPropName('theme-mode', prefix);
+      const themeMode = rule.style.getPropertyValue(themeModeProp).trim() as 'shared' | 'light' | 'dark';
+      if (isDefault) {
+        themeData.defaultTheme = themeId;
+        if (themeMode !== 'shared') {
+          themeData.defaultDark = themeMode === 'dark';
+        }
+      }
+
+      if (!themeData.themes[themeId]) {
+        themeData.themes[themeId] = {
+          id: themeId,
+        } as ITheme;
+      }
+
+      const theme = themeData.themes[themeId];
+      theme[themeMode] = {
+        rule,
+      };
+    }
+  });
+
+  listThemes_cache = themeData;
+  return themeData;
 }
 
 export function listThemes() {
@@ -53,51 +86,66 @@ export function listThemes() {
   return listThemes_cache;
 }
 
-function setThemeAttribute(element: HTMLElement, themeId: string | undefined) {
-  element.removeAttribute("theme-dark");
-  element.removeAttribute("theme-light");
-  if (themeId) {
-    const p = themeId.split("-");
-    element.setAttribute(`theme-${p.shift()}`, p.join("-"));
-  }
+function preferredMode() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-function getActiveThemeIdFromAttribute(element: HTMLElement) {
-  let att = element.getAttribute("theme-light");
-  if (att) {
-    return `light-${att}`;
-  }
-  att = element.getAttribute("theme-dark");
-  if (att) {
-    return `dark-${att}`;
-  }
+export function darkMode(): 'light' | 'dark' | undefined {
+  return (document.documentElement.getAttribute('theme-mode') as 'light' | 'dark') || undefined;
+}
+
+export function isDarkMode(): boolean {
   const themes = listThemes();
-  const theme = themes.find((t) => t.isDefaultTheme);
-  if(theme){
-    return theme.id;
+  const themeMode = document.documentElement.getAttribute('theme-mode') ?? preferredMode() ?? (themes.defaultDark ? 'dark' : 'light');
+  return themeMode === 'dark';
+}
+
+export function setDarkMode(value: boolean | undefined) {
+  setMode(value === false ? 'light' : !value ? undefined : 'dark');
+}
+
+export function setMode(mode: string | undefined) {
+  if (!mode) {
+    document.documentElement.removeAttribute('theme-mode');
+    localStorage.removeItem(STORE_MODE);
+  } else {
+    mode = mode === 'dark' ? 'dark' : 'light';
+    document.documentElement.setAttribute('theme-mode', mode);
+    localStorage.setItem(STORE_MODE, mode);
   }
-  return undefined;
 }
 
-function overrideActiveTheme(
-  themeId: string | undefined,
-  element: HTMLElement
-) {
-  const themes = listThemes();
-  let theme: IThemeRule | undefined;
-  theme = themes.find((t) => t.isDefaultTheme);
-  if (themeId) {
-    theme = themes.find((t) => t.id === themeId) ?? theme;
+export function toggleDarkMode() {
+  setDarkMode(!isDarkMode());
+}
+
+export function activeTheme(): string {
+  return getOverrideTheme(document.documentElement) ?? listThemes().defaultTheme;
+}
+
+export function setActiveTheme(theme: string | undefined) {
+  overrideTheme(document.documentElement, theme);
+  theme ? localStorage.setItem(STORE_THEME, theme) : localStorage.removeItem(STORE_THEME);
+}
+
+export function overrideTheme(element: HTMLElement, theme: string | undefined) {
+  if (!theme) {
+    element.removeAttribute('theme');
+  } else {
+    element.setAttribute('theme', theme);
   }
-  setThemeAttribute(element, theme?.id);
 }
 
-
-
-export function setActiveTheme(themeId: string | undefined) {
-  overrideActiveTheme(themeId, document.documentElement);
+export function getOverrideTheme(element: HTMLElement) {
+  return element.getAttribute('theme');
 }
 
-export function getActiveTheme() {
-  return getActiveThemeIdFromAttribute(document.documentElement);
+export function resetActiveTheme() {
+  setDarkMode(undefined);
+  setActiveTheme(undefined);
 }
+
+(() => {
+  setMode(localStorage.getItem(STORE_MODE) ?? undefined);
+  setActiveTheme(localStorage.getItem(STORE_THEME) ?? undefined);
+})();

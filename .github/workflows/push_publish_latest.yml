@@ -3,7 +3,7 @@ name: Publish latest
 on:
   push:
     branches:
-      - "release/latest"
+      - 'release/latest'
 
 env:
   NODE_VERSION: 16.x
@@ -16,7 +16,7 @@ jobs:
       - uses: fregante/setup-git-user@v1
       - uses: actions/setup-node@v2
         with:
-          node-version: "${{ env.NODE_VERSION }}"
+          node-version: '${{ env.NODE_VERSION }}'
           registry-url: https://npm.pkg.github.com/
           always-auth: true
           scope: ${{ github.repository_owner }}
@@ -29,7 +29,7 @@ jobs:
         uses: mukunku/tag-exists-action@v1.0.0
         id: checkTag
         with:
-          tag: "v${{ steps.package_version_str.outputs.current-version }}"
+          tag: 'v${{ steps.package_version_str.outputs.current-version }}'
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -41,8 +41,8 @@ jobs:
         id: pkgVersion
         uses: doptools/action-parse-semver@main
         with:
-          version: "${{ steps.package_version_str.outputs.current-version }}"
-          versionRegex: "(.*)"
+          version: '${{ steps.package_version_str.outputs.current-version }}'
+          versionRegex: '(.*)'
 
       - name: Init
         run: yarn  --ignore-scripts

@@ -1,4 +1,3 @@
-import { IBackgroundPalette } from "./IBackgroundPalette";
+import { IBackgroundPalette } from './IBackgroundPalette';
 
-
-export interface IForegroundPalette extends IBackgroundPalette { }
+export interface IForegroundPalette extends IBackgroundPalette {}

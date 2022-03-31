@@ -1,10 +1,8 @@
-import { BreakpointAliases } from "./BreakpointAliases";
-import { BreakpointValues } from "./BreakpointValues";
-import { Breakpoints as MatBreakpoints } from "@angular/cdk/layout";
+import { BreakpointAliases } from './BreakpointAliases';
+import { BreakpointValues } from './BreakpointValues';
+import { Breakpoints as MatBreakpoints } from '@angular/cdk/layout';
 
-export function getMediaQueryFromBreakpointCondition(
-  condition: string
-): string {
+export function getMediaQueryFromBreakpointCondition(condition: string): string {
   condition = BreakpointAliases[condition] ?? condition;
   if (BreakpointValues[condition as keyof BreakpointValues]) {
     return BreakpointValues[condition as keyof BreakpointValues];

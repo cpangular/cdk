@@ -6,13 +6,13 @@
       "factory": "./ng-add/index",
       "schema": "./ng-add/schema.json",
       "aliases": ["install"]
-    }, 
+    },
     "ng-add-setup": {
       "description": "Adds Material Dynamic Theme to the application without affecting any templates",
       "factory": "./ng-add/setup",
       "schema": "./ng-add/schema.json",
       "aliases": ["setup"]
-    }, 
+    },
     "app-shell": {
       "description": "Create the application shell",
       "factory": "./ng-generate/application-shell/index",

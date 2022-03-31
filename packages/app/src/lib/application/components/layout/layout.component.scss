@@ -1,10 +1,16 @@
+@use '@angular/material' as mat;
+
 $animation-speed: 0.2s;
 
+/**************************
+  Basic layout
+**************************/
 :host {
   --scrollbar-size: 0px;
   display: grid;
   position: relative;
   min-height: 100%;
+
   grid-template-columns: 1fr var(--scroll-container-scrollbar, 0px);
   > * {
     grid-row: 1 / -1;
@@ -17,81 +23,203 @@ $animation-speed: 0.2s;
   [cdkScrollable] {
     overflow-y: auto;
     overflow-x: hidden;
+    scroll-behavior: smooth;
     display: block;
     > * {
       min-height: 100%;
     }
   }
 }
-
+/**************************
+  Background colors
+**************************/
 :host {
-  > div[layer-group] {
-    &[layer-group="viewport"] {
-      z-index: 40;
-    }
-    &[layer-group="application"] {
-      z-index: 30;
-    }
+  background-color: var(--theme-background-app-bar);
+  [layer-group='scroll'] {
+    background-color: var(--theme-background);
+  }
+  .application-border {
+    pointer-events: none;
+    position: absolute;
+    @include mat.elevation(2);
+  }
+}
+
+/**************************
+  Scrollbar styling
+**************************/
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+  &-button {
+    background-color: var(--theme-background);
+    height: 0;
+    width: 0;
+    display: none;
+  }
+  &-track {
+    background-color: var(--theme-background);
+    outline: 1px solid var(--theme-background-raised-button);
+  }
+  &-thumb {
+    border-radius: 6px;
+    background-clip: content-box;
+    border: 2px solid transparent;
+    background-color: var(--theme-background-app-bar);
+  }
+}
+
+/**************************
+  Z sorting
+**************************/
+:host {
+  [cdkScrollable],
+  [layer-group] {
+    width: 100%;
+  }
+  [layer-group='viewport'] {
+    z-index: 40;
+  }
+  [layer-group='application'] {
+    z-index: 30;
+    // border: 1px solid var(--theme-background-raised-button);
+  }
+  [layer-group='content'] {
+    z-index: 20;
   }
   > [cdkScrollable] {
     z-index: 10;
   }
 }
+
+/**************************
+  Constraint calculations
+**************************/
+
 :host {
-  --viewport-inset: var(--viewport-top-height, 0px)
-    var(--viewport-right-width, 0px) var(--viewport-bottom-height, 0px)
-    var(--viewport-left-width, 0px);
+  --max-app-width: var(--constrain-app-width, var(--viewport-center-width, 0px));
+  --viewport-space: max(calc(var(--viewport-center-width, 0px) - var(--max-app-width)), 0px);
+}
 
-  --application-inset: calc(
-      var(--viewport-top-height, 0px) + var(--application-top-height, 0px)
-    )
-    calc(var(--viewport-right-width, 0px) + var(--application-right-width, 0px))
-    calc(
-      var(--viewport-bottom-height, 0px) + var(--application-bottom-height, 0px)
-    )
-    calc(var(--viewport-left-width, 0px) + var(--application-left-width, 0px));
+/**************************
+  Constraint alignment
+**************************/
 
-  > div[layer-group] {
-    &[layer-group="viewport"] {
-      padding: 0;
+:host {
+  --viewport-space-left: 0px;
+  --viewport-space-right: var(--viewport-space);
+
+  &[constrain='center'] {
+    --viewport-space-left: calc(var(--viewport-space) / 2);
+    --viewport-space-right: calc(var(--viewport-space) / 2);
+  }
+  &[constrain='right'] {
+    --viewport-space-left: var(--viewport-space);
+    --viewport-space-right: 0px;
+  }
+}
+
+/******************************
+  Layer inset calculations
+******************************/
+
+:host {
+  --vt: var(--viewport-top-height, 0px);
+  --vb: var(--viewport-bottom-height, 0px);
+  --vl: var(--viewport-left-width, 0px);
+  --vr: var(--viewport-right-width, 0px);
+
+  --vti: var(--vt);
+  --vbi: var(--vb);
+  --vli: calc(var(--vl) + var(--viewport-space-left, 0px));
+  --vri: calc(var(--vr) + var(--viewport-space-right, 0px));
+
+  --at: var(--application-top-height, 0px);
+  --ab: var(--application-bottom-height, 0px);
+  --al: var(--application-left-width, 0px);
+  --ar: var(--application-right-width, 0px);
+
+  --ati: calc(var(--vti) + var(--at));
+  --abi: calc(var(--vbi) + var(--ab));
+  --ali: calc(var(--vli) + var(--al));
+  --ari: calc(var(--vri) + var(--ar));
+
+  --ct: var(--content-top-height, 0px);
+  --cb: var(--content-bottom-height, 0px);
+  --cl: var(--content-left-width, 0px);
+  --cr: var(--content-right-width, 0px);
+
+  --cti: calc(var(--ati) + var(--ct));
+  --cbi: calc(var(--abi) + var(--cb));
+  --cli: calc(var(--ali) + var(--cl));
+  --cri: calc(var(--ari) + var(--cr));
+
+  --viewport-inset: var(--vti) var(--vri) var(--vbi) var(--vli);
+  --application-inset: var(--ati) var(--ari) var(--abi) var(--ali);
+
+  --content-inset: var(--cti) var(--cri) var(--cbi) var(--cli);
+  --content-inner-inset: var(--ct) var(--cr) var(--cb) var(--cl);
+
+  ::ng-deep {
+    .viewport-inset {
+      inset: var(--viewport-inset);
     }
-    &[layer-group="application"] {
+    .viewport-inset-padding {
       padding: var(--viewport-inset);
     }
-  }
+    .viewport-inset-margin {
+      margin: var(--viewport-inset);
+    }
 
-  .viewport-inset {
-    inset: var(--viewport-inset);
-  }
-  .viewport-inset-padding {
-    padding: var(--viewport-inset);
-  }
-  .viewport-inset-margin {
-    margin: var(--viewport-inset);
-  }
+    .application-inset {
+      inset: var(--application-inset);
+    }
+    .application-inset-padding {
+      padding: var(--application-inset);
+    }
+    .application-inset-margin {
+      margin: var(--application-inset);
+    }
 
-  .application-inset {
-    inset: var(--application-inset);
-  }
-  .application-inset-padding {
-    padding: var(--application-inset);
-  }
-  .application-inset-margin {
-    margin: var(--application-inset);
+    .content-inset {
+      inset: var(--content-inset);
+    }
+    .content-inset-padding {
+      padding: var(--content-inset);
+    }
+    .content-inset-margin {
+      margin: var(--content-inset);
+    }
+
+    /*
+    .content-inner-inset-padding {
+      padding: var(--content-inner-inset);
+    }
+    .scroll-inner-inset-padding {
+      padding: var(--content-inner-inset);
+    }
+    */
   }
 }
 
 //??
+/******************************************
+  Background colors
+******************************************/
 :host {
-  div[layer-group="application"],
-  div[layer-group="scroll"] {
-    --area-top-background: var(--background-app-bar);
-    --area-left-background: var(--background-app-bar);
-    --area-bottom-background: var(--background-app-bar);
-    --area-right-background: var(--background-app-bar);
+  div[layer-group='application'],
+  div[layer-group='scroll'] {
+    --area-top-background: var(--theme-background-app-bar);
+    --area-left-background: var(--theme-background-app-bar);
+    --area-bottom-background: var(--theme-background-app-bar);
+    --area-right-background: var(--theme-background-app-bar);
   }
 }
+
 //??
+/******************************************
+  Hide on scroll animations
+******************************************/
 :host {
   --scroll-hide-duration: #{$animation-speed};
   .hides-on-scroll {
@@ -133,49 +261,98 @@ $animation-speed: 0.2s;
   }
 }
 
+/******************************************
+  Modal background effects and animation
+******************************************/
 :host {
   --modal-hide-duration: 0.2s;
+
+  > div.modal {
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+    width: 100%;
+    z-index: 35;
+  }
 
   div[modal] {
     flex: 1;
   }
 
-  .modal-base ::ng-deep > [layer="base"],
+  .modal-base ::ng-deep > [layer='content'],
   .modal {
     transition: filter ease-in var(--modal-hide-duration);
     &::after {
-      content: " ";
+      content: ' ';
       pointer-events: none;
       transition: background-color ease-in var(--modal-hide-duration);
       position: absolute;
       inset: 0;
+      opacity: 0.2;
     }
   }
 
-  .modal-base.modal-disable ::ng-deep > [layer="base"],
+  .modal-base.modal-disable ::ng-deep > [layer='content'],
   .modal-disable:not(.modal-base) {
-    pointer-events: none;
+    pointer-events: none !important;
+    ::ng-deep {
+      [area] * {
+        pointer-events: none !important;
+      }
+    }
   }
 
-  &[modal="3"],
-  &[modal="2"],
-  &[modal="1"] {
-    .modal-base.modal-blur ::ng-deep > [layer="base"],
+  .modal-disable:not(.modal-base) ::ng-deep * {
+    pointer-events: none !important;
+  }
+  [content-container].modal-disable:not(.modal-base) {
+    pointer-events: all !important;
+    &::after {
+      content: ' ';
+      background: red;
+      position: absolute;
+      z-index: 50;
+      inset: 0;
+      pointer-events: all;
+    }
+  }
+
+  &[modal='3'] {
+    > div.modal {
+      z-index: 25;
+    }
+  }
+  &[modal='4'],
+  &[modal='3'],
+  &[modal='2'],
+  &[modal='1'] {
+    .modal-base.modal-blur ::ng-deep > [layer='content'],
     .modal-blur:not(.modal-base) {
       filter: blur(1px);
     }
 
-    .modal-base.modal-gray ::ng-deep > [layer="base"],
+    .modal-base.modal-gray ::ng-deep > [layer='content'],
     .modal-gray:not(.modal-base) {
-      filter: grayscale(0.69) brightness(42%);
+      filter: grayscale(0.69) brightness(69%);
+    }
+
+    .modal-base.modal-tint ::ng-deep > [layer='content'],
+    .modal-tint:not(.modal-base) {
       &::after {
         background-color: var(--foreground-disabled);
       }
     }
 
-    .modal-base.modal-blur.modal-gray ::ng-deep > [layer="base"],
+    .modal-base.modal-blur.modal-gray ::ng-deep > [layer='content'],
     .modal-blur.modal-gray:not(.modal-base) {
-      filter: blur(1px) grayscale(0.69) brightness(42%);
+      filter: blur(1px) grayscale(0.69) brightness(69%);
+    }
+
+    .scroll-disable {
+      pointer-events: none;
+      visibility: hidden;
+      > * {
+        visibility: visible;
+      }
     }
   }
 }

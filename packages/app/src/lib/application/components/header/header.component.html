@@ -1,16 +1,31 @@
 <div *ngIf="_preStartTemplate || _preEndTemplate">
-  <mat-toolbar class="fill" [color]="preHeaderToolbarColor$ | async"><ng-container *ngTemplateOutlet="_preStartTemplate ?? null"></ng-container></mat-toolbar>
-  <mat-toolbar  [color]="preHeaderToolbarColor$ | async"><ng-container *ngTemplateOutlet="_preEndTemplate ?? null"></ng-container></mat-toolbar>
+  <mat-toolbar class="fill" [color]="preHeaderToolbarColor$ | async"
+    ><ng-container *ngTemplateOutlet="_preStartTemplate ?? null"></ng-container
+  ></mat-toolbar>
+  <mat-toolbar [color]="preHeaderToolbarColor$ | async"
+    ><ng-container *ngTemplateOutlet="_preEndTemplate ?? null"></ng-container
+  ></mat-toolbar>
 </div>
+
 <div *ngIf="_startActionsTemplate || _startTemplate || _endTemplate || _endActionsTemplate">
-  <mat-toolbar class="action" [color]="actionToolbarColor$ | async" *ngIf="_startActionsTemplate"><ng-container *ngTemplateOutlet="_startActionsTemplate ?? null"></ng-container></mat-toolbar>
-  <mat-toolbar  [color]="headerToolbarColor$ | async" class="fill"><ng-container *ngTemplateOutlet="_startTemplate ?? null"></ng-container></mat-toolbar>
-  <mat-toolbar  [color]="headerToolbarColor$ | async"><ng-container *ngTemplateOutlet="_endTemplate ?? null"></ng-container></mat-toolbar>
-  <mat-toolbar  [color]="actionToolbarColor$ | async" *ngIf="_endActionsTemplate"><ng-container *ngTemplateOutlet="_endActionsTemplate ?? null"></ng-container></mat-toolbar>
+  <mat-toolbar class="action" [color]="actionToolbarColor$ | async" *ngIf="_startActionsTemplate"
+    ><ng-container *ngTemplateOutlet="_startActionsTemplate ?? null"></ng-container
+  ></mat-toolbar>
+  <mat-toolbar [color]="headerToolbarColor$ | async" class="fill"
+    ><ng-container *ngTemplateOutlet="_startTemplate ?? null"></ng-container
+  ></mat-toolbar>
+  <mat-toolbar [color]="headerToolbarColor$ | async"><ng-container *ngTemplateOutlet="_endTemplate ?? null"></ng-container></mat-toolbar>
+  <mat-toolbar [color]="actionToolbarColor$ | async" *ngIf="_endActionsTemplate"
+    ><ng-container *ngTemplateOutlet="_endActionsTemplate ?? null"></ng-container
+  ></mat-toolbar>
 </div>
 <div *ngIf="_postStartTemplate || _postEndTemplate">
-  <mat-toolbar [color]="postHeaderToolbarColor$ | async" class="fill"><ng-container *ngTemplateOutlet="_postStartTemplate ?? null"></ng-container></mat-toolbar>
-  <mat-toolbar class="action" [color]="postHeaderToolbarColor$ | async"><ng-container *ngTemplateOutlet="_postEndTemplate ?? null"></ng-container></mat-toolbar>
+  <mat-toolbar [color]="postHeaderToolbarColor$ | async" class="fill"
+    ><ng-container *ngTemplateOutlet="_postStartTemplate ?? null"></ng-container
+  ></mat-toolbar>
+  <mat-toolbar class="action" [color]="postHeaderToolbarColor$ | async"
+    ><ng-container *ngTemplateOutlet="_postEndTemplate ?? null"></ng-container
+  ></mat-toolbar>
 </div>
 
 <!--

@@ -8,23 +8,18 @@ import { LogLevel } from 'angular-auth-oidc-client';
 // The list of file replacements can be found in `angular.json`.
 export const environment = {
   production: false,
-  ngxsPluginImports: [
-    NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot(),
-  ], 
-  providers:[
-   
-  ],
+  ngxsPluginImports: [NgxsReduxDevtoolsPluginModule.forRoot(), NgxsLoggerPluginModule.forRoot()],
+  providers: [],
   openIdConfig: {
-      authority: 'https://identityserver',
-      clientId: 'ng.test',
-      responseType: 'code',
-      redirectUrl: 'https://localhost:4200/oidc-renew.html',
-      postLogoutRedirectUri: 'https://localhost:4200/oidc-logout.html',
-      showDebugInformation: true,
-      logLevel: LogLevel.Warn,
-      scope: 'openid customer',
-      /*stsServer: 'https://identityserver',
+    authority: 'https://identityserver',
+    clientId: 'ng.test',
+    responseType: 'code',
+    redirectUrl: 'https://localhost:4200/oidc-renew.html',
+    postLogoutRedirectUri: 'https://localhost:4200/oidc-logout.html',
+    showDebugInformation: true,
+    logLevel: LogLevel.Warn,
+    scope: 'openid customer',
+    /*stsServer: 'https://identityserver',
       clientId: 'ng.test',
       responseType: 'code',
       redirectUrl: 'https://localhost:4200/oidc-renew.html',
@@ -38,7 +33,7 @@ export const environment = {
       unauthorizedRoute: '/unauthorized',
       maxIdTokenIatOffsetAllowedInSeconds: 30,
       showDebugInformation: true*/
-  } as Configuration
+  } as Configuration,
 };
 
 /*

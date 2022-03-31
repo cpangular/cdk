@@ -1,0 +1,113 @@
+@function palette($name, $prefix: null) {
+  @if $prefix {
+    $name: '#{$prefix}-#{$name}';
+  }
+
+  @return (
+    50: var(--#{$name}-50),
+    100: var(--#{$name}-100),
+    200: var(--#{$name}-200),
+    300: var(--#{$name}-300),
+    400: var(--#{$name}-400),
+    500: var(--#{$name}-500),
+    600: var(--#{$name}-600),
+    700: var(--#{$name}-700),
+    800: var(--#{$name}-800),
+    900: var(--#{$name}-900),
+    A100: var(--#{$name}-A100),
+    A200: var(--#{$name}-A200),
+    A400: var(--#{$name}-A400),
+    A700: var(--#{$name}-A700),
+    default: var(--#{$name}-default),
+    lighter: var(--#{$name}-lighter),
+    darker: var(--#{$name}-darker),
+    text: var(--#{$name}-text),
+    contrast: (
+      50: var(--#{$name}-contrast-50),
+      100: var(--#{$name}-contrast-100),
+      200: var(--#{$name}-contrast-200),
+      300: var(--#{$name}-contrast-300),
+      400: var(--#{$name}-contrast-400),
+      500: var(--#{$name}-contrast-500),
+      600: var(--#{$name}-contrast-600),
+      700: var(--#{$name}-contrast-700),
+      800: var(--#{$name}-contrast-800),
+      900: var(--#{$name}-contrast-900),
+      A100: var(--#{$name}-contrast-A100),
+      A200: var(--#{$name}-contrast-A200),
+      A400: var(--#{$name}-contrast-A400),
+      A700: var(--#{$name}-contrast-A700),
+    ),
+    50-contrast: var(--#{$name}-contrast-50),
+    100-contrast: var(--#{$name}-contrast-100),
+    200-contrast: var(--#{$name}-contrast-200),
+    300-contrast: var(--#{$name}-contrast-300),
+    400-contrast: var(--#{$name}-contrast-400),
+    500-contrast: var(--#{$name}-contrast-500),
+    600-contrast: var(--#{$name}-contrast-600),
+    700-contrast: var(--#{$name}-contrast-700),
+    800-contrast: var(--#{$name}-contrast-800),
+    900-contrast: var(--#{$name}-contrast-900),
+    A100-contrast: var(--#{$name}-contrast-A100),
+    A200-contrast: var(--#{$name}-contrast-A200),
+    A400-contrast: var(--#{$name}-contrast-A400),
+    A700-contrast: var(--#{$name}-contrast-A700),
+    default-contrast: var(--#{$name}-contrast-default),
+    lighter-contrast: var(--#{$name}-contrast-lighter),
+    darker-contrast: var(--#{$name}-contrast-darker)
+  );
+}
+
+@function primaryPalette($prefix: null) {
+  @return palette('primary', $prefix);
+}
+@function accentPalette($prefix: null) {
+  @return palette('accent', $prefix);
+}
+
+@function warnPalette($prefix: null) {
+  @return palette('warn', $prefix);
+}
+
+@function background($prefix: null) {
+  $name: if($prefix, '#{$prefix}-background', 'background');
+
+  @return (
+    status-bar: var(--#{$name}-status-bar),
+    app-bar: var(--#{$name}-app-bar),
+    background: var(--#{$name}),
+    hover: var(--#{$name}-hover),
+    card: var(--#{$name}-card),
+    dialog: var(--#{$name}-dialog),
+    disabled-button: var(--#{$name}-disabled-button),
+    raised-button: var(--#{$name}-raised-button),
+    focused-button: var(--#{$name}-focused-button),
+    selected-button: var(--#{$name}-selected-button),
+    selected-disabled-button: var(--#{$name}-selected-disabled-button),
+    disabled-button-toggle: var(--#{$name}-disabled-button-toggle),
+    unselected-chip: var(--#{$name}-unselected-chip),
+    disabled-list-option: var(--#{$name}-disabled-list-option),
+    tooltip: var(--#{$name}-tooltip)
+  );
+}
+
+@function foreground($prefix: null) {
+  $name: if($prefix, '#{$prefix}-foreground', 'foreground');
+  @return (
+    base: var(--#{$name}-base),
+    divider: var(--#{$name}-divider),
+    dividers: var(--#{$name}-dividers),
+    disabled: var(--#{$name}-disabled),
+    disabled-button: var(--#{$name}-disabled-button),
+    disabled-text: var(--#{$name}-disabled-text),
+    elevation: var(--#{$name}-elevation),
+    hint-text: var(--#{$name}-hint-text),
+    secondary-text: var(--#{$name}-secondary-text),
+    icon: var(--#{$name}-icon),
+    icons: var(--#{$name}-icons),
+    text: var(--#{$name}-text),
+    slider-min: var(--#{$name}-slider-min),
+    slider-off: var(--#{$name}-slider-off),
+    slider-off-active: var(--#{$name}-slider-off-active)
+  );
+}

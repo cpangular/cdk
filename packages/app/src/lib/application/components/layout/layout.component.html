@@ -1,685 +1,397 @@
 <!-- 
-
   Application Layout
-
 -->
-<div layer-group="viewport">
+<div class="application-border viewport-inset"></div>
+<div
+  layer-group="viewport"
+  [contentDisabled]="modal === 4"
+  class="modal-base"
+  [class.modal-tint]="modal === 4"
+  (disabledClicked$)="modalClicked$.next($event)"
+>
   <ng-container *ngIf="hasViewportOverlayTop$ | async">
     <ng-template #overlayTop>
-      <ng-container *ngTemplateOutlet="regionViewportOverlayTop"></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.overlay.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportOverlayLeft$ | async">
     <ng-template #overlayLeft>
-      <ng-container
-        *ngTemplateOutlet="regionViewportOverlayLeft"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.overlay.left }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportOverlayBottom$ | async">
     <ng-template #overlayBottom>
-      <ng-container
-        *ngTemplateOutlet="regionViewportOverlayBottom"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.overlay.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportOverlayRight$ | async">
     <ng-template #overlayRight>
-      <ng-container
-        *ngTemplateOutlet="regionViewportOverlayRight"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.overlay.right }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportOverlayCenter$ | async">
     <ng-template #overlayCenter>
-      <ng-container
-        *ngTemplateOutlet="regionViewportOverlayCenter"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.overlay.center }"></ng-container>
     </ng-template>
   </ng-container>
 
   <ng-container *ngIf="hasViewportTop$ | async">
     <ng-template #top>
-      <ng-container *ngTemplateOutlet="regionViewportTop"></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportLeft$ | async">
     <ng-template #left>
-      <ng-container *ngTemplateOutlet="regionViewportLeft"></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.left }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportBottom$ | async">
     <ng-template #bottom>
-      <ng-container *ngTemplateOutlet="regionViewportBottom"></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasViewportRight$ | async">
     <ng-template #right>
-      <ng-container *ngTemplateOutlet="regionViewportRight"></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.right }"></ng-container>
     </ng-template>
   </ng-container>
-  <ng-container *ngIf="hasViewportCenter$ | async">
-    <ng-template #overlayCenter>
-      <ng-container *ngTemplateOutlet="regionViewportCenter"></ng-container>
+
+  <ng-container *ngIf="hasViewportInnerOverlayTop$ | async">
+    <ng-template #innerOverlayTop>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.innerOverlay.top }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasViewportInnerOverlayLeft$ | async">
+    <ng-template #innerOverlayLeft>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.innerOverlay }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasViewportInnerOverlayBottom$ | async">
+    <ng-template #innerOverlayBottom>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.innerOverlay.bottom }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasViewportInnerOverlayRight$ | async">
+    <ng-template #innerOverlayRight>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.innerOverlay.right }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasViewportInnerOverlayCenter$ | async">
+    <ng-template #innerOverlayCenter>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.viewport.innerOverlay.center }"></ng-container>
     </ng-template>
   </ng-container>
 </div>
 
-<div layer-group="application">
+<div
+  layer-group="application"
+  class="modal-base viewport-inset-padding"
+  addSizeCssVarsToParent
+  cssVarName="application"
+  [disabled]="modal === 4"
+  [class.modal-blur]="modal === 4"
+  [class.modal-gray]="modal === 4"
+  [contentDisabled]="modal === 3"
+  [class.modal-tint]="modal === 3"
+  (disabledClicked$)="modalClicked$.next($event)"
+>
   <ng-container *ngIf="hasApplicationOverlayTop$ | async">
     <ng-template #overlayTop>
-      <ng-container
-        *ngTemplateOutlet="regionApplicationOverlayTop"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.overlay.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationOverlayLeft$ | async">
     <ng-template #overlayLeft>
-      <ng-container
-        *ngTemplateOutlet="regionApplicationOverlayLeft"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.overlay.left }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationOverlayBottom$ | async">
     <ng-template #overlayBottom>
-      <ng-container
-        *ngTemplateOutlet="regionApplicationOverlayBottom"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.overlay.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationOverlayRight$ | async">
     <ng-template #overlayRight>
-      <ng-container
-        *ngTemplateOutlet="regionApplicationOverlayRight"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.overlay.right }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationOverlayCenter$ | async">
     <ng-template #overlayCenter>
-      <ng-container
-        *ngTemplateOutlet="regionApplicationOverlayCenter"
-      ></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.overlay.center }"></ng-container>
+    </ng-template>
+  </ng-container>
+
+  <ng-container *ngIf="hasApplicationInnerOverlayTop$ | async">
+    <ng-template #innerOverlayTop>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.innerOverlay.top }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasApplicationInnerOverlayLeft$ | async">
+    <ng-template #innerOverlayLeft>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.innerOverlay.left }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasApplicationInnerOverlayBottom$ | async">
+    <ng-template #innerOverlayBottom>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.innerOverlay.bottom }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasApplicationInnerOverlayRight$ | async">
+    <ng-template #innerOverlayRight>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.innerOverlay.right }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasApplicationInnerOverlayCenter$ | async">
+    <ng-template #innerOverlayCenter>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.innerOverlay.center }"></ng-container>
     </ng-template>
   </ng-container>
 
   <ng-container *ngIf="hasApplicationTop$ | async">
     <ng-template #top>
-      <ng-container *ngTemplateOutlet="regionApplicationTop"></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.top }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationLeft$ | async">
     <ng-template #left>
-      <ng-container *ngTemplateOutlet="regionApplicationLeft"></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.left }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationBottom$ | async">
     <ng-template #bottom>
-      <ng-container *ngTemplateOutlet="regionApplicationBottom"></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.bottom }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationRight$ | async">
     <ng-template #right>
-      <ng-container *ngTemplateOutlet="regionApplicationRight"></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.right }"></ng-container>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="hasApplicationCenter$ | async">
     <ng-template #center>
-      <ng-container *ngTemplateOutlet="regionApplicationCenter"></ng-container>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.application.center }"></ng-container>
     </ng-template>
   </ng-container>
 </div>
+
+<div
+  layer-group="content"
+  class="modal-base application-inset-padding"
+  [disabled]="modal === 4"
+  [class.modal-blur]="modal === 4"
+  [class.modal-gray]="modal === 4"
+  [contentDisabled]="modal === 3"
+  [class.modal-tint]="modal === 3"
+  (disabledClicked$)="modalClicked$.next($event)"
+>
+  <ng-container *ngIf="hasContentOverlayTop$ | async">
+    <ng-template #overlayTop>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.overlay.top }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasContentOverlayLeft$ | async">
+    <ng-template #overlayLeft>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.overlay.left }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasContentOverlayBottom$ | async">
+    <ng-template #overlayBottom>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.overlay.bottom }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasContentOverlayRight$ | async">
+    <ng-template #overlayRight>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.overlay.right }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasContentOverlayCenter$ | async">
+    <ng-template #overlayCenter>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.overlay.center }"></ng-container>
+    </ng-template>
+  </ng-container>
+
+  <ng-container *ngIf="hasContentInnerOverlayTop$ | async">
+    <ng-template #innerOverlayTop>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.innerOverlay.top }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasContentInnerOverlayLeft$ | async">
+    <ng-template #innerOverlayLeft>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.innerOverlay.left }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasContentInnerOverlayBottom$ | async">
+    <ng-template #innerOverlayBottom>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.innerOverlay.bottom }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasContentInnerOverlayRight$ | async">
+    <ng-template #innerOverlayRight>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.innerOverlay.right }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasContentInnerOverlayCenter$ | async">
+    <ng-template #innerOverlayCenter>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.innerOverlay.center }"></ng-container>
+    </ng-template>
+  </ng-container>
+
+  <ng-container *ngIf="hasContentTop$ | async">
+    <ng-template #top>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.top }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasContentLeft$ | async">
+    <ng-template #left>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.left }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasContentBottom$ | async">
+    <ng-template #bottom>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.bottom }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasContentRight$ | async">
+    <ng-template #right>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.right }"></ng-container>
+    </ng-template>
+  </ng-container>
+  <ng-container *ngIf="hasContentCenter$ | async">
+    <ng-template #center>
+      <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.content.center }"></ng-container>
+    </ng-template>
+  </ng-container>
+</div>
+
 <div
   #scrollContainer
   cdkScrollable
-  class="application-inset-padding"
+  class="content-inset-padding"
   [addSizeCssVarsToElement]="elementRef.nativeElement"
   cssVarName="scroll-container"
+  [class.scroll-disable]="modal >= 2"
 >
   <div
     layer-group="scroll"
-    class="modal-base"
-    [class.modal-blur]="(modal$ | async) === 2"
-    [class.modal-disable]="(modal$ | async) === 2"
-    [class.modal-gray]="(modal$ | async) === 2"
+    class="modal-base content"
+    [disabled]="modal === 2"
+    [class.modal-tint]="modal === 2"
+    [class.modal-blur]="modal > 1"
+    [class.modal-gray]="modal > 1"
+    (disabledClicked$)="modalClicked$.next($event)"
   >
     <ng-container *ngIf="hasScrollOverlayTop$ | async">
       <ng-template #overlayTop>
-        <ng-container *ngTemplateOutlet="regionScrollOverlayTop"></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.overlay.top }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollOverlayLeft$ | async">
       <ng-template #overlayLeft>
-        <ng-container
-          *ngTemplateOutlet="regionScrollOverlayLeft"
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.overlay.left }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollOverlayBottom$ | async">
       <ng-template #overlayBottom>
-        <ng-container
-          *ngTemplateOutlet="regionScrollOverlayBottom"
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.overlay.bottom }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollOverlayRight$ | async">
       <ng-template #overlayRight>
-        <ng-container
-          *ngTemplateOutlet="regionScrollOverlayRight"
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.overlay.right }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollOverlayCenter$ | async">
       <ng-template #overlayCenter>
-        <ng-container
-          *ngTemplateOutlet="regionScrollOverlayCenter"
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.overlay.center }"></ng-container>
+      </ng-template>
+    </ng-container>
+
+    <ng-container *ngIf="hasScrollInnerOverlayTop$ | async">
+      <ng-template #innerOverlayTop>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.innerOverlay.top }"></ng-container>
+      </ng-template>
+    </ng-container>
+    <ng-container *ngIf="hasScrollInnerOverlayLeft$ | async">
+      <ng-template #innerOverlayLeft>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.innerOverlay.left }"></ng-container>
+      </ng-template>
+    </ng-container>
+    <ng-container *ngIf="hasScrollInnerOverlayBottom$ | async">
+      <ng-template #innerOverlayBottom>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.innerOverlay.bottom }"></ng-container>
+      </ng-template>
+    </ng-container>
+    <ng-container *ngIf="hasScrollInnerOverlayRight$ | async">
+      <ng-template #innerOverlayRight>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.innerOverlay.right }"></ng-container>
+      </ng-template>
+    </ng-container>
+    <ng-container *ngIf="hasScrollInnerOverlayCenter$ | async">
+      <ng-template #innerOverlayCenter>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.innerOverlay.center }"></ng-container>
       </ng-template>
     </ng-container>
 
     <ng-container *ngIf="hasScrollTop$ | async">
       <ng-template #top>
-        <ng-container *ngTemplateOutlet="regionScrollTop"></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.top }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollLeft$ | async">
       <ng-template #left>
-        <ng-container *ngTemplateOutlet="regionScrollLeft"></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.left }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollBottom$ | async">
       <ng-template #bottom>
-        <ng-container *ngTemplateOutlet="regionScrollBottom"></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.bottom }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollRight$ | async">
       <ng-template #right>
-        <ng-container *ngTemplateOutlet="regionScrollRight"></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.right }"></ng-container>
       </ng-template>
     </ng-container>
     <ng-container *ngIf="hasScrollCenter$ | async">
       <ng-template #center>
-        <ng-container *ngTemplateOutlet="regionScrollCenter"></ng-container>
+        <ng-container *ngTemplateOutlet="regionTpl; context: { $implicit: regions.scroll.center }"> </ng-container>
       </ng-template>
     </ng-container>
-    <pre>
-menuStartWhere$: {{ (menuStartWhere$ | async)?.toString() }} {{
-        modal$ | async | json
-      }}</pre
+    <div
+      content-container
+      class="modal"
+      [class.modal-tint]="modal === 1"
+      [class.modal-blur]="modal === 1"
+      [class.modal-gray]="modal === 1"
+      [class.modal-disable]="modal === 1"
+      (click)="modalClicked$.next($event)"
     >
-    <div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
-      <div>line</div>
+      <ng-container *ngTemplateOutlet="debugTpl"> </ng-container>
+      <ng-content></ng-content>
     </div>
   </div>
 </div>
-<!--
-
-<div
-  #scrollContainer
-  cdkScrollable
-  class="modal fixed-inset"
-  [class.modal-disable]="(modal$ | async) === 2"
-  [class.modal-gray]="(modal$ | async) === 2"
-  [addSizeCssVarsToElement]="elementRef.nativeElement"
-  cssVarName="scroll"
->
-
-
-<div layer="overlay">
-  <ng-container *ngIf="hasViewportOverlayTop$ | async">
-    <ng-template #top>
-      <ng-container *ngTemplateOutlet="regionViewportOverlayTop"></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="showOverlayLeft$ | async">
-    <ng-template #left>
-      <ng-container *ngTemplateOutlet="regionViewportOverlayLeft"></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="showOverlayRight$ | async">
-    <ng-template #right>
-      <ng-container *ngTemplateOutlet="regionViewportOverlayRight"></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="showOverlayBottom$ | async">
-    <ng-template #bottom>
-      <ng-container *ngTemplateOutlet="regionViewportOverlayBottom"></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngTemplateOutlet="regionViewportOverlayCenter"></ng-container>
-</div>
-
-<div layer="fixed" (layerResize)="_handleFixedLayerResize($event)">
-  <ng-container *ngIf="showFixedTop$ | async">
-    <ng-template #top>
-      <ng-container *ngTemplateOutlet="regionAppFixedTop"></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="showFixedLeft$ | async">
-    <ng-template #left>
-      <ng-container *ngTemplateOutlet="regionAppFixedLeft"></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="showFixedRight$ | async">
-    <ng-template #right>
-      <ng-container *ngTemplateOutlet="regionAppFixedRight"></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="showFixedBottom$ | async">
-    <ng-template #bottom>
-      <ng-container *ngTemplateOutlet="regionAppFixedBottom"></ng-container>
-    </ng-template>
-  </ng-container>
-
-  <ng-container *ngTemplateOutlet="regionAppFixedCenter"></ng-container>
-</div>
-
-<div layer="fixed-overlay" class="fixed-inset">
-  <ng-container *ngIf="showFixedOverlayTop$ | async">
-    <ng-template #top>
-      <ng-container *ngTemplateOutlet="regionAppFixedOverlayTop"></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="showFixedOverlayLeft$ | async">
-    <ng-template #left>
-      <ng-container
-        *ngTemplateOutlet="regionAppFixedOverlayLeft"
-      ></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="showFixedOverlayRight$ | async">
-    <ng-template #right>
-      <ng-container
-        *ngTemplateOutlet="regionAppFixedOverlayRight"
-      ></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngIf="showFixedOverlayBottom$ | async">
-    <ng-template #bottom>
-      <ng-container
-        *ngTemplateOutlet="regionAppFixedOverlayBottom"
-      ></ng-container>
-    </ng-template>
-  </ng-container>
-  <ng-container *ngTemplateOutlet="regionAppFixedOverlayCenter"></ng-container>
-</div>
-<div
-  #scrollContainer
-  cdkScrollable
-  class="modal fixed-inset"
-  [class.modal-disable]="(modal$ | async) === 2"
-  [class.modal-gray]="(modal$ | async) === 2"
-  [addSizeCssVarsToElement]="elementRef.nativeElement"
-  cssVarName="scroll"
->
-  <div layer="scroll" class="modal" [class.modal-blur]="(modal$ | async) === 2">
-    <ng-container *ngIf="showScrollTop$ | async">
-      <ng-template #top>
-        <ng-container *ngTemplateOutlet="regionScrollTop"></ng-container>
-      </ng-template>
-    </ng-container>
-    <ng-container *ngIf="showScrollLeft$ | async">
-      <ng-template #left>
-        <ng-container *ngTemplateOutlet="regionScrollLeft"></ng-container>
-      </ng-template>
-    </ng-container>
-    <ng-container *ngIf="showScrollRight$ | async">
-      <ng-template #right>
-        <ng-container *ngTemplateOutlet="regionScrollRight"></ng-container>
-      </ng-template>
-    </ng-container>
-    <ng-container *ngIf="showScrollBottom$ | async">
-      <ng-template #bottom>
-        <ng-container *ngTemplateOutlet="regionScrollBottom"></ng-container>
-      </ng-template>
-    </ng-container>
-    <ng-container *ngTemplateOutlet="regionScrollCenter"></ng-container>
-  </div>
-</div>
--->
 
 <!-- 
   
-  Region Definitions 
+  Region Definition
 
 -->
 
-<!-- Viewport Overlay Regions -->
-<ng-template #regionViewportOverlayTop>
-  <ng-container [cpngViewAnchor]="regions.viewport.overlay.top"></ng-container>
-</ng-template>
-<ng-template #regionViewportOverlayLeft
-  ><ng-container [cpngViewAnchor]="regions.viewport.overlay.left"></ng-container
-></ng-template>
-<ng-template #regionViewportOverlayRight
-  ><ng-container
-    [cpngViewAnchor]="regions.viewport.overlay.right"
-  ></ng-container
-></ng-template>
-<ng-template #regionViewportOverlayBottom
-  ><ng-container
-    [cpngViewAnchor]="regions.viewport.overlay.bottom"
-  ></ng-container
-></ng-template>
-<ng-template #regionViewportOverlayCenter
-  ><ng-container
-    [cpngViewAnchor]="regions.viewport.overlay.center"
-  ></ng-container>
-</ng-template>
+<ng-template #regionTpl let-viewId>
+  <ng-container [cpngViewAnchor]="viewId"></ng-container>
 
-<!-- Viewport Regions -->
-<ng-template #regionViewportTop>
-  <ng-container [cpngViewAnchor]="regions.viewport.base.top"></ng-container>
-</ng-template>
-<ng-template #regionViewportLeft
-  ><ng-container [cpngViewAnchor]="regions.viewport.base.left"></ng-container
-></ng-template>
-<ng-template #regionViewportRight
-  ><ng-container [cpngViewAnchor]="regions.viewport.base.right"></ng-container
-></ng-template>
-<ng-template #regionViewportBottom
-  ><ng-container [cpngViewAnchor]="regions.viewport.base.bottom"></ng-container
-></ng-template>
-<ng-template #regionViewportCenter
-  ><ng-container [cpngViewAnchor]="regions.viewport.base.center"></ng-container>
-</ng-template>
-
-<!-- Application Overlay Regions -->
-<ng-template #regionApplicationOverlayTop>
-  <ng-container *cpngIfAnchorHasViews="regions.application.overlay.top">
-    <ng-container
-      [cpngViewAnchor]="regions.application.overlay.top"
-    ></ng-container>
-  </ng-container>
-</ng-template>
-<ng-template #regionApplicationOverlayLeft
-  ><ng-container
-    [cpngViewAnchor]="regions.application.overlay.left"
-  ></ng-container>
-  <!--
-
-   <ng-container
-   *ngIf="(menuStartWhere$ | async) === regions.application.overlay.left"
-   >
-   <ng-container *ngTemplateOutlet="menuStart"></ng-container>
-  </ng-container>
--->
-</ng-template>
-<ng-template #regionApplicationOverlayRight
-  ><ng-container
-    [cpngViewAnchor]="regions.application.overlay.right"
-  ></ng-container
-></ng-template>
-<ng-template #regionApplicationOverlayBottom
-  ><ng-container
-    [cpngViewAnchor]="regions.application.overlay.bottom"
-  ></ng-container
-></ng-template>
-<ng-template #regionApplicationOverlayCenter
-  ><ng-container
-    [cpngViewAnchor]="regions.application.overlay.center"
-  ></ng-container>
-</ng-template>
-
-<!-- Application Regions -->
-<ng-template #regionApplicationTop>
-  <ng-container [cpngViewAnchor]="regions.application.base.top"></ng-container>
-  <ng-container *ngIf="headerScroll.fixed$ | async">
+  <ng-container *ngIf="(headerLocation$ | async) === viewId">
     <ng-container *ngTemplateOutlet="header"></ng-container>
   </ng-container>
-</ng-template>
-<ng-template #regionApplicationLeft
-  ><ng-container [cpngViewAnchor]="regions.application.base.left"></ng-container
-  ><ng-container
-    *ngIf="(menuStartWhere$ | async) === regions.application.base.left"
-  >
-    <ng-container *ngTemplateOutlet="menuStart"></ng-container> </ng-container
-></ng-template>
-<ng-template #regionApplicationRight
-  ><ng-container
-    [cpngViewAnchor]="regions.application.base.right"
-  ></ng-container>
-  <!-- 
 
-    <ng-container *ngIf="(menuEndWhere$ | async) === regions.fixed.right">
-      <ng-container *ngTemplateOutlet="menuEnd"></ng-container> </ng-container
-      >
-      
-    -->
-</ng-template>
-<ng-template #regionApplicationBottom
-  ><ng-container
-    [cpngViewAnchor]="regions.application.base.bottom"
-  ></ng-container
-  ><ng-container *ngIf="footerScroll.fixed$ | async">
-    <ng-container *ngTemplateOutlet="footer"></ng-container> </ng-container
-></ng-template>
-<ng-template #regionApplicationCenter
-  ><ng-container
-    [cpngViewAnchor]="regions.application.base.center"
-  ></ng-container>
-</ng-template>
-
-<!-- Scroll Overlay Regions -->
-<ng-template #regionScrollOverlayTop>
-  <ng-container *cpngIfAnchorHasViews="regions.scroll.overlay.top">
-    <ng-container [cpngViewAnchor]="regions.scroll.overlay.top"></ng-container>
-  </ng-container>
-</ng-template>
-<ng-template #regionScrollOverlayLeft
-  ><ng-container [cpngViewAnchor]="regions.scroll.overlay.left"></ng-container>
-  <ng-container
-    *ngIf="(menuStartWhere$ | async) === regions.scroll.overlay.left"
-  >
+  <ng-container *ngIf="(menuStartLocation$ | async) === viewId">
     <ng-container *ngTemplateOutlet="menuStart"></ng-container>
   </ng-container>
-</ng-template>
-<ng-template #regionScrollOverlayRight
-  ><ng-container [cpngViewAnchor]="regions.scroll.overlay.right"></ng-container
-></ng-template>
-<ng-template #regionScrollOverlayBottom
-  ><ng-container [cpngViewAnchor]="regions.scroll.overlay.bottom"></ng-container
-></ng-template>
-<ng-template #regionScrollOverlayCenter
-  ><ng-container
-    [cpngViewAnchor]="regions.scroll.overlay.center"
-  ></ng-container>
-  <div
-    modal
-    *ngIf="(modal$ | async) === 2"
-    (click)="modalClicked$.next($event)"
-  ></div>
-</ng-template>
-
-<!-- Scroll Regions -->
-<ng-template #regionScrollTop>
-  <ng-container [cpngViewAnchor]="regions.scroll.base.top"></ng-container>
-  <ng-container *ngIf="!(headerScroll.fixed$ | async)">
-    <ng-container *ngTemplateOutlet="header"></ng-container>
+  <ng-container *ngIf="(menuEndLocation$ | async) === viewId">
+    <ng-container *ngTemplateOutlet="menuEnd"></ng-container>
   </ng-container>
 </ng-template>
-<ng-template #regionScrollLeft
-  ><ng-container [cpngViewAnchor]="regions.scroll.base.left"></ng-container
->
-
-<ng-container
-    *ngIf="(menuStartWhere$ | async) === regions.scroll.base.left"
-  >
-    <ng-container *ngTemplateOutlet="menuStart"></ng-container> </ng-container
->
-
-</ng-template>
-<ng-template #regionScrollRight
-  ><ng-container [cpngViewAnchor]="regions.scroll.base.right"></ng-container>
-  <!-- 
-
-    <ng-container *ngIf="(menuEndWhere$ | async) === regions.fixed.right">
-      <ng-container *ngTemplateOutlet="menuEnd"></ng-container> </ng-container
-      >
-      
-    -->
-</ng-template>
-<ng-template #regionScrollBottom
-  ><ng-container [cpngViewAnchor]="regions.scroll.base.bottom"></ng-container
-></ng-template>
-<ng-template #regionScrollCenter
-  ><ng-container [cpngViewAnchor]="regions.scroll.base.center"></ng-container>
-  <ng-container *ngIf="!(footerScroll.fixed$ | async)">
-    <ng-container *ngTemplateOutlet="footer"></ng-container>
-  </ng-container>
-</ng-template>
-
-<!-- App Fixed Regions 
-<ng-template #regionAppFixedTop>
-  <ng-container [cpngViewAnchor]="regions.application.base.top"></ng-container>
-  <ng-container *ngIf="headerScroll.fixed$ | async">
-    <ng-container *ngTemplateOutlet="header"></ng-container>
-  </ng-container>
-</ng-template>
-<ng-template #regionAppFixedLeft>
-  <ng-container [cpngViewAnchor]="regions.application.base.left"></ng-container>
-  <ng-container *ngIf="(menuStartWhere$ | async) === regions.application.base.left">
-    <ng-container *ngTemplateOutlet="menuStart"></ng-container>
-  </ng-container>
-</ng-template>
-<ng-template #regionAppFixedRight>
-  <ng-container [cpngViewAnchor]="regions.application.base.right"></ng-container>
-  <cpng-application-menu-end
-    [class.hides-on-scroll]="menuEndScroll.hideOnScroll$ | async"
-    class="vertical end"
-    *ngIf="(menuEndWhere$ | async) === regions.application.base.right"
-  ></cpng-application-menu-end>
-</ng-template>
-<ng-template #regionAppFixedBottom
-  ><ng-container [cpngViewAnchor]="regions.application.base.bottom"></ng-container>
-
-  <cpng-application-footer
-    [class.hides-on-scroll]="footerScroll.hideOnScroll$ | async"
-    class="horizontal end"
-    *ngIf="footerScroll.fixed$ | async"
-  ></cpng-application-footer>
-</ng-template>
-<ng-template #regionAppFixedCenter
-  ><ng-container [cpngViewAnchor]="regions.application.base.center"></ng-container>
-</ng-template>
--->
-
-<!-- App Fixed Overlay Regions 
-<ng-template #regionAppFixedOverlayTop
-  ><ng-container [cpngViewAnchor]="regions.application.overlay.top"></ng-container
-></ng-template>
-<ng-template #regionAppFixedOverlayLeft
-  ><ng-container [cpngViewAnchor]="regions.application.overlay.left"></ng-container>
-  <ng-container *ngIf="(menuStartWhere$ | async) === regions.application.overlay.left">
-    <ng-container *ngTemplateOutlet="menuStart"></ng-container>
-  </ng-container>
-</ng-template>
-<ng-template #regionAppFixedOverlayRight
-  ><ng-container [cpngViewAnchor]="regions.application.overlay.right"></ng-container
-></ng-template>
-<ng-template #regionAppFixedOverlayBottom
-  ><ng-container [cpngViewAnchor]="regions.application.overlay.bottom"></ng-container
-></ng-template>
-<ng-template #regionAppFixedOverlayCenter
-  ><ng-container [cpngViewAnchor]="regions.application.overlay.center">
-    <div
-      modal
-      *ngIf="(modal$ | async) === 2"
-      (click)="modalClicked$.next($event)"
-    ></div></ng-container
-></ng-template>
--->
-<!-- Scroll Regions 
-<ng-template #regionScrollTop>
-  <ng-container [cpngViewAnchor]="regions.scroll.base.top"></ng-container>
-  <ng-container *ngIf="!(headerScroll.fixed$ | async)">
-    <ng-container *ngTemplateOutlet="header"></ng-container>
-  </ng-container>
-</ng-template>
-<ng-template #regionScrollLeft>
-  <ng-container [cpngViewAnchor]="regions.scroll.base.left"></ng-container>
-  <ng-container *ngIf="(menuStartWhere$ | async) === regions.scroll.base.left">
-    <ng-container *ngTemplateOutlet="menuStart"></ng-container>
-  </ng-container>
-</ng-template>
-<ng-template #regionScrollRight
-  ><ng-container [cpngViewAnchor]="regions.scroll.base.right"></ng-container>
-  <cpng-application-menu-end
-    [class.hides-on-scroll]="menuEndScroll.hideOnScroll$ | async"
-    class="vertical end"
-    *ngIf="(menuEndWhere$ | async) === regions.scroll.base.right"
-  ></cpng-application-menu-end>
-</ng-template>
-<ng-template #regionScrollBottom
-  ><ng-container [cpngViewAnchor]="regions.scroll.base.bottom"></ng-container>
-  <cpng-application-footer
-    [class.hides-on-scroll]="footerScroll.hideOnScroll$ | async"
-    class="horizontal end"
-    *ngIf="!(footerScroll.fixed$ | async)"
-  ></cpng-application-footer>
-</ng-template>
-<ng-template #regionScrollCenter>
-  <ng-content></ng-content>
-  <div
-    modal
-    *ngIf="(modal$ | async) === 1"
-    (click)="modalClicked$.next($event)"
-  ></div>
-</ng-template>
--->
 
 <!--
 
@@ -689,22 +401,16 @@ menuStartWhere$: {{ (menuStartWhere$ | async)?.toString() }} {{
 
 <!-- header -->
 <ng-template #header>
-  <cpng-application-header
-    addSizeCssVars
-    [class.hides-on-scroll]="headerScroll.hideOnScroll$ | async"
-    class="horizontal start"
-  >
+  <cpng-application-header addSizeCssVars [class.hides-on-scroll]="headerScroll.hideOnScroll$ | async" class="horizontal start">
     <ng-template #start> Title </ng-template>
     <ng-container xcpngIfAnchorHasViews="menuAnchors.menuStartButton">
       <ng-template #startActions>
-        <ng-container [cpngViewAnchor]="menuAnchors.menuStartButton">
-        </ng-container>
+        <ng-container [cpngViewAnchor]="menuAnchors.menuStartButton"> </ng-container>
       </ng-template>
     </ng-container>
     <ng-container xcpngIfAnchorHasViews="menuAnchors.menuEndButton">
       <ng-template #endActions>
-        <ng-container [cpngViewAnchor]="menuAnchors.menuEndButton">
-        </ng-container>
+        <ng-container [cpngViewAnchor]="menuAnchors.menuEndButton"> </ng-container>
       </ng-template>
     </ng-container>
   </cpng-application-header>
@@ -724,4 +430,18 @@ menuStartWhere$: {{ (menuStartWhere$ | async)?.toString() }} {{
 </ng-template>
 
 <!-- Menu End -->
-<ng-template #menuEnd> </ng-template>
+<ng-template #menuEnd>
+  <cpng-application-menu-end
+    addSizeCssVars
+    [class.hides-on-scroll]="menuEndScroll.hideOnScroll$ | async"
+    class="vertical end"
+    [(opened)]="menuEndOpened"
+  ></cpng-application-menu-end>
+</ng-template>
+
+<ng-template #debugTpl>
+  <pre>
+    menuStartLocation: {{ (menuStartLocation$ | async)?.toString() }}  - modal: {{ modal | json }}
+    headerLocation: {{ (headerLocation$ | async)?.toString() }}  
+  </pre>
+</ng-template>

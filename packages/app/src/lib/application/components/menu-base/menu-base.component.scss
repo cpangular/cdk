@@ -1,35 +1,35 @@
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
 
 :host {
   display: flex;
   flex-direction: column;
+  @include mat.elevation(6);
   > div {
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    background-color: var(--background-app-bar);
-    @include mat.elevation(24);
+    background-color: var(--theme-background-app-bar);
   }
 }
 
 :host {
   --close-speed: 0.2s;
-  &[side="start"] {
+  &[side='start'] {
     &.init > div {
       transition: margin-left ease-in var(--close-speed);
     }
-    &[opened="false"] {
+    &[opened='false'] {
       overflow: hidden;
       > div {
         margin-left: calc(-1 * var(--width));
       }
     }
   }
-  &[side="end"] {
+  &[side='end'] {
     &.init > div {
       transition: margin-right ease-in var(--close-speed);
     }
-    &[opened="false"] {
+    &[opened='false'] {
       > div {
         margin-right: calc(-1 * var(--width));
       }

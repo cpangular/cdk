@@ -1,6 +1,5 @@
-
 export enum ScrollBehavior {
   SCROLL,
   FLOAT,
-  FIXED
+  FIXED,
 }

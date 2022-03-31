@@ -1,10 +1,10 @@
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { CpNgViewAnchorModule } from "@cpangular/cdk/view-anchor";
-import { ApplicationHeaderComponent } from "./header.component";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { CpNgViewAnchorModule } from '@cpangular/cdk/view-anchor';
+import { ApplicationHeaderComponent } from './header.component';
 
 @NgModule({
   declarations: [ApplicationHeaderComponent],
