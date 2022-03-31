@@ -24,7 +24,7 @@
         --#{$name}-contrast-#{$k}: var(--#{$name}-contrast-#{$v});
       }
     }
-  } @else {
+  } @else if meta.type-of($data) != list {
     --#{$name}: #{$data};
   }
 }
