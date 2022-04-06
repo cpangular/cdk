@@ -1,0 +1,7 @@
+<cpng-app-layout>
+  <pre>{{ routerState$ | async | json }}</pre>
+  <ng-content></ng-content>
+  <router-outlet (attach)="activate($event)"></router-outlet>
+</cpng-app-layout>
+
+<cpng-authentication-menu [buttonAnchor]="anchors.header.end"> </cpng-authentication-menu>

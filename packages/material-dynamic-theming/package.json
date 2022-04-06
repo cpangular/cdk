@@ -45,15 +45,15 @@
   },
   "repository": "https://github.com/cpangular/cdk",
   "peerDependencies": {
-    "@angular/common": "~13.2.0",
-    "@angular/core": "~13.2.0",
-    "@angular/cdk": "~13.2.3",
+    "@angular/common": "^13.0.0",
+    "@angular/core": "^13.0.0",
+    "@angular/cdk": "^13.0.0",
     "change-case": "^4.1.2"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular/material": "~13.2.3"
+    "@angular/material": "^13.0.0"
   }
 }

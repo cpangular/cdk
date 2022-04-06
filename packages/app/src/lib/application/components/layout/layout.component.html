@@ -386,10 +386,14 @@
   </ng-container>
 
   <ng-container *ngIf="(menuStartLocation$ | async) === viewId">
-    <ng-container *ngTemplateOutlet="menuStart"></ng-container>
+    <ng-container *cpngIfAnchorHasViews="menuAnchors.menuStart">
+      <ng-container *ngTemplateOutlet="menuStart"></ng-container>
+    </ng-container>
   </ng-container>
   <ng-container *ngIf="(menuEndLocation$ | async) === viewId">
-    <ng-container *ngTemplateOutlet="menuEnd"></ng-container>
+    <ng-container *cpngIfAnchorHasViews="menuAnchors.menuEnd">
+      <ng-container *ngTemplateOutlet="menuEnd"></ng-container>
+    </ng-container>
   </ng-container>
 </ng-template>
 
@@ -402,13 +406,18 @@
 <!-- header -->
 <ng-template #header>
   <cpng-application-header addSizeCssVars [class.hides-on-scroll]="headerScroll.hideOnScroll$ | async" class="horizontal start">
-    <ng-template #start> Title </ng-template>
-    <ng-container xcpngIfAnchorHasViews="menuAnchors.menuStartButton">
+    <ng-template #start>
+      <ng-container [cpngViewAnchor]="headerAnchors.start"></ng-container>
+    </ng-template>
+    <ng-template #end>
+      <ng-container [cpngViewAnchor]="headerAnchors.end"></ng-container>
+    </ng-template>
+    <ng-container *cpngIfAnchorHasViews="menuAnchors.menuStartButton">
       <ng-template #startActions>
         <ng-container [cpngViewAnchor]="menuAnchors.menuStartButton"> </ng-container>
       </ng-template>
     </ng-container>
-    <ng-container xcpngIfAnchorHasViews="menuAnchors.menuEndButton">
+    <ng-container *cpngIfAnchorHasViews="menuAnchors.menuEndButton">
       <ng-template #endActions>
         <ng-container [cpngViewAnchor]="menuAnchors.menuEndButton"> </ng-container>
       </ng-template>
@@ -426,7 +435,9 @@
     [class.hides-on-scroll]="menuStartScroll.hideOnScroll$ | async"
     class="vertical start"
     [(opened)]="menuStartOpened"
-  ></cpng-application-menu-start>
+  >
+    <ng-container [cpngViewAnchor]="menuAnchors.menuStart"></ng-container>
+  </cpng-application-menu-start>
 </ng-template>
 
 <!-- Menu End -->
@@ -436,7 +447,9 @@
     [class.hides-on-scroll]="menuEndScroll.hideOnScroll$ | async"
     class="vertical end"
     [(opened)]="menuEndOpened"
-  ></cpng-application-menu-end>
+  >
+    <ng-container [cpngViewAnchor]="menuAnchors.menuEnd"></ng-container>
+  </cpng-application-menu-end>
 </ng-template>
 
 <ng-template #debugTpl>

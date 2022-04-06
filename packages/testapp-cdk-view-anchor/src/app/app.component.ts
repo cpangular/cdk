@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ApplicationAnchors } from '@cpangular/app/application';
 import { isDarkMode, setDarkMode, toggleDarkMode, setActiveTheme } from '@cpangular/material-dynamic-theming';
 
 @Component({
@@ -7,6 +8,7 @@ import { isDarkMode, setDarkMode, toggleDarkMode, setActiveTheme } from '@cpangu
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  appAnchors = ApplicationAnchors;
   themes = isDarkMode();
   /*
   appViewAnchors = ApplicationViewAnchors;

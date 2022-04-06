@@ -1,153 +1,18 @@
 import { CdkScrollable } from '@angular/cdk/scrolling';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  Inject,
-  Injector,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Inject, OnInit, ViewChild } from '@angular/core';
 import { observe } from '@cpangular/cdk/value-resolver';
 import { ViewAnchorService } from '@cpangular/cdk/view-anchor';
-import {
-  BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  filter,
-  isObservable,
-  map,
-  Observable,
-  pairwise,
-  shareReplay,
-  Subject,
-  Subscription,
-  tap,
-  throttleTime,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, distinctUntilChanged, filter, map, Observable, pairwise, Subject, tap, throttleTime } from 'rxjs';
 import { IApplicationConfiguration } from '../../config/ApplicationConfiguration';
 import { FinalApplicationConfiguration } from '../../config/FinalApplicationConfiguration';
+import { HeaderAnchors } from '../header/HeaderAnchors';
 import { MenuAnchors } from '../menu-base/MenuAnchors';
 import { LayerSizes } from './layer/layer.component';
 import { LayoutRegions } from './LayoutRegions';
 import { MenuLayoutBehavior, MenuRelativeLocation } from './MenuMode';
 import { ScrollBehavior } from './ScrollBehavior';
-
-export class ScrollBehaviorWatcher {
-  public readonly fixed$ = this.mode$.pipe(
-    map((m) => m !== ScrollBehavior.SCROLL),
-    distinctUntilChanged(),
-    shareReplay(1)
-  );
-
-  public readonly hideOnScroll$ = this.mode$.pipe(
-    map((m) => m === ScrollBehavior.FLOAT),
-    distinctUntilChanged(),
-    shareReplay(1)
-  );
-
-  constructor(public readonly mode$: Observable<ScrollBehavior>) {}
-}
-
-function anyTrue$(conditions: Observable<boolean>[]) {
-  return combineLatest(conditions).pipe(
-    map((c) => c.some((v) => v === true)),
-    distinctUntilChanged(),
-    shareReplay(1)
-  );
-}
-
-function isEqual$(obs: Observable<any>, toValue: any) {
-  return obs.pipe(map((v) => v === toValue));
-}
-
-function not$(obs: Observable<boolean>): Observable<boolean> {
-  return obs.pipe(map((v) => !v));
-}
-
-interface IInjector {
-  readonly injector: Injector;
-}
-
-interface IElementRef<T = any> {
-  readonly elementRef: ElementRef<T>;
-}
-
-function hasElementRef(obj: any): obj is IElementRef {
-  return obj.elementRef instanceof ElementRef;
-}
-
-function hasInjector(obj: any): obj is IInjector {
-  return obj.injector instanceof Injector;
-}
-
-interface IInjectorFieldName {
-  injector: string;
-}
-
-interface IElementFieldName {
-  elementRef: string;
-}
-
-type AttributeBindingAsyncConfig = { attributeName?: string } & (
-  | IInjectorFieldName
-  | IElementFieldName
-  | (IInjectorFieldName & IElementFieldName)
-);
-
-function AttributeBindingAsync(): (target: IInjector | IElementRef, propertyKey: string) => void;
-function AttributeBindingAsync(attributeName: string): (target: IInjector | IElementRef, propertyKey: string) => void;
-function AttributeBindingAsync(
-  config: { attributeName?: string } & IElementFieldName
-): (target: IInjector | any, propertyKey: string) => void;
-function AttributeBindingAsync(
-  config: { attributeName?: string } & IInjectorFieldName
-): (target: IElementRef | any, propertyKey: string) => void;
-function AttributeBindingAsync(config?: string | AttributeBindingAsyncConfig) {
-  return (target: IInjector | IElementRef, propertyKey: string) => {
-    const cfg =
-      typeof config === 'object'
-        ? {
-            attributeName: config.attributeName || propertyKey,
-            injector: (config as IInjectorFieldName).injector ?? 'injector',
-            elementRef: (config as IElementFieldName).elementRef ?? 'elementRef',
-          }
-        : {
-            attributeName: config || propertyKey,
-            injector: 'injector',
-            elementRef: 'elementRef',
-          };
-
-    function setAttr(element: HTMLElement, v: any) {
-      if (v === undefined || v === null) {
-        element.removeAttribute(cfg.attributeName);
-      } else {
-        element.setAttribute(cfg.attributeName, v.toString());
-      }
-    }
-
-    let value: any = undefined;
-    let sub: Subscription = new Subscription();
-    Object.defineProperty(target, propertyKey, {
-      get: () => value,
-      set: function (this: IInjector | IElementRef, v: any) {
-        sub.unsubscribe();
-        value = v;
-
-        const elementRef = (this as any)[cfg.elementRef] as ElementRef;
-        const injector = (this as any)[cfg.injector] as Injector;
-        const elm = elementRef instanceof ElementRef ? elementRef.nativeElement : injector.get(ElementRef).nativeElement;
-        if (!isObservable(v)) {
-          setAttr(elm, v);
-        } else {
-          sub = v.subscribe((val) => setAttr(elm, val));
-        }
-      },
-    });
-  };
-}
+import { ScrollBehaviorWatcher } from './ScrollBehaviorWatcher';
+import { anyTrue$, isEqual$ } from './util';
 
 @Component({
   selector: 'cpng-app-layout',
@@ -158,6 +23,7 @@ function AttributeBindingAsync(config?: string | AttributeBindingAsyncConfig) {
 export class LayoutComponent implements OnInit {
   public readonly regions = LayoutRegions;
   public readonly menuAnchors = MenuAnchors;
+  public readonly headerAnchors = HeaderAnchors;
   public readonly headerScroll = new ScrollBehaviorWatcher(observe(this.config.header.scrollBehavior!));
   public readonly headerLocation$ = this.headerScroll.fixed$.pipe(map((f) => (f ? this.regions.content.top : this.regions.scroll.top)));
   public readonly footerScroll = new ScrollBehaviorWatcher(observe(this.config.header.scrollBehavior!));
@@ -541,7 +407,7 @@ export class LayoutComponent implements OnInit {
   }
 
   public setInsetProperties(elm: HTMLElement, sizes: LayerSizes, prefix?: string) {
-     elm.style.setProperty(`--${prefix ? `${prefix}-` : ''}top`, `${sizes.top.height}px`);
+    elm.style.setProperty(`--${prefix ? `${prefix}-` : ''}top`, `${sizes.top.height}px`);
     elm.style.setProperty(`--${prefix ? `${prefix}-` : ''}left`, `${sizes.left.width}px`);
     elm.style.setProperty(`--${prefix ? `${prefix}-` : ''}bottom`, `${sizes.bottom.height}px`);
     elm.style.setProperty(`--${prefix ? `${prefix}-` : ''}right`, `${sizes.right.width}px`);
