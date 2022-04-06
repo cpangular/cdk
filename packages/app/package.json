@@ -17,9 +17,9 @@
   },
   "repository": "https://github.com/cpangular/cdk",
   "peerDependencies": {
-    "@angular/common": "~13.2.0",
-    "@angular/core": "~13.2.0",
-    "@angular/material": "~13.2.3",
+    "@angular/common": "^13.0.0",
+    "@angular/core": "^13.0.0",
+    "@angular/material": "^13.0.0",
     "@cpangular/material-dynamic-theming": "0.0.7",
     "@cpangular/cdk": "0.0.7",
     "@ngxs/store": "^3.7.3",

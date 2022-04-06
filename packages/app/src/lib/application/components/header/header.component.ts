@@ -4,6 +4,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { IApplicationConfiguration } from '../../config/ApplicationConfiguration';
 import { FinalApplicationConfiguration } from '../../config/FinalApplicationConfiguration';
 import { MenuAnchors } from '../menu-base/MenuAnchors';
+import { HeaderAnchors } from './HeaderAnchors';
 
 //import { InternalApplicationLayoutViewAnchors } from "../application-layout/InternalApplicationLayoutViewAnchors";
 

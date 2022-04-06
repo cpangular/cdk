@@ -1,0 +1,22 @@
+<ng-container *ngIf="user$ | async; let user">
+  <ng-container *ngIf="buttonAnchor">
+    <button [matMenuTriggerFor]="menu" *cpngProjectToAnchor="buttonAnchor" mat-icon-button><mat-icon>account_circle</mat-icon></button>
+
+    <mat-menu #menu="matMenu">
+      <div class="user-menu">
+        <div class="user">
+          <div class="display-name">{{ user.displayName }}</div>
+          <div class="user-name">{{ user.username }}</div>
+          <!--
+
+              <button mat-button color="accent">Edit Profile</button>
+            -->
+        </div>
+        <div separator></div>
+        <ng-content></ng-content>
+        <div separator></div>
+        <button mat-button color="warn" (click)="logout()">Logout</button>
+      </div>
+    </mat-menu>
+  </ng-container>
+</ng-container>
