@@ -23,8 +23,8 @@ jobs:
           scope: ${{ github.repository_owner }}
 
       - name: Init
-        run: yarn  --ignore-scripts
+        run: pnpm  --ignore-scripts
 
       - name: Build
         run: |
-          yarn build
+          pnpm build

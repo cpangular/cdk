@@ -1,0 +1,10 @@
+@mixin override($darkModeDefault: false) {
+  $selector: '.mat-tooltip';
+  #{if($darkModeDefault, '', 'html #{$selector},')} html[themeMode='light'] #{$selector} {
+    color: var(--theme-background-tooltip-bg);
+  }
+
+  #{if(not $darkModeDefault, '', 'html #{$selector}')} html[themeMode='dark'] #{$selector} {
+    color: var(--theme-background-tooltip-bg);
+  }
+}

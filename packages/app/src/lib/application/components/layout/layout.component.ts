@@ -7,7 +7,7 @@ import { IApplicationConfiguration } from '../../config/ApplicationConfiguration
 import { FinalApplicationConfiguration } from '../../config/FinalApplicationConfiguration';
 import { HeaderAnchors } from '../header/HeaderAnchors';
 import { MenuAnchors } from '../menu-base/MenuAnchors';
-import { LayerSizes } from './layer/layer.component';
+import { LayerSizes } from './layer/LayerSizes';
 import { LayoutRegions } from './LayoutRegions';
 import { MenuLayoutBehavior, MenuRelativeLocation } from './MenuMode';
 import { ScrollBehavior } from './ScrollBehavior';
@@ -25,7 +25,9 @@ export class LayoutComponent implements OnInit {
   public readonly menuAnchors = MenuAnchors;
   public readonly headerAnchors = HeaderAnchors;
   public readonly headerScroll = new ScrollBehaviorWatcher(observe(this.config.header.scrollBehavior!));
-  public readonly headerLocation$ = this.headerScroll.fixed$.pipe(map((f) => (f ? this.regions.content.top : this.regions.scroll.top)));
+  public readonly headerLocation$: Observable<symbol> = this.headerScroll.fixed$.pipe(
+    map((f) => (f ? this.regions.content.top : this.regions.scroll.top))
+  );
   public readonly footerScroll = new ScrollBehaviorWatcher(observe(this.config.header.scrollBehavior!));
   public readonly rightToLeft$ = observe(this.config.layout.rightToLeft);
 
@@ -34,7 +36,7 @@ export class LayoutComponent implements OnInit {
 
   public readonly menuStartMode$ = observe(this.config.menuStart.mode);
   public readonly menuStartScroll = new ScrollBehaviorWatcher(observe(this.config.menuStart.scrollBehavior!));
-  public readonly menuStartLocation$ = combineLatest([this.menuStartMode$, this.headerScroll.fixed$]).pipe(
+  public readonly menuStartLocation$: Observable<symbol> = combineLatest([this.menuStartMode$, this.headerScroll.fixed$]).pipe(
     map(([mode, headerFixed]) => {
       const location = mode & MenuRelativeLocation.UNDER || mode & MenuRelativeLocation.OVER || mode & MenuRelativeLocation.VIEWPORT;
       const behavior = mode & MenuLayoutBehavior.INLINE || mode & MenuLayoutBehavior.OVER;
@@ -93,7 +95,7 @@ export class LayoutComponent implements OnInit {
   public readonly menuEndMode$ = observe(this.config.menuEnd.mode);
   public readonly menuEndScroll = new ScrollBehaviorWatcher(observe(this.config.menuEnd.scrollBehavior!));
 
-  public readonly menuEndLocation$ = combineLatest([this.menuEndMode$, this.headerScroll.fixed$]).pipe(
+  public readonly menuEndLocation$: Observable<symbol> = combineLatest([this.menuEndMode$, this.headerScroll.fixed$]).pipe(
     map(([mode, headerFixed]) => {
       const location = mode & MenuRelativeLocation.UNDER || mode & MenuRelativeLocation.OVER || mode & MenuRelativeLocation.VIEWPORT;
       const behavior = mode & MenuLayoutBehavior.INLINE || mode & MenuLayoutBehavior.OVER;

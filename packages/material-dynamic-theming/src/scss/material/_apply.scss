@@ -1,6 +1,13 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 @use './theme';
+@use './overrides/slide-toggle';
+@use './overrides/form-field-theme';
+@use './overrides/form_field_outline';
+@use './overrides/form-field-fill-theme';
+@use './overrides/form-field-standard-theme';
+@use './overrides/form-field-legacy-theme';
+@use './overrides/tooltip-theme';
 
 @mixin styles($themes) {
   $defaultDark: map.get($themes, 'defaultDark');
@@ -26,4 +33,12 @@
       @include mat.all-component-colors($darkTheme);
     }
   }
+
+  @include slide-toggle.override();
+  @include form-field-theme.override();
+  @include form_field_outline.override();
+  @include form-field-fill-theme.override();
+  @include form-field-standard-theme.override();
+  @include form-field-legacy-theme.override();
+  @include tooltip-theme.override();
 }

@@ -1,0 +1,28 @@
+@mixin override($darkModeDefault: false) {
+  $selector: '.mat-form-field-appearance-fill .mat-form-field-flex';
+  #{if($darkModeDefault, '', 'html #{$selector},')} html[themeMode='light'] #{$selector} {
+    color: var(--theme-background-fill);
+  }
+
+  #{if(not $darkModeDefault, '', 'html #{$selector}')} html[themeMode='dark'] #{$selector} {
+    color: var(--theme-background-fill);
+  }
+
+  $selector: '.mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-flex';
+  #{if($darkModeDefault, '', 'html #{$selector},')} html[themeMode='light'] #{$selector} {
+    color: var(--theme-background-fill-disabled);
+  }
+
+  #{if(not $darkModeDefault, '', 'html #{$selector}')} html[themeMode='dark'] #{$selector} {
+    color: var(--theme-background-fill-disabled);
+  }
+
+  $selector: '.mat-form-field-appearance-fill .mat-form-field-underline::before';
+  #{if($darkModeDefault, '', 'html #{$selector},')} html[themeMode='light'] #{$selector} {
+    color: var(--theme-foreground-underline);
+  }
+
+  #{if(not $darkModeDefault, '', 'html #{$selector}')} html[themeMode='dark'] #{$selector} {
+    color: var(--theme-foreground-underline);
+  }
+}
