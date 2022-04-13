@@ -9,7 +9,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApplicationModule } from '@cpangular/app/application';
-import { ApplicationShellConfig, ApplicationShellModule, APPLICATION_SHELL_CONFIG } from '@cpangular/app/application-shell';
 import { AuthenticationState } from '@cpangular/app/auth';
 import { BreakpointResolverModule } from '@cpangular/cdk/breakpoint-resolver';
 import { CpNgDrawerModule } from '@cpangular/cdk/drawer';
@@ -36,30 +35,16 @@ import { AppComponent } from './app.component';
     MatIconModule,
     MatCardModule,
     CpNgDrawerModule,
-    ApplicationShellModule,
     ApplicationModule,
     MatListModule,
     MatMenuModule,
-    ApplicationModule,
     OIDCAuthenticationModule.forRoot(environment.openIdConfig),
     NgxsModule.forRoot([AuthenticationState], {
       developmentMode: !environment.production,
     }),
     environment.ngxsPluginImports,
   ],
-  providers: [
-    {
-      provide: APPLICATION_SHELL_CONFIG,
-      useValue: {
-        rightMenuButtonColor: 'accent',
-        /*headerMode: when(
-         size('(max-height: 1000px)', HeaderMode.SCROLL_AWAY),
-         otherwise(HeaderMode.FIXED)
-       )*/
-      } as Partial<ApplicationShellConfig>,
-    },
-    environment.providers,
-  ],
+  providers: [environment.providers],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

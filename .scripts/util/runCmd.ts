@@ -6,7 +6,7 @@ import { exit } from 'process';
 
 export async function runCmd(phases: Array<IProject | IProject[]>, cmd: string) {
   const cmdInfo = {
-    command: `yarn ${cmd}`,
+    command: `pnpm ${cmd}`,
     cwd: '',
     name: '',
   };

@@ -54,6 +54,10 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@angular/material": "^13.0.0"
+    "@angular/material": "^13.0.0",
+    "@angular-devkit/core": "^13.0.0",
+    "@angular-devkit/schematics": "^13.0.0",
+    "@schematics/angular": "^13.0.0",
+    "sass": "^1.50.0"
   }
 }

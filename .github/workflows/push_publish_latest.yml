@@ -21,6 +21,18 @@ jobs:
           always-auth: true
           scope: ${{ github.repository_owner }}
 
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.0.2
+
       - name: Get package version
         id: package_version_str
         uses: martinbeentjes/npm-get-version-action@master
@@ -45,7 +57,7 @@ jobs:
           versionRegex: '(.*)'
 
       - name: Init
-        run: yarn  --ignore-scripts
+        run: pnpm install
 
       - name: Set package versions
         run: |
@@ -53,16 +65,16 @@ jobs:
           git commit -a -m versions
 
       - name: Production Build
-        run: yarn build
+        run: pnpm build
 
       - name: Package
-        run: yarn package
+        run: pnpm package
 
       - name: Publish Libraries
         env:
           GITHUB_TOKEN: ${{ github.token }}
           NODE_AUTH_TOKEN: ${{ github.token }}
-        run: yarn release
+        run: pnpm release
 
       - name: Create tag
         id: tag_version

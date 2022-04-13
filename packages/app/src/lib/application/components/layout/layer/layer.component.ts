@@ -1,25 +1,7 @@
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ContentChild,
-  EventEmitter,
-  Input,
-  NgZone,
-  Output,
-  TemplateRef,
-} from '@angular/core';
-
-import { BehaviorSubject, combineLatest, map, shareReplay, tap } from 'rxjs';
-
-export interface LayerSizes {
-  top: DOMRect;
-  left: DOMRect;
-  bottom: DOMRect;
-  right: DOMRect;
-  rest: DOMRect;
-}
+import { ChangeDetectorRef, Component, ContentChild, EventEmitter, Input, NgZone, Output, TemplateRef } from '@angular/core';
+import { BehaviorSubject, combineLatest, map, shareReplay } from 'rxjs';
+import { LayerSizes } from './LayerSizes';
 
 @Component({
   selector: 'div[layer]',

@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
-@use '@cpangular/material-dynamic-theming' as theme;
+@use '../../index' as theme;
+@use '../../material';
 
 $themeName: 'deeppurple-amber';
 

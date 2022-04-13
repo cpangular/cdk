@@ -16,29 +16,8 @@ import {
 } from '@angular/core';
 import { combineLatest, filter, map, merge, of, startWith, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { LayerComponent } from '../layer/layer.component';
-import { LayoutComponent } from '../layout.component';
-
-export interface LayerSizes {
-  top: DOMRect;
-  left: DOMRect;
-  bottom: DOMRect;
-  right: DOMRect;
-  rest: DOMRect;
-}
-
-export interface ILayer {
-  topOpened: boolean;
-  topOpenedChange: EventEmitter<boolean>;
-  leftOpened: boolean;
-  leftOpenedChange: EventEmitter<boolean>;
-  bottomOpened: boolean;
-  bottomOpenedChange: EventEmitter<boolean>;
-  rightOpened: boolean;
-  rightOpenedChange: EventEmitter<boolean>;
-  layerResize: EventEmitter<LayerSizes>;
-  openAll(): void;
-  closeAll(): void;
-}
+import { LayerSizes } from '../layer/LayerSizes';
+import { ILayer } from './ILayer';
 
 @Component({
   selector: 'div[layer-group]',
@@ -52,6 +31,8 @@ export class LayerGroupComponent implements AfterViewInit, OnDestroy {
   protected handleHostClick(evt: MouseEvent) {
     this.hostClicked$.next(evt);
   }
+  @Input()
+  public layoutElement?: ElementRef<HTMLElement>;
 
   @Output()
   public hostClicked$ = new Subject<MouseEvent>();
@@ -69,7 +50,8 @@ export class LayerGroupComponent implements AfterViewInit, OnDestroy {
     this.innerOverlayClicked$.pipe(filter((v) => this.disabled || this.contentDisabled))
   );
 
-  public constructor(public readonly elementRef: ElementRef<HTMLElement>, private readonly layout: LayoutComponent) {}
+  public constructor(public readonly elementRef: ElementRef<HTMLElement>) // private readonly layout: LayoutComponent
+  {}
 
   @Input('layer-group')
   public layerGroup: string = '';
@@ -208,7 +190,7 @@ export class LayerGroupComponent implements AfterViewInit, OnDestroy {
           this.elementRef.nativeElement.style.setProperty(`--content-bottom`, `${size.height - sizes!.bottom.height}px`);
           this.elementRef.nativeElement.style.setProperty(`--content-right`, `${size.width - sizes!.right.width}px`);
 
-          const elm = this.layout.elementRef.nativeElement;
+          const elm = this.layoutElement?.nativeElement;
           if (elm) {
             const base = `--${this.layerGroup}`;
 
