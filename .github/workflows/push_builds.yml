@@ -26,7 +26,7 @@ jobs:
           version: 6.0.2
 
       - name: Init
-        run: pnpm  --ignore-scripts
+        run: pnpm install
 
       - name: Build
         run: |
