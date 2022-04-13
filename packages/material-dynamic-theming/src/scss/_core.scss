@@ -38,8 +38,6 @@
         _alphas: $alphas,
       )
     );
-
-    @debug $base-palette;
   }
 
   @return $base-palette;
