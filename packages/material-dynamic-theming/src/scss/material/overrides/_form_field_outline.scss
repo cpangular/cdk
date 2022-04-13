@@ -1,0 +1,10 @@
+@mixin override($darkModeDefault: false) {
+  $selector: '.mat-form-field-appearance-outline .mat-form-field-outline';
+  #{if($darkModeDefault, '', 'html #{$selector},')} html[themeMode='light'] #{$selector} {
+    color: var(--theme-foreground-outline);
+  }
+
+  #{if(not $darkModeDefault, '', 'html #{$selector}')} html[themeMode='dark'] #{$selector} {
+    color: var(--theme-foreground-outline);
+  }
+}

@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use 'sass:meta';
 @use 'sass:string';
-
+@use 'sass:math';
 @mixin -private-write-variables($data, $name: null, $parentName: null) {
   @if meta.type-of($data) == map {
     @each $k, $v in $data {
@@ -18,10 +18,19 @@
     }
 
     $aliases: map.get($data, '_aliases');
+    $alphas: map.get($data, '_alphas');
+
     @if $aliases {
       @each $k, $v in $aliases {
         --#{$name}-#{$k}: var(--#{$name}-#{$v});
         --#{$name}-contrast-#{$k}: var(--#{$name}-contrast-#{$v});
+
+        @if $alphas {
+          @each $a in $alphas {
+            $an: 'a#{math.round($a * 100)}';
+            --#{$name}-#{$an}-#{$k}: var(--#{$name}-#{$an}-#{$v});
+          }
+        }
       }
     }
   } @else if meta.type-of($data) != list {

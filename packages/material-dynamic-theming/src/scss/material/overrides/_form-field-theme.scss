@@ -1,0 +1,28 @@
+@mixin override($darkModeDefault: false) {
+  $selector: '.mat-form-field-appearance-outline .mat-form-field-outline';
+  #{if($darkModeDefault, '', 'html #{$selector},')} html[themeMode='light'] #{$selector} {
+    color: var(--theme-foreground-outline);
+  }
+
+  #{if(not $darkModeDefault, '', 'html #{$selector}')} html[themeMode='dark'] #{$selector} {
+    color: var(--theme-foreground-outline);
+  }
+
+  $selector: '.mat-form-field-appearance-outline .mat-form-field-outline-thick';
+  #{if($darkModeDefault, '', 'html #{$selector},')} html[themeMode='light'] #{$selector} {
+    color: var(--theme-foreground-outline-hover);
+  }
+
+  #{if(not $darkModeDefault, '', 'html #{$selector}')} html[themeMode='dark'] #{$selector} {
+    color: var(--theme-foreground-outline-hover);
+  }
+
+  $selector: '.mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label';
+  #{if($darkModeDefault, '', 'html #{$selector},')} html[themeMode='light'] #{$selector} {
+    color: var(--theme-foreground-outline-disabled);
+  }
+
+  #{if(not $darkModeDefault, '', 'html #{$selector}')} html[themeMode='dark'] #{$selector} {
+    color: var(--theme-foreground-outline-disabled);
+  }
+}
