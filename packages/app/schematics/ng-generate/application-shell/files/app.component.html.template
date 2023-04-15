@@ -1,2 +1,0 @@
-
-<cpng-application-shell><%= routerOutletTag %></cpng-application-shell>
