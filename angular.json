@@ -19,26 +19,10 @@
     "@schematics/angular:pipe": {
       "standalone": true,
       "skipTests": true
-    },
-    "@schematics/angular:service": {
-      "skipTests": true,
-      "flat": true
-    },
-    "@schematics/angular:guard": {
-      "skipTests": true
-    },
-    "@schematics/angular:class": {
-      "skipTests": true
-    },
-    "@schematics/angular:module": {
-      "routing": true,
-      "commonModule": true,
-      "flat": false,
-      "skipTests": true
     }
   },
   "projects": {
-    "CdkTestApplication": {
+    "cdk-test-application": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -52,27 +36,27 @@
           "standalone": true
         }
       },
-      "root": "applications/CdkTestApplication",
-      "sourceRoot": "applications/CdkTestApplication/src",
+      "root": "applications/cdk-test-application",
+      "sourceRoot": "applications/cdk-test-application/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/cdk-test-application",
-            "index": "applications/CdkTestApplication/src/index.html",
-            "main": "applications/CdkTestApplication/src/main.ts",
+            "index": "applications/cdk-test-application/src/index.html",
+            "main": "applications/cdk-test-application/src/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "applications/CdkTestApplication/tsconfig.app.json",
+            "tsConfig": "applications/cdk-test-application/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "applications/CdkTestApplication/src/favicon.ico",
-              "applications/CdkTestApplication/src/assets"
+              "applications/cdk-test-application/src/favicon.ico",
+              "applications/cdk-test-application/src/assets"
             ],
             "styles": [
-              "applications/CdkTestApplication/src/styles.scss"
+              "applications/cdk-test-application/src/styles.scss"
             ],
             "scripts": []
           },
@@ -107,10 +91,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "CdkTestApplication:build:production"
+              "browserTarget": "cdk-test-application:build:production"
             },
             "development": {
-              "browserTarget": "CdkTestApplication:build:development"
+              "browserTarget": "cdk-test-application:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -118,7 +102,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "CdkTestApplication:build"
+            "browserTarget": "cdk-test-application:build"
           }
         },
         "test": {
@@ -128,14 +112,14 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "applications/CdkTestApplication/tsconfig.spec.json",
+            "tsConfig": "applications/cdk-test-application/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "applications/CdkTestApplication/src/favicon.ico",
-              "applications/CdkTestApplication/src/assets"
+              "applications/cdk-test-application/src/favicon.ico",
+              "applications/cdk-test-application/src/assets"
             ],
             "styles": [
-              "applications/CdkTestApplication/src/styles.scss"
+              "applications/cdk-test-application/src/styles.scss"
             ],
             "scripts": []
           }
