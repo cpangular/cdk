@@ -1,6 +1,8 @@
 {
   "name": "@cpangular/cdk",
   "version": "0.16.0-dev.0",
+  "private": true,
+  "repository": "https://github.com/cpangular/cdk",
   "scripts": {
     "prepare": "run-s prepare:*",
     "prepare:husky": "husky install",
@@ -18,27 +20,53 @@
     "actions-build": "pnpm run build-libs",
     "actions-test": "pnpm run test"
   },
-  "private": true,
-  "repository": "https://github.com/cpangular/cdk",
-  "devDependencies": {
-    "@angular-devkit/build-angular": "^16.0.0-rc.0",
-    "@angular/cli": "16.0.0-rc.0",
-    "@angular/compiler": "16.0.0-rc.1",
-    "@angular/compiler-cli": "^16.0.0-rc.0",
-    "@angular/core": "^16.0.0-rc.1",
-    "@types/node": "^14.15.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.1",
-    "ng-packagr": "^16.0.0-rc.0",
-    "npm-run-all2": "^6.0.5",
-    "prettier": "^2.8.7",
-    "rxjs": "~7.8.0",
-    "ts-node": "^10.9.1",
-    "tslib": "^2.3.0",
-    "typescript": "~5.0.2",
-    "zone.js": "~0.13.0"
-  },
   "lint-staged": {
     "*": "prettier --write --ignore-unknown"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "0.0.0-NG-CLI",
+    "@angular/cli": "0.0.0-NG-CLI",
+    "@angular/compiler": "0.0.0-NG",
+    "@angular/compiler-cli": "0.0.0-NG-CLI",
+    "@angular/core": "0.0.0-NG",
+    "@types/node": "0.0.0-DUMMY",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
+    "ng-packagr": "0.0.0-NG-CLI",
+    "npm-run-all2": "^6.0.5",
+    "prettier": "^2.8.7",
+    "rxjs": "0.0.0-DUMMY",
+    "ts-node": "0.0.0-DUMMY",
+    "tslib": "0.0.0-DUMMY",
+    "typescript": "0.0.0-DUMMY",
+    "zone.js": "0.0.0-DUMMY"
+  },
+  "pnpm": {
+    "overrides": {
+      "@angular-devkit/build-angular": "^16.0.0-rc.0",
+      "@angular/cli": "16.0.0-rc.0",
+      "@angular/compiler": "16.0.0-rc.1",
+      "@angular/compiler-cli": "^16.0.0-rc.0",
+      "@angular/core": "^16.0.0-rc.1",
+      "@types/node": "^14.15.0",
+      "ng-packagr": "^16.0.0-rc.0",
+      "rxjs": "~7.8.0",
+      "ts-node": "^10.9.1",
+      "tslib": "^2.3.0",
+      "typescript": "~5.0.2",
+      "zone.js": "~0.13.0",
+      "@angular/animations": "^16.0.0-rc.1",
+      "@angular/cdk": "16.0.0-rc.0",
+      "@angular/common": "^16.0.0-rc.1",
+      "@angular/forms": "^16.0.0-rc.1",
+      "@angular/material": "16.0.0-rc.0",
+      "@angular/platform-browser": "^16.0.0-rc.1",
+      "@angular/platform-browser-dynamic": "^16.0.0-rc.1",
+      "@angular/platform-server": "^16.0.0-rc.1",
+      "@angular/router": "^16.0.0-rc.1",
+      "@nguniversal/express-engine": "^16.0.0-rc.0",
+      "express": "^4.15.2",
+      "@nguniversal/builders": "^16.0.0-rc.0"
+    }
   }
 }
