@@ -1,5 +1,5 @@
-import { distinctUntilChanged, map, Observable, shareReplay } from "rxjs";
-import { elementSize } from "./elementSize";
+import { distinctUntilChanged, map, Observable, shareReplay } from 'rxjs';
+import { elementSize } from './elementSize';
 
 /**
  * Creates an observable that emits the width of the given element.
@@ -7,16 +7,14 @@ import { elementSize } from "./elementSize";
  * @returns {Observable<number>} An observable that emits the width of the given element.
  * @example
  * import { elementWidth } from '@cpangular/rxjs/size';
- * 
+ *
  * elementWidth(document.body).subscribe((width) => {
  *   console.log(width);
  * });
- *  
+ *
  */
 
-export function elementWidth(
-  element: Element = document.documentElement
-): Observable<number> {
+export function elementWidth(element: Element = document.documentElement): Observable<number> {
   return elementSize(element).pipe(
     map((s) => s.width),
     distinctUntilChanged(),

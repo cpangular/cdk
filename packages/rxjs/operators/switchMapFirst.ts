@@ -1,4 +1,4 @@
-import { Observable, of, switchMap } from "rxjs";
+import { Observable, of, switchMap } from 'rxjs';
 
 /**
  * Switches to the first observable that returns a value.
@@ -7,7 +7,7 @@ import { Observable, of, switchMap } from "rxjs";
  * @returns An observable that emits the first value that matches a check.
  * @example
  * import { switchMapFirst } from '@cpangular/rxjs/operators';
- *  
+ *
  * of(1, 2, 3, 5).pipe(
  *   switchMapFirst([
  *     (value) => value === 1 ? (value) => of("one") : undefined,
@@ -18,13 +18,13 @@ import { Observable, of, switchMap } from "rxjs";
  * ).subscribe((value) => {
  *   console.log(value);
  * });
- * 
+ *
  * // Output:
  * // one
  * // two
  * // three
  * // unknown: 5
- * 
+ *
  */
 
 export function switchMapFirst<T, R>(
@@ -32,10 +32,8 @@ export function switchMapFirst<T, R>(
     value: T,
     checkIndex: number,
     streamIndex: number
-  ) =>
-    | ((value: T, checkIndex: number, streamIndex: number) => Observable<R>)
-    | undefined)[],
-    defaultValue: R | ((value: T) => R)
+  ) => ((value: T, checkIndex: number, streamIndex: number) => Observable<R>) | undefined)[],
+  defaultValue: R | ((value: T) => R)
 ): (source: Observable<T>) => Observable<R> {
   return (source: Observable<T>) => {
     let streamIndex = -1;
@@ -50,7 +48,7 @@ export function switchMapFirst<T, R>(
             return result(value, checkIndex, streamIndex);
           }
         }
-        return of(typeof defaultValue === "function" ? (defaultValue as (value: T) => R)(value) : defaultValue);
+        return of(typeof defaultValue === 'function' ? (defaultValue as (value: T) => R)(value) : defaultValue);
       })
     );
   };

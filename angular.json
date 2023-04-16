@@ -49,10 +49,7 @@
             "polyfills": ["zone.js"],
             "tsConfig": "applications/cdk-test-application/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "applications/cdk-test-application/src/favicon.ico",
-              "applications/cdk-test-application/src/assets"
-            ],
+            "assets": ["applications/cdk-test-application/src/favicon.ico", "applications/cdk-test-application/src/assets"],
             "styles": ["applications/cdk-test-application/src/styles.scss"],
             "scripts": []
           },
@@ -107,10 +104,7 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "applications/cdk-test-application/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "applications/cdk-test-application/src/favicon.ico",
-              "applications/cdk-test-application/src/assets"
-            ],
+            "assets": ["applications/cdk-test-application/src/favicon.ico", "applications/cdk-test-application/src/assets"],
             "styles": ["applications/cdk-test-application/src/styles.scss"],
             "scripts": []
           }
