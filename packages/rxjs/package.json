@@ -1,14 +1,16 @@
 {
-  "name": "rxjs",
+  "name": "@cpangular/rxjs",
   "version": "0.0.1",
   "scripts": {
     "build": "ng build rxjs"
-},
+  },
   "peerDependencies": {
     "@angular/common": "^16.0.0-rc.0",
-    "@angular/core": "^16.0.0-rc.0"
+    "@angular/core": "^16.0.0-rc.0",
+    "rxjs": "~7.8.0"
   },
-  "dependencies": {
+  "devDependencies": {
+    "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
   "sideEffects": false

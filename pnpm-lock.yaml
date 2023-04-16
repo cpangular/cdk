@@ -31,7 +31,7 @@ importers:
       typescript: 5.0.4
       zone.js: 0.13.0
 
-  applications/CdkTestApplication:
+  applications/cdk-test-application:
     specifiers:
       '@angular-devkit/build-angular': ^16.0.0-rc.0
       '@angular/animations': ^16.0.0-rc.1
@@ -100,8 +100,10 @@ importers:
 
   packages/rxjs:
     specifiers:
+      rxjs: ~7.8.0
       tslib: ^2.3.0
     dependencies:
+      rxjs: 7.8.0
       tslib: 2.5.0
 
 packages:
