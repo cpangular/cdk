@@ -3,12 +3,13 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
-    "rootDir": ".",
+    "rootDir": "./",
     "sourceRoot": "./src",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
     "types": []
   },
+  "include": ["src/public-api.ts"],
   "exclude": ["**/*.spec.ts"]
 }
