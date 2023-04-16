@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - "*"
-      - "v/*"
+      - "*/*"
+      - "!release/*"
 
 jobs:
   check_project_builds:
