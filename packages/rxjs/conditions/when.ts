@@ -1,11 +1,10 @@
 import {
   distinctUntilChanged,
   Observable,
-  shareReplay,
-  Subscription,
+  shareReplay
 } from "rxjs";
-import { IfThenEntry } from "./IfThenEntry";
 import { mapFirst } from "../operators";
+import { IfThenEntry } from "./IfThenEntry";
 
 export function when<TValue, TCondition>(
   ...ifThens: IfThenEntry<TValue, TCondition>[]
@@ -23,3 +22,4 @@ export function when<TValue, TCondition>(
     return mapped(source).pipe(distinctUntilChanged(), shareReplay(1));
   };
 }
+
