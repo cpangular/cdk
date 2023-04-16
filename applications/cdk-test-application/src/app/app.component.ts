@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { elementSize } from '@cpangular/rxjs';
+import { Size, elementSize } from '@cpangular/rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import { elementSize } from '@cpangular/rxjs';
 })
 export class AppComponent {
   constructor() {
-    elementSize(document.body).subscribe((size) => {
+    elementSize(document.body).subscribe((size: Size) => {
       console.log(size);
     });
   }

@@ -14,9 +14,9 @@
     "fix:prettier": "prettier --write --ignore-unknown .",
     "git-remove-tags": "git tag | xargs git tag -d",
     "reset-hard": "git clean -dfx && git reset --hard && pnpm i --force",
-    "build": "pnpm -r run build",
-    "build-libs": "pnpm -r run build-lib",
-    "test": "pnpm -r run test",
+    "build": "pnpm --recursive --stream --workspace-concurrency=1 run build",
+    "build-libs": "pnpm --recursive --stream --workspace-concurrency=1 run build-lib",
+    "test": "pnpm --recursive --stream --workspace-concurrency=1 run test",
     "actions-build": "pnpm run build-libs",
     "actions-test": "pnpm run test"
   },
