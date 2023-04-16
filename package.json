@@ -8,14 +8,15 @@
     "prepare:build": "pnpm run build",
     "pre-commit": "run-s pre-commit:*",
     "pre-commit:tags": "git tag | xargs git tag -d",
-    "actions-build": "pnpm run build",
-    "actions-test": "pnpm run test",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier --write --ignore-unknown .",
     "git-remove-tags": "git tag | xargs git tag -d",
     "reset-hard": "git clean -dfx && git reset --hard && pnpm i --force",
     "build": "pnpm -r run build",
-    "test": "pnpm -r run test"
+    "build-libs": "pnpm -r run build-lib",
+    "test": "pnpm -r run test",
+    "actions-build": "pnpm run build-libs",
+    "actions-test": "pnpm run test"
   },
   "private": true,
   "repository": "https://github.com/cpangular/cdk",
