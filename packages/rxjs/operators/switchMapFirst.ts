@@ -1,54 +1,65 @@
-import { Observable, of, switchMap } from 'rxjs';
+import { Observable, isObservable, of, switchMap } from 'rxjs';
+import { TransformFn } from './TransformFn';
+import { TransformOperation } from './TransformOperation';
 
 /**
- * Switches to the first observable that returns a value.
- * @param { ((value: T, checkIndex: number, streamIndex: number) => ((value: T, checkIndex: number, streamIndex: number) => Observable<R>) | undefined)[] } checks - An array of checks to run on each value.
- * @param { R | ((value: T) => R) } defaultValue - The default value to emit if no checks match.
- * @returns An observable that emits the first value that matches a check.
+ * A Function that transforms a value of type T into an observable of type R or undefined if the transform should not apply.
+ * @template T The value to transform.
+ * @template R The result of the transform.
+ *
+ */
+export type SwitchTransformFn<T, R> = TransformFn<T, Observable<R>>;
+
+/**
+ * Rxjs operator that switches to the first observable returned by a transform.
+ * @param { SwitchTransformFn<T, R>[] } transforms - An array of transforms to run on each emitted value.
+ * The transform function should return an observable if the transform should be applied.
+ * If the transform does not apply, the transform function should return undefined.
+ * If no transforms match, the defaultValue observable is used.
+ * @param { Observable<R> | TransformFn<T, Observable<R>> } defaultValue - The defaultValue observable is used if no transforms match.
+ * @returns the first observable returned by a transform or the defaultValue observable.
+ * @template T The type of value to transform.
+ * @template R The type of result of the transform.
  * @example
+ * import { of } from 'rxjs';
  * import { switchMapFirst } from '@cpangular/rxjs/operators';
  *
  * of(1, 2, 3, 5).pipe(
  *   switchMapFirst([
- *     (value) => value === 1 ? (value) => of("one") : undefined,
- *     (value) => value === 2 ? (value) => of("two") : undefined,
- *     (value) => value === 3 ? (value) => of("three") : undefined,
- *     (value) => value === 4 ? (value) => of("four") : undefined
- *   ], (value) => of("unknown: " + value));
+ *     (value) => value === 1 ? (value) => of(`one: ${value}`) : undefined,
+ *     (value) => value === 2 ? (value) => of(`two: ${value}`) : undefined,
+ *     (value) => value === 3 ? (value) => of(`three: ${value}`) : undefined,
+ *     (value) => value === 4 ? (value) => of(`four: ${value}`) : undefined
+ *   ], (value) => of(`unknown: ${value}`)));
  * ).subscribe((value) => {
  *   console.log(value);
  * });
  *
  * // Output:
- * // one
- * // two
- * // three
+ * // one: 1
+ * // two: 2
+ * // three: 3
  * // unknown: 5
  *
  */
-
 export function switchMapFirst<T, R>(
-  checks: ((
-    value: T,
-    checkIndex: number,
-    streamIndex: number
-  ) => ((value: T, checkIndex: number, streamIndex: number) => Observable<R>) | undefined)[],
-  defaultValue: R | ((value: T) => R)
-): (source: Observable<T>) => Observable<R> {
+  transforms: SwitchTransformFn<T, R>[],
+  defaultValue: Observable<R> | TransformFn<T, Observable<R>>
+): TransformOperation<T, R | undefined> {
   return (source: Observable<T>) => {
-    let streamIndex = -1;
     return source.pipe(
-      switchMap((value: T) => {
-        streamIndex++;
-        let checkIndex = -1;
-        for (const check of checks) {
-          checkIndex++;
-          const result = check(value, checkIndex, streamIndex);
-          if (result) {
-            return result(value, checkIndex, streamIndex);
+      switchMap((value) => {
+        for (const check of transforms) {
+          const result = check(value);
+          if (isObservable(result)) {
+            return result;
           }
         }
-        return of(typeof defaultValue === 'function' ? (defaultValue as (value: T) => R)(value) : defaultValue);
+        const o = typeof defaultValue === 'function' ? (defaultValue as TransformFn<T, Observable<R>>)(value) : defaultValue;
+        if (isObservable(o)) {
+          return o;
+        }
+        return of(undefined);
       })
     );
   };

@@ -3,8 +3,8 @@ export type IfThen<TValue, TCondition = unknown> = (condition: TCondition) => TV
 
 /**
  * An entry of  a condition to check and a value function to call if the check passes.
- * @typeparam TValue The type of the value to return if the condition is true.
- * @typeparam TCondition The type of the condition data to check
+ * @template TValue The type of the value to return if the condition is true.
+ * @template TCondition The type of the condition data to check
  * @example
  * const condition: IfThenEntry<string, number> = {
  *   check: (data: number) => data > 1,
