@@ -2,7 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "packages",
-  
+
   "schematics": {
     "@schematics/angular:component": {
       "style": "scss",
@@ -46,18 +46,14 @@
             "outputPath": "dist/cdk-test-application",
             "index": "applications/cdk-test-application/src/index.html",
             "main": "applications/cdk-test-application/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "applications/cdk-test-application/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "applications/cdk-test-application/src/favicon.ico",
               "applications/cdk-test-application/src/assets"
             ],
-            "styles": [
-              "applications/cdk-test-application/src/styles.scss"
-            ],
+            "styles": ["applications/cdk-test-application/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -108,19 +104,14 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "applications/cdk-test-application/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "applications/cdk-test-application/src/favicon.ico",
               "applications/cdk-test-application/src/assets"
             ],
-            "styles": [
-              "applications/cdk-test-application/src/styles.scss"
-            ],
+            "styles": ["applications/cdk-test-application/src/styles.scss"],
             "scripts": []
           }
         }
@@ -151,15 +142,10 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "tsConfig": "packages/rxjs/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
+            "polyfills": ["zone.js", "zone.js/testing"]
           }
         }
       }
     }
-    
-    
   }
 }

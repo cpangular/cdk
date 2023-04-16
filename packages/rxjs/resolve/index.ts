@@ -1,2 +1,2 @@
-export * from './IResolvable';
-export * from './toObservable';
+export * from "./IResolvable";
+export * from "./toObservable";

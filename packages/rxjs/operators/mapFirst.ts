@@ -1,7 +1,15 @@
 import { map, Observable } from "rxjs";
 
-
-export function mapFirst<T, R>(checks: ((value: T, checkIndex: number, streamIndex: number) => ((value: T, checkIndex: number, streamIndex: number) => R) | undefined)[], defaultValue: R) {
+export function mapFirst<T, R>(
+  checks: ((
+    value: T,
+    checkIndex: number,
+    streamIndex: number
+  ) =>
+    | ((value: T, checkIndex: number, streamIndex: number) => R)
+    | undefined)[],
+  defaultValue: R
+) {
   return (source: Observable<T>) => {
     let streamIndex = -1;
     return source.pipe(
