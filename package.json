@@ -2,31 +2,42 @@
   "name": "@cpangular/cdk",
   "version": "0.16.0-dev.0",
   "scripts": {
-    "build": "pnpm -r run build",
-    "test": "pnpm -r run test",
+    "prepare": "run-s prepare:*",
+    "prepare:husky": "husky install",
+    "prepare:remove-tags": "pnpm run git-remove-tags",
+    "prepare:build": "pnpm run build",
+    "pre-commit": "run-s pre-commit:*",
+    "pre-commit:tags": "git tag | xargs git tag -d",
     "actions-build": "pnpm run build",
-    "actions-test": "pnpm run test"
+    "actions-test": "pnpm run test",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier --write --ignore-unknown .",
+    "git-remove-tags": "git tag | xargs git tag -d",
+    "reset-hard": "git clean -dfx && git reset --hard && pnpm i --force",
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test"
   },
   "private": true,
   "repository": "https://github.com/cpangular/cdk",
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
   "devDependencies": {
-    "@angular/core": "^16.0.0-rc.1",
     "@angular-devkit/build-angular": "^16.0.0-rc.0",
     "@angular/cli": "16.0.0-rc.0",
     "@angular/compiler": "16.0.0-rc.1",
     "@angular/compiler-cli": "^16.0.0-rc.0",
+    "@angular/core": "^16.0.0-rc.1",
     "@types/node": "^14.15.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
     "ng-packagr": "^16.0.0-rc.0",
-    "ts-node": "^10.9.1",
-    "typescript": "~5.0.2",
+    "npm-run-all2": "^6.0.5",
+    "prettier": "^2.8.7",
     "rxjs": "~7.8.0",
+    "ts-node": "^10.9.1",
     "tslib": "^2.3.0",
+    "typescript": "~5.0.2",
     "zone.js": "~0.13.0"
   },
   "lint-staged": {
-    "*": "prettier --write"
+    "*": "prettier --write --ignore-unknown"
   }
 }
