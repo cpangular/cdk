@@ -1,0 +1,19 @@
+name: Test Build
+
+on:
+  push:
+    branches:
+      - "*"
+      - "v/*"
+
+jobs:
+  check_project_builds:
+    name: Check that the project builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node & Dependencies
+        uses: cpdevtools/common-github-workflows/.github/actions/node-setup-pnpm@v0.0.15
+
+      - name: Build Project
+        uses: cpdevtools/common-github-workflows/.github/actions/run-build@v0.0.15
