@@ -17,7 +17,8 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "paths": {
-      "@cpangular/rxjs": ["dist/rxjs"]
+      "@cpangular/rxjs": ["dist/rxjs"],
+      "@cpangular/rxjs/*": ["dist/rxjs/*"],
     },
     "target": "ES2022",
     "module": "ES2022",

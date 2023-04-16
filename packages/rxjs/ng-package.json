@@ -1,6 +1,6 @@
 {
-  "$schema": "../../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../../dist/rxjs",
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/rxjs",
 
   "lib": {
     "entryFile": "public-api.ts"

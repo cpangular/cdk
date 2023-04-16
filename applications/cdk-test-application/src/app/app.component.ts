@@ -1,8 +1,8 @@
-import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 
-import {} from '@cpangular/rxjs/operators'
+import { elementSize } from '@cpangular/rxjs';
 
 @Component({
   selector: "app-root",
@@ -12,5 +12,9 @@ import {} from '@cpangular/rxjs/operators'
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
-  title = "CdkTestApplication";
+  constructor() {
+    elementSize(document.body).subscribe((size) => {
+      console.log(size);
+    });
+  }
 }
