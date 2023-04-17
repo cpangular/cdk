@@ -41,6 +41,9 @@
     "typescript": "0.0.0-DUMMY",
     "zone.js": "0.0.0-DUMMY"
   },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
   "pnpm": {
     "overrides": {
       "@angular-devkit/build-angular": "^16.0.0-rc.0",

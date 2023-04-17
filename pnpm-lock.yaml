@@ -46,6 +46,8 @@ importers:
       tslib: ^2.3.0
       typescript: ~5.0.2
       zone.js: ~0.13.0
+    dependencies:
+      tslib: 2.5.0
     devDependencies:
       '@angular-devkit/build-angular': 16.0.0-rc.0_4xb3zr5pfjpbqurzjn4a6higey
       '@angular/cli': 16.0.0-rc.0
@@ -60,7 +62,6 @@ importers:
       prettier: 2.8.7
       rxjs: 7.8.0
       ts-node: 10.9.1_adlo6uxblhgvolyqo2x6kf22my
-      tslib: 2.5.0
       typescript: 5.0.4
       zone.js: 0.13.0
 
@@ -132,6 +133,18 @@ importers:
       karma-jasmine-html-reporter: 2.0.0_vl3unt3t2otf46m2vvwnwo5vau
       ts-node: 10.9.1_adlo6uxblhgvolyqo2x6kf22my
       typescript: 5.0.4
+
+  packages/cdk:
+    specifiers:
+      tslib: ^2.3.0
+    dependencies:
+      tslib: 2.5.0
+
+  packages/components:
+    specifiers:
+      tslib: ^2.3.0
+    dependencies:
+      tslib: 2.5.0
 
   packages/rxjs:
     specifiers:

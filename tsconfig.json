@@ -18,7 +18,15 @@
     "importHelpers": true,
     "paths": {
       "@cpangular/rxjs": ["dist/rxjs"],
-      "@cpangular/rxjs/*": ["dist/rxjs/*"]
+      "@cpangular/rxjs/*": [
+        "dist/rxjs/*"
+      ],
+      "cdk": [
+        "dist/cdk"
+      ],
+      "components": [
+        "dist/components"
+      ]
     },
     "target": "ES2022",
     "module": "ES2022",
