@@ -5,7 +5,7 @@ import { Observable, map } from 'rxjs';
  * @param { ((data: TData) => boolean)[] } checks - An array of checks to run on each emitted value.
  * @returns An observable that emits a boolean array of the results of each check.
  * @example
- * import { matches } from '@cpangular/rxjs/operators';
+ * import { matches } from '@cpangular/rxjs';
  *
  * of({ name: 'John', age: 30 }, { name: 'Jane', age: 25 }).pipe(
  *   matches([

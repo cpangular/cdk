@@ -6,7 +6,7 @@ import { Size } from './types/Size';
  * @param { Element } element  - The element to observe for size changes (default: document.documentElement)
  * @returns {Observable<Size>} An observable that emits the size of the given element.
  * @example
- * import { elementSize } from '@cpangular/rxjs/size';
+ * import { elementSize } from '@cpangular/rxjs';
  *
  * elementSize(document.body).subscribe((size) => {
  *  console.log(size);

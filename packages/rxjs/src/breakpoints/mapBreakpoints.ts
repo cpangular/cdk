@@ -10,7 +10,7 @@ import { BreakpointOperation } from './types/BreakpointOperation';
  * @returns An observable that emits the result of the first transform that returns a value function.
  * @example
  * import { of } from 'rxjs';
- * import { mapBreakpoints } from '@cpangular/rxjs/breakpoints';
+ * import { mapBreakpoints } from '@cpangular/rxjs';
  *
  * of({ width: 100, height: 100 }, { width: 200, height: 200 }, { width: 1, height: 1 }).pipe(
  *   mapBreakpoints(

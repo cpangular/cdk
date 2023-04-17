@@ -1,4 +1,5 @@
-import { Size } from "@cpangular/rxjs";
+
+import { Size } from "../size";
 import { BPCondition } from "./types/BPCondition";
 import { ViewportBreakpointValues } from "./types/ViewportBreakpointValues";
 

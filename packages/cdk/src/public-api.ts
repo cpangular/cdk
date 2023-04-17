@@ -1,4 +1,5 @@
 /*
- * Public API Surface of cdk
+ * Public API Surface of components
  */
 
+export * from './lib';

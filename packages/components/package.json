@@ -8,9 +8,13 @@
   "peerDependencies": {
     "@angular/common": "0.0.0-NG",
     "@angular/core": "0.0.0-NG",
+    "@cpangular/cdk": "0.0.0-PLACEHOLDER",
+    "@cpangular/rxjs": "0.0.0-PLACEHOLDER",
     "rxjs": "0.0.0-DUMMY"
   },
   "devDependencies": {
+    "@cpangular/cdk": "0.0.0-PLACEHOLDER",
+    "@cpangular/rxjs": "0.0.0-PLACEHOLDER",
     "rxjs": "0.0.0-DUMMY",
     "tslib": "0.0.0-DUMMY"
   },

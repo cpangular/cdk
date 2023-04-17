@@ -2,7 +2,7 @@
  * @name Size
  * @description A size object with width and height properties.
  * @example
- * import { Size } from '@cpangular/rxjs/size';
+ * import { Size } from '@cpangular/rxjs';
  *
  * const size: Size = { width: 100, height: 100 };
  * console.log(size);
@@ -15,7 +15,7 @@ export interface Size {
    * The width.
    * @type {number}
    * @example
-   * import { Size } from '@cpangular/rxjs/size';
+   * import { Size } from '@cpangular/rxjs';
    *
    * const size: Size = { width: 100, height: 100 };
    * console.log(size.width);
@@ -27,7 +27,7 @@ export interface Size {
    * The height.
    * @type {number}
    * @example
-   * import { Size } from '@cpangular/rxjs/size';
+   * import { Size } from '@cpangular/rxjs';
    *
    * const size: Size = { width: 100, height: 100 };
    * console.log(size.height);

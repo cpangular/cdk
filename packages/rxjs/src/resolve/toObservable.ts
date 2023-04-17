@@ -10,7 +10,7 @@ function isPromise(v: any): v is Promise<any> {
  * @param { Resolvable<T> } value The value to convert.
  * @returns { Observable<T> } An observable that emits the value.
  * @example
- * import { toObservable } from '@cpangular/rxjs/resolve';
+ * import { toObservable } from '@cpangular/rxjs';
  *
  * toObservable(1).subscribe((value) => {
  *  console.log(value);

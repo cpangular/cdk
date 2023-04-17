@@ -12,7 +12,7 @@ import { TransformOperation } from './types/TransformOperation';
  * @returns An observable that emits the result of the first transform that returns a value.
  * @example
  * import { of } from 'rxjs';
- * import { mapFirstResult } from '@cpangular/rxjs/operators';
+ * import { mapFirstResult } from '@cpangular/rxjs';
 
  * of(1, 2, 3, 5).pipe(
  *   mapFirstResult([

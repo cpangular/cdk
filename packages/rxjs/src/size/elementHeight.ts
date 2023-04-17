@@ -6,7 +6,7 @@ import { elementSize } from './elementSize';
  * @param { Element } element  - The element to observe for size changes (default: document.documentElement)
  * @returns {Observable<number>} An observable that emits the height of the given element.
  * @example
- * import { elementHeight } from '@cpangular/rxjs/size';
+ * import { elementHeight } from '@cpangular/rxjs';
  *
  * elementHeight(document.body).subscribe((height) => {
  *  console.log(height);

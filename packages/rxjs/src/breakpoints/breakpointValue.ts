@@ -11,8 +11,8 @@ import { BreakpointCondition } from './types/BreakpointCondition';
  * @param { BreakpointCondition<TValue>[] } ifThens - An array of {@link BreakpointCondition}'s to check each time the element size changes.
  * @returns An observable that emits the result of the first breakpoint that matches.
  * @example
- * import { breakpointValue } from '@cpangular/rxjs/breakpoints';
- * import { ifThen, otherwise } from '@cpangular/rxjs/conditions';
+ * import { breakpointValue } from '@cpangular/rxjs';
+ * import { ifThen, otherwise } from '@cpangular/rxjs';
  *
  * const screenSize$ = breakpointValue(
  *  document.body,
@@ -30,8 +30,8 @@ export function breakpointValue<TValue>(element: HTMLElement, ...ifThens: Breakp
  * @param { BreakpointCondition<TValue>[] } ifThens - An array of {@link BreakpointCondition}'s to check each time the window size changes.
  * @returns An observable that emits the result of the first breakpoint that matches.
  * @example
- * import { breakpointValue } from '@cpangular/rxjs/breakpoints';
- * import { ifThen, otherwise } from '@cpangular/rxjs/conditions';
+ * import { breakpointValue } from '@cpangular/rxjs';
+ * import { ifThen, otherwise } from '@cpangular/rxjs';
  *
  * const screenSize$: Observable<string> = breakpointValue(
  *  ifThen((body: Size) => body.width < 500, 'Small'),

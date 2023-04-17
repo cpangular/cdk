@@ -6,7 +6,7 @@ import { elementSize } from './elementSize';
  * @param { Element } element  - The element to observe for size changes (default: document.documentElement)
  * @returns {Observable<number>} An observable that emits the width of the given element.
  * @example
- * import { elementWidth } from '@cpangular/rxjs/size';
+ * import { elementWidth } from '@cpangular/rxjs';
  *
  * elementWidth(document.body).subscribe((width) => {
  *   console.log(width);

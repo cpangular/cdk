@@ -17,9 +17,8 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "paths": {
-      "@cpangular/rxjs": ["dist/rxjs"],
-      "@cpangular/rxjs/*": [
-        "dist/rxjs/*"
+      "@cpangular/rxjs": [
+        "dist/rxjs"
       ],
       "cdk": [
         "dist/cdk"
@@ -31,7 +30,10 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": ["ES2022", "dom"]
+    "lib": [
+      "ES2022",
+      "dom"
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

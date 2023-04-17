@@ -22,7 +22,7 @@ export type SwitchTransformFn<T, R> = TransformFn<T, Observable<R>>;
  * @template R The type of result of the transform.
  * @example
  * import { of } from 'rxjs';
- * import { switchMapFirst } from '@cpangular/rxjs/operators';
+ * import { switchMapFirst } from '@cpangular/rxjs';
  *
  * of(1, 2, 3, 5).pipe(
  *   switchMapFirst([

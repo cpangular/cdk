@@ -136,14 +136,24 @@ importers:
 
   packages/cdk:
     specifiers:
+      '@cpangular/rxjs': 0.0.0-PLACEHOLDER
+      rxjs: ~7.8.0
       tslib: ^2.3.0
-    dependencies:
+    devDependencies:
+      '@cpangular/rxjs': link:../rxjs
+      rxjs: 7.8.0
       tslib: 2.5.0
 
   packages/components:
     specifiers:
+      '@cpangular/cdk': 0.0.0-PLACEHOLDER
+      '@cpangular/rxjs': 0.0.0-PLACEHOLDER
+      rxjs: ~7.8.0
       tslib: ^2.3.0
-    dependencies:
+    devDependencies:
+      '@cpangular/cdk': link:../cdk
+      '@cpangular/rxjs': link:../rxjs
+      rxjs: 7.8.0
       tslib: 2.5.0
 
   packages/rxjs:

@@ -24,7 +24,7 @@ export type ValueTransformFn<T, R> = TransformFn<T, TransformFn<T, R>>;
  * @returns An observable that emits the result of the first transform that returns a value function.
  * @example
  * import { of } from 'rxjs';
- * import { mapFirst } from '@cpangular/rxjs/operators';
+ * import { mapFirst } from '@cpangular/rxjs';
  *
  * of(1, 2, 3, 5).pipe(
  *  mapFirst([
