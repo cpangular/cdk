@@ -17,6 +17,8 @@
     "build": "pnpm --recursive --stream --workspace-concurrency=1 run build",
     "build-libs": "pnpm --recursive --stream --workspace-concurrency=1 run build-lib",
     "test": "pnpm --recursive --stream --workspace-concurrency=1 run test",
+    "start": "pnpm --recursive --parallel --stream run start",
+    "serve": "ng serve cdk-test-application",
     "actions-build": "pnpm run build-libs",
     "actions-test": "pnpm run test"
   },

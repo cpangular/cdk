@@ -1,8 +1,10 @@
 {
   "name": "cdk-test-application",
   "version": "0.0.0-PLACEHOLDER",
+  "private": true,
   "scripts": {
-    "build": "ng build cdk-test-application"
+    "build": "ng build cdk-test-application",
+    "start": "ng serve cdk-test-application --configuration development --host 0.0.0.0 --hmr"
   },
   "dependencies": {
     "@angular/animations": "0.0.0-NG",

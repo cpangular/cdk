@@ -3,7 +3,8 @@
   "version": "0.0.0-PLACEHOLDER",
   "scripts": {
     "build": "ng build cdk",
-    "build-lib": "ng build cdk"
+    "build-lib": "ng build cdk",
+    "start": "pnpm run build-lib --watch"
   },
   "peerDependencies": {
     "@angular/common": "0.0.0-NG",
