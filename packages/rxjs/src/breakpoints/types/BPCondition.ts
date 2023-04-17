@@ -1,5 +1,6 @@
-import { Size } from "@cpangular/rxjs";
+
 import { IfCondition } from "../../conditions";
+import { Size } from "../../size";
 
 
 /**

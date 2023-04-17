@@ -2,8 +2,8 @@
   "name": "@cpangular/components",
   "version": "0.0.0-PLACEHOLDER",
   "scripts": {
-    "build": "ng build cdk",
-    "build-lib": "ng build cdk"
+    "build": "ng build components",
+    "build-lib": "ng build components"
   },
   "peerDependencies": {
     "@angular/common": "0.0.0-NG",
