@@ -1,7 +1,5 @@
-
-import { IfCondition } from "../../conditions";
-import { Size } from "../../size";
-
+import { IfCondition } from '../../conditions';
+import { Size } from '../../size';
 
 /**
  * A {@link BreakpointCondition} is an {@link IfCondition} that uses a {@link Size} as the condition.

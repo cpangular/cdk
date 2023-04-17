@@ -1,5 +1,5 @@
-import { BreakpointRange } from "./BreakpointRange";
-import { BreakpointRanges } from "./BreakpointValues";
+import { BreakpointRange } from './BreakpointRange';
+import { BreakpointRanges } from './BreakpointValues';
 
 /**
  * {@link ViewportBreakpointValues} is a map of {@link BreakpointRange} values.

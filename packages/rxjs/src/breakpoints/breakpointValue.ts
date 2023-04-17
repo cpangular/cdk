@@ -1,4 +1,3 @@
-
 import { Observable } from 'rxjs';
 import { elementSize } from '../size';
 import { mapBreakpoints } from './mapBreakpoints';

@@ -4,4 +4,3 @@ export * from './BreakpointOperation';
 export * from './BreakpointRange';
 export * from './BreakpointValues';
 export * from './ViewportBreakpointValues';
-

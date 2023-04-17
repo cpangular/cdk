@@ -1,5 +1,3 @@
-
-
 import { Resolvable } from '../resolve';
 import { IfCondition } from './types/IfCondition';
 import { IfThen } from './types/IfThen';

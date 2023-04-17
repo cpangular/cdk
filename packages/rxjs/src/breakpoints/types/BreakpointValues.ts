@@ -1,4 +1,4 @@
-import { BreakpointRange } from "./BreakpointRange";
+import { BreakpointRange } from './BreakpointRange';
 
 /**
  * {@link BreakpointRanges} is a map of {@link BreakpointRange} values.  The key is the name of the breakpoint.

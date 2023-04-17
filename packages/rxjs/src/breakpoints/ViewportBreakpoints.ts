@@ -1,7 +1,6 @@
-
-import { Size } from "../size";
-import { BPCondition } from "./types/BPCondition";
-import { ViewportBreakpointValues } from "./types/ViewportBreakpointValues";
+import { Size } from '../size';
+import { BPCondition } from './types/BPCondition';
+import { ViewportBreakpointValues } from './types/ViewportBreakpointValues';
 
 /**
  * A set of {@link BPCondition}'s that can be used to check the size of the viewport.
@@ -30,21 +29,21 @@ export class ViewportBreakpoints {
     lg: { min: 992, max: 1200 },
     xl: { min: 1200, max: 1400 },
     xxl: { min: 1400 },
-  }
+  };
   /**
-    * Create a new {@link ViewportBreakpoints} instance.
-    * The breakpoints can be overridden by passing in a {@link ViewportBreakpointValues} object.
-    * The breakpoints are: xs, sm, md, lg, xl, xxl. The min is inclusive and the max is exclusive.
-    * @param breakpoints The breakpoints to use.
-    * @example
-    * const breakpoints = new ViewportBreakpoints({
-    *   xs: { max: 100 },
-    *   sm: { min: 100, max: 200 },
-    *   md: { min: 200, max: 300 },
-    *   lg: { min: 300, max: 400 },
-    *   xl: { min: 400, max: 500 },
-    *   xxl: { min: 500 }
-    * });
+   * Create a new {@link ViewportBreakpoints} instance.
+   * The breakpoints can be overridden by passing in a {@link ViewportBreakpointValues} object.
+   * The breakpoints are: xs, sm, md, lg, xl, xxl. The min is inclusive and the max is exclusive.
+   * @param breakpoints The breakpoints to use.
+   * @example
+   * const breakpoints = new ViewportBreakpoints({
+   *   xs: { max: 100 },
+   *   sm: { min: 100, max: 200 },
+   *   md: { min: 200, max: 300 },
+   *   lg: { min: 300, max: 400 },
+   *   xl: { min: 400, max: 500 },
+   *   xxl: { min: 500 }
+   * });
    */
 
   constructor(breakpoints?: ViewportBreakpointValues) {
@@ -62,10 +61,10 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.and(breakpoints.xs, breakpoints.xxl)(size); // false
    * breakpoints.and(breakpoints.landscape, breakpoints.xxl)(size); // true
-  */
+   */
   public and(...conditions: BPCondition[]): BPCondition {
-    return (size: Size) => conditions.every(condition => condition(size));
-  };
+    return (size: Size) => conditions.every((condition) => condition(size));
+  }
 
   /**
    * Check multiple conditions using an or operator.
@@ -78,9 +77,8 @@ export class ViewportBreakpoints {
    * breakpoints.or(breakpoints.xs, breakpoints.xxl)(size); // true
    */
   public or(...conditions: BPCondition[]): BPCondition {
-    return (size: Size) => conditions.some(condition => condition(size));
-  };
-
+    return (size: Size) => conditions.some((condition) => condition(size));
+  }
 
   /**
    * The xs breakpoint is for phones in portrait mode.
@@ -101,7 +99,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.sm(size); // false
    */
-  public readonly sm: BPCondition = (size: Size) => size.width >= this._breakpointValues.sm.min! && size.width < this._breakpointValues.sm.max!;
+  public readonly sm: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.sm.min! && size.width < this._breakpointValues.sm.max!;
   /**
    * The md breakpoint is for tablets in portrait mode.
    * @param size The size to check.
@@ -111,18 +110,20 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.md(size); // false
    */
-  public readonly md: BPCondition = (size: Size) => size.width >= this._breakpointValues.md.min! && size.width < this._breakpointValues.md.max!;
+  public readonly md: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.md.min! && size.width < this._breakpointValues.md.max!;
   /**
-  * The lg breakpoint is for tablets in landscape mode.
-  * @param size The size to check.
-  * @returns True if the size is greater than or equal to the min value of the lg breakpoint and less than the max value of the lg breakpoint.
-  * @example
-  * const size = { width: 1920, height: 1080 };
-  * const breakpoints = new ViewportBreakpoints();
-  * breakpoints.lg(size); // false
-  *
-  */
-  public readonly lg: BPCondition = (size: Size) => size.width >= this._breakpointValues.lg.min! && size.width < this._breakpointValues.lg.max!;
+   * The lg breakpoint is for tablets in landscape mode.
+   * @param size The size to check.
+   * @returns True if the size is greater than or equal to the min value of the lg breakpoint and less than the max value of the lg breakpoint.
+   * @example
+   * const size = { width: 1920, height: 1080 };
+   * const breakpoints = new ViewportBreakpoints();
+   * breakpoints.lg(size); // false
+   *
+   */
+  public readonly lg: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.lg.min! && size.width < this._breakpointValues.lg.max!;
   /**
    * The xl breakpoint is for laptops.
    * @param size The size to check.
@@ -132,7 +133,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.xl(size); // false
    */
-  public readonly xl: BPCondition = (size: Size) => size.width >= this._breakpointValues.xl.min! && size.width < this._breakpointValues.xl.max!;
+  public readonly xl: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.xl.min! && size.width < this._breakpointValues.xl.max!;
   /**
    * The xxl breakpoint is for desktops.
    * @param size The size to check.
