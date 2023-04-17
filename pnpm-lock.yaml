@@ -41,6 +41,7 @@ importers:
       ng-packagr: ^16.0.0-rc.0
       npm-run-all2: ^6.0.5
       prettier: ^2.8.7
+      rimraf: ^5.0.0
       rxjs: ~7.8.0
       ts-node: ^10.9.1
       tslib: ^2.3.0
@@ -60,6 +61,7 @@ importers:
       ng-packagr: 16.0.0-rc.0_ubsaqkgt7garstdyjjs7pl4mxu
       npm-run-all2: 6.0.5
       prettier: 2.8.7
+      rimraf: 5.0.0
       rxjs: 7.8.0
       ts-node: 10.9.1_adlo6uxblhgvolyqo2x6kf22my
       typescript: 5.0.4
@@ -7671,6 +7673,14 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.3
+    dev: true
+
+  /rimraf/5.0.0:
+    resolution: {integrity: sha512-Jf9llaP+RvaEVS5nPShYFhtXIrb3LRKP281ib3So0KkeZKo2wIKyq0Re7TOSwanasA423PSr6CCIL4bP6T040g==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      glob: 10.1.0
     dev: true
 
   /rollup/3.20.2:
