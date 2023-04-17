@@ -11,9 +11,7 @@ import { Size } from './types/Size';
  * elementSize(document.body).subscribe((size) => {
  *  console.log(size);
  * });
- *
  */
-
 export function elementSize(element: Element = document.documentElement): Observable<Size> {
   return new Observable<DOMRect>((sub) => {
     const obs = new ResizeObserver((v) => sub.next(v.pop()?.contentRect));
