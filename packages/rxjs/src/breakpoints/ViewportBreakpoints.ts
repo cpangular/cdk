@@ -30,6 +30,21 @@ export class ViewportBreakpoints {
     xl: { min: 1200, max: 1400 },
     xxl: { min: 1400 },
   }
+  /**
+    * Create a new {@link ViewportBreakpoints} instance.
+    * The breakpoints can be overridden by passing in a {@link ViewportBreakpointValues} object.
+    * The breakpoints are: xs, sm, md, lg, xl, xxl. The min is inclusive and the max is exclusive.
+    * @param breakpoints The breakpoints to use.
+    * @example
+    * const breakpoints = new ViewportBreakpoints({
+    *   xs: { max: 100 },
+    *   sm: { min: 100, max: 200 },
+    *   md: { min: 200, max: 300 },
+    *   lg: { min: 300, max: 400 },
+    *   xl: { min: 400, max: 500 },
+    *   xxl: { min: 500 }
+    * });
+   */
 
   constructor(breakpoints?: ViewportBreakpointValues) {
     if (breakpoints) {
