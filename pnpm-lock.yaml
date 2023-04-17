@@ -81,6 +81,8 @@ importers:
       '@angular/platform-browser-dynamic': ^16.0.0-rc.1
       '@angular/platform-server': ^16.0.0-rc.1
       '@angular/router': ^16.0.0-rc.1
+      '@cpangular/cdk': 0.0.0-PLACEHOLDER
+      '@cpangular/components': 0.0.0-PLACEHOLDER
       '@cpangular/rxjs': 0.0.0-PLACEHOLDER
       '@nguniversal/builders': ^16.0.0-rc.0
       '@nguniversal/express-engine': ^16.0.0-rc.0
@@ -111,6 +113,8 @@ importers:
       '@angular/platform-browser-dynamic': 16.0.0-rc.1_ibwuro5eid34lhl2ewbe7um3iy
       '@angular/platform-server': 16.0.0-rc.1_fenyxv7himniye3dg6d63x5kby
       '@angular/router': 16.0.0-rc.1_tfatjmg7hgn6ulqspxbwmot5yu
+      '@cpangular/cdk': link:../../packages/cdk
+      '@cpangular/components': link:../../packages/components
       '@cpangular/rxjs': link:../../packages/rxjs
       '@nguniversal/express-engine': 16.0.0-rc.0_vbsmobh3fi6zumdjhr4vtoabbm
       express: 4.18.2
