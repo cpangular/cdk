@@ -13,8 +13,5 @@ import { Size, elementSize } from '@cpangular/rxjs';
 })
 export class AppComponent {
   constructor() {
-    elementSize(document.body).subscribe((size: Size) => {
-      console.log(size);
-    });
   }
 }
