@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "build": "ng build components-dev-app",
-    "start": "pnpm run build --watch"
+    "build": "ng build components-dev-app"
   }
 }

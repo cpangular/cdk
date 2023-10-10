@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "build": "ng build cdk",
-    "start": "pnpm run build --watch"
+    "watch": "pnpm run build --watch"
   },
   "peerDependencies": {
     "@angular/common": "^16.2.0",
