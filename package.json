@@ -32,6 +32,8 @@
     "@angular/compiler": "0.0.0-NG",
     "@angular/compiler-cli": "0.0.0-NG-CLI",
     "@angular/common": "0.0.0-NG",
+    "@angular/material": "0.0.0-NG-COMPONENTS",
+    "@angular/cdk": "0.0.0-NG-COMPONENTS",
     "@angular/core": "0.0.0-NG",
     "@types/jasmine": "~4.3.0",
     "@types/node": "0.0.0-DUMMY",
