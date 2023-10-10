@@ -2,6 +2,21 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "packages",
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "scss",
+      "changeDetection": "OnPush",
+      "displayBlock": true
+    },
+    "@schematics/angular:application": {
+      "strict": true,
+      "projectRoot": "projects",
+      "style": "scss"
+    },
+    "@schematics/angular:library": {
+      "projectRoot": "packages"
+    }
+  },
   "projects": {
     "cdk": {
       "projectType": "library",
