@@ -1,77 +1,33 @@
 {
-  "name": "@cpangular/cdk",
-  "version": "0.16.0-dev.0",
-  "private": true,
-  "repository": "https://github.com/cpangular/cdk",
+  "name": "cdk",
+  "version": "0.0.0",
   "scripts": {
-    "prepare": "run-s prepare:*",
-    "prepare:husky": "husky install",
-    "prepare:remove-tags": "pnpm run git-remove-tags",
-    "prepare:build": "pnpm run build",
-    "pre-commit": "run-s pre-commit:*",
-    "pre-commit:tags": "git tag | xargs git tag -d",
-    "fix": "run-s fix:*",
-    "fix:prettier": "prettier --write --ignore-unknown .",
-    "git-remove-tags": "git tag | xargs git tag -d",
-    "clean": "rimraf dist .angular/cache",
-    "reset-hard": "git clean -dfx && git reset --hard && pnpm i --force",
-    "build": "pnpm --recursive --stream --workspace-concurrency=1 run build",
-    "build-libs": "pnpm --recursive --stream --workspace-concurrency=1 run build-lib",
-    "test": "pnpm --recursive --stream --workspace-concurrency=1 run test",
-    "start": "pnpm --recursive --parallel --stream run start",
-    "serve": "ng serve cdk-test-application",
-    "actions-build": "pnpm run build-libs",
-    "actions-test": "pnpm run test"
+
   },
-  "lint-staged": {
-    "*": "prettier --write --ignore-unknown"
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^16.2.0",
+    "@angular/common": "^16.2.0",
+    "@angular/compiler": "^16.2.0",
+    "@angular/core": "^16.2.0",
+    "@angular/forms": "^16.2.0",
+    "@angular/platform-browser": "^16.2.0",
+    "@angular/platform-browser-dynamic": "^16.2.0",
+    "@angular/router": "^16.2.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.13.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "16.2.5",
-    "@angular/animations": "16.2.8",
-    "@angular/cli": "16.2.5",
-    "@angular/compiler": "16.2.8",
-    "@angular/compiler-cli": "16.2.8",
-    "@angular/common": "16.2.8",
-    "@angular/material": "16.2.7",
-    "@angular/cdk": "16.2.7",
-    "@angular/core": "16.2.8",
+    "@angular/cli": "^16.2.5",
+    "@angular/compiler-cli": "^16.2.0",
     "@types/jasmine": "~4.3.0",
-    "@types/node": "0.0.0-DUMMY",
-    "husky": "^8.0.3",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.1.0",
+    "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.0.0",
-    "lint-staged": "^13.2.1",
-    "ng-packagr": "16.2.3",
-    "npm-run-all2": "^6.0.5",
-    "prettier": "^2.8.7",
-    "rimraf": "^5.0.0",
-    "rxjs": "0.0.0-DUMMY",
-    "ts-node": "0.0.0-DUMMY",
-    "tslib": "0.0.0-DUMMY",
-    "typescript": "0.0.0-DUMMY",
-    "zone.js": "0.0.0-DUMMY"
-  },
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "@types/node": "^14.15.0",
-      "ng-packagr": "^16.0.0-rc.0",
-      "rxjs": "~7.8.0",
-      "ts-node": "^10.9.1",
-      "tslib": "^2.3.0",
-      "typescript": "~5.0.2",
-      "zone.js": "~0.13.0",
-      "@angular/animations": "^16.0.0-rc.1",
-      "@nguniversal/express-engine": "^16.0.0-rc.0",
-      "express": "^4.15.2",
-      "@nguniversal/builders": "^16.0.0-rc.0"
-    }
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.1.3"
   }
 }
