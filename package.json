@@ -2,7 +2,18 @@
   "name": "cdk",
   "version": "0.0.0",
   "scripts": {
-
+    "prepare": "run-s prepare:*",
+    "prepare:clean-tags": "pnpm run clean-tags",
+    "prepare:husky": "husky install",
+    "pre-commit": "run-s pre-commit:*",
+    "pre-commit:tags": "pnpm run clean-tags",
+    "pre-commit:git-add": "git add -u",
+    "clean-tags": "git tag | xargs git tag -d",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier --write --ignore-unknown .",
+    "reset-hard": "run-s reset-hard:*",
+    "reset-hard:git-clean": "git clean -dfx && git reset --hard",
+    "reset-hard:install": "pnpm install --force"
   },
   "private": true,
   "dependencies": {
@@ -19,15 +30,24 @@
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^16.2.5",
     "@angular/cli": "^16.2.5",
     "@angular/compiler-cli": "^16.2.0",
     "@types/jasmine": "~4.3.0",
+    "husky": "^8.0.3",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "lint-staged": "^14.0.1",
+    "ng-packagr": "^16.2.0",
+    "npm-run-all2": "^6.1.1",
+    "prettier": "^3.0.3",
     "typescript": "~5.1.3"
+  },
+  "lint-staged": {
+    "*": "prettier --write --ignore-unknown"
   }
 }
