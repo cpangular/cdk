@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  "@cpangular/cdk": link:./dist/cdk
+
 importers:
   .:
     dependencies:
@@ -110,6 +113,9 @@ importers:
       "@angular/core":
         specifier: ^16.2.0
         version: 16.2.8(rxjs@7.8.1)(zone.js@0.13.3)
+      "@cpangular/cdk":
+        specifier: link:../../dist/cdk
+        version: link:../../dist/cdk
       tslib:
         specifier: ^2.3.0
         version: 2.6.2

@@ -49,5 +49,8 @@
   },
   "lint-staged": {
     "*": "prettier --write --ignore-unknown"
+  },
+  "resolutions": {
+    "@cpangular/cdk": "link:./dist/cdk"
   }
 }
