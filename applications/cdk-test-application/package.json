@@ -7,7 +7,7 @@
     "start": "ng serve cdk-test-application --configuration development --host 0.0.0.0 --hmr"
   },
   "dependencies": {
-    "@angular/animations": "0.0.0-NG",
+    "@angular/animations": "0.0.0-NG-COMPONENTS",
     "@angular/cdk": "0.0.0-NG-COMPONENTS",
     "@angular/common": "0.0.0-NG",
     "@angular/compiler": "0.0.0-NG",
