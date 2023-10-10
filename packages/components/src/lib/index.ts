@@ -1,1 +1,1 @@
-export function dummy() {}
+export * from './app-shell/app-shell.component'

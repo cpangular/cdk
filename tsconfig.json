@@ -19,7 +19,8 @@
     "paths": {
       "@cpangular/rxjs": ["dist/rxjs"],
       "@cpangular/cdk": ["dist/cdk"],
-      "@cpangular/components": ["dist/components"]
+      "@cpangular/components": ["dist/components"],
+      "@angular/*": ["node_modules/@angular/*"]
     },
     "target": "ES2022",
     "module": "ES2022",
