@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "build": "ng build components-dev-app"
+    "build": "ng build cdk-dev-app"
+  },
+  "dependencies": {
+    "@angular/cdk": "16.2.7",
+    "@cpangular/cdk": "workspace:*"
   }
 }

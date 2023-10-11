@@ -4,5 +4,10 @@
   "version": "0.0.0",
   "scripts": {
     "build": "ng build components-dev-app"
+  },
+  "dependencies": {
+    "@angular/material": "16.2.7",
+    "@cpangular/cdk": "workspace:*",
+    "@cpangular/components": "workspace:*"
   }
 }
