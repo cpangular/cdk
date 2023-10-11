@@ -5,7 +5,8 @@
     "baseUrl": "./",
     "paths": {
       "@cpangular/cdk": ["dist/cdk"],
-      "@cpangular/components": ["dist/components"]
+      "@cpangular/components": ["dist/components"],
+      "@cpangular/auth": ["dist/auth"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

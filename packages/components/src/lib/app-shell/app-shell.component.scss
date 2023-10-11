@@ -1,0 +1,35 @@
+@layer components {
+  /* Component */
+  :host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    > header {
+      flex: 0 0 auto;
+    }
+    > mat-sidenav-container {
+      flex: 1 1 auto;
+      > mat-sidenav {
+        width: 20%;
+        min-width: 22em;
+      }
+    }
+  }
+
+  /* Header */
+  :host {
+    > header {
+      > mat-toolbar {
+        > .main {
+          > * {
+            justify-self: flex-start;
+          }
+
+          > [position="end"] {
+            justify-self: flex-end;
+          }
+        }
+      }
+    }
+  }
+}

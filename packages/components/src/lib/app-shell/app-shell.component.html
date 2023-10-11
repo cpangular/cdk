@@ -1,0 +1,21 @@
+<header>
+  <mat-toolbar class="above">app-shell works!</mat-toolbar>
+  <mat-toolbar class="main" color="accent">
+    <div class="logo-container">Logo Container</div>
+    <div class="mnu-btn-container">Menu btn</div>
+    <div class="login-btn-container">login btn</div>
+  </mat-toolbar>
+  <mat-toolbar class="below">app-shell works!</mat-toolbar>
+  <div class="under-header-container">app-shell works!</div>
+</header>
+<mat-sidenav-container>
+  <mat-sidenav mode="over" opened position="start"> start </mat-sidenav>
+  <mat-sidenav mode="over" position="end"> end </mat-sidenav>
+  <mat-sidenav-content>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<footer>
+  <div>app-shell works!</div>
+  <mat-toolbar>app-shell works!</mat-toolbar>
+</footer>

@@ -15,11 +15,7 @@
     "@schematics/angular:application": {
       "strict": true,
       "standalone": false,
-      "projectRoot": "apps/",
       "style": "scss"
-    },
-    "@schematics/angular:library": {
-      "projectRoot": "packages"
     }
   },
   "projects": {
@@ -255,6 +251,36 @@
             ],
             "styles": ["apps/components-dev-app/src/styles.scss"],
             "scripts": []
+          }
+        }
+      }
+    },
+    "auth": {
+      "projectType": "library",
+      "root": "packages/auth",
+      "sourceRoot": "packages/auth/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "packages/auth/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "packages/auth/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "packages/auth/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "packages/auth/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
           }
         }
       }
