@@ -13,8 +13,16 @@
     "reset-hard": "git clean -dfx && git reset --hard && pnpm i --force",
     "build": "pnpm --recursive --stream --workspace-concurrency=1 run build",
     "watch": "pnpm --recursive --parallel --stream run watch",
+    "pack": "pnpm --recursive --parallel --stream run pack",
+    "release": "pnpm --recursive --parallel --stream run release",
+    "set-version": "run-p \"set-version:* {1}\" --",
+    "set-version:set-version": "pnpm version --allow-same-version --commit-hooks=false --git-tag-version=false",
+    "set-version:set-project-versions": "pnpm --recursive --parallel --stream run set-version",
+    "set-version-placeholders": "pnpm --recursive --parallel --stream run set-version 0.0.0-PLACEHOLDER",
     "actions-build": "pnpm run build",
-    "actions-build-libs": "pnpm run build"
+    "actions-build-libs": "pnpm run build",
+    "actions-pack": "pnpm run pack",
+    "actions-release": "pnpm run release"
   },
   "private": true,
   "dependencies": {
