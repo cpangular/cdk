@@ -21,8 +21,9 @@
     "set-version-placeholders": "pnpm --recursive --parallel --stream run set-version 0.0.0-PLACEHOLDER",
     "actions-build": "pnpm run build",
     "actions-build-libs": "pnpm run build",
-    "actions-pack": "pnpm run pack",
-    "actions-release": "pnpm run release"
+    "actions-pack-libs": "pnpm run pack",
+    "actions-release-libs": "pnpm run release",
+    "actions-set-version": "pnpm run set-version"
   },
   "private": true,
   "dependencies": {
