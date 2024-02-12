@@ -16,7 +16,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "paths": {
-      "rxjs": ["./dist/rxjs"]
+      "@cpangular/rxjs": ["./dist/rxjs"]
     },
     "importHelpers": true,
     "target": "ES2022",
