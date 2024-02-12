@@ -10,4 +10,4 @@ on:
 jobs:
   create-release-pr:
     name: Create Pull Request
-    uses: cpdevtools/github-workflows/.github/workflows/create-release-pull-request.yml@latest
+    uses: cpdevtools/github-workflows/.github/workflows/create-release-pull-request.yml@main
