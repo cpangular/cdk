@@ -4,8 +4,8 @@
   "scripts": {
     "build": "ng build rxjs",
     "watch": "ng build --watch rxjs",
-    "pack": "cd dist && mkdir ./pack && pnpm pack --pack-destination ./pack",
-    "release": "pnpm publish ./dist/pack/*.tgz --access public --no-git-checks",
+    "pack": "cd ../../dist && mkdir ./pack && pnpm pack --pack-destination ./pack",
+    "release": "pnpm publish ../../dist/pack/*.tgz --access public --no-git-checks",
     "set-version": "pnpm version --allow-same-version --commit-hooks=false --git-tag-version=false"
   },
   "peerDependencies": {
