@@ -1,6 +1,6 @@
 {
   "name": "cdk",
-  "version": "17.1.0-dev.2",
+  "version": "17.1.0-dev.3",
   "scripts": {
     "prepare": "run-s prepare:*",
     "prepare:husky": "husky install",

@@ -1,5 +1,6 @@
 import { distinctUntilChanged, map, Observable, shareReplay } from 'rxjs';
 import { elementSize } from './elementSize';
+import { documentElement } from '../util/documentElement';
 
 /**
  * Creates an observable that emits the height of the given element.
@@ -13,9 +14,7 @@ import { elementSize } from './elementSize';
  * });
  *
  */
-export function elementHeight(
-  element: Element = document.documentElement,
-): Observable<number> {
+export function elementHeight(element: Element | null = documentElement()): Observable<number> {
   return elementSize(element).pipe(
     map((s) => s.height),
     distinctUntilChanged(),
