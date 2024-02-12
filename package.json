@@ -1,6 +1,6 @@
 {
   "name": "cdk",
-  "version": "0.0.0",
+  "version": "17.1.0-dev.0",
   "scripts": {
     "prepare": "run-s prepare:*",
     "prepare:husky": "husky install",
@@ -8,7 +8,12 @@
     "fix:prettier": "prettier --write --ignore-unknown .",
     "fix:remove-git-tags": "pnpm run remove-git-tags",
     "remove-git-tags": "git tag | xargs git tag -d",
-    "reset-hard": "git clean -dfx && git reset --hard && pnpm i --force"
+    "pre-commit": "run-s pre-commit:*",
+    "pre-commit:remove-git-tags": "pnpm run remove-git-tags",
+    "reset-hard": "git clean -dfx && git reset --hard && pnpm i --force",
+    "build": "pnpm --recursive --stream --workspace-concurrency=1 run build",
+    "watch": "pnpm --recursive --parallel --stream run watch",
+    "actions-build": "pnpm run build"
   },
   "private": true,
   "dependencies": {
