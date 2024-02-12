@@ -15,5 +15,7 @@ jobs:
     with:
       nodeVersion: 20.11.0
       pnpmVersion: 8.12.1
+      publishToNpm: true
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
