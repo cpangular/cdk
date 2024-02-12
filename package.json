@@ -13,7 +13,8 @@
     "reset-hard": "git clean -dfx && git reset --hard && pnpm i --force",
     "build": "pnpm --recursive --stream --workspace-concurrency=1 run build",
     "watch": "pnpm --recursive --parallel --stream run watch",
-    "actions-build": "pnpm run build"
+    "actions-build": "pnpm run build",
+    "actions-build-libs": "pnpm run build"
   },
   "private": true,
   "dependencies": {
