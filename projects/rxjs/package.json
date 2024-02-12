@@ -1,0 +1,16 @@
+{
+  "name": "@cpangular/rxjs",
+  "version": "0.0.0-PLACEHOLDER",
+  "scripts": {
+    "build": "ng build rxjs",
+    "watch": "ng build --watch rxjs"
+  },
+  "peerDependencies": {
+    "@angular/common": "^17.1.0",
+    "@angular/core": "^17.1.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

@@ -1,34 +1,28 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
+  "newProjectRoot": "projects",
   "cli": {
-    "packageManager": "yarn",
-    "cache": { "enabled": false }
+    "packageManager": "pnpm"
   },
-  "newProjectRoot": "packages",
   "projects": {
-    "cdk": {
+    "rxjs": {
       "projectType": "library",
-      "root": "packages/cdk",
-      "sourceRoot": "packages/cdk/src",
-      "prefix": "cpng",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
+      "root": "projects/rxjs",
+      "sourceRoot": "projects/rxjs/src",
+      "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "packages/cdk/ng-package.json"
+            "project": "projects/rxjs/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "packages/cdk/tsconfig.lib.prod.json"
+              "tsConfig": "projects/rxjs/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "packages/cdk/tsconfig.lib.json"
+              "tsConfig": "projects/rxjs/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -36,182 +30,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "packages/cdk/src/test.ts",
-            "tsConfig": "packages/cdk/tsconfig.spec.json",
-            "karmaConfig": "packages/cdk/karma.conf.js"
-          }
-        }
-      }
-    },
-    "testapp-cdk-view-anchor": {
-      "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        },
-        "@schematics/angular:application": {
-          "strict": true
-        }
-      },
-      "root": "packages/testapp-cdk-view-anchor",
-      "sourceRoot": "packages/testapp-cdk-view-anchor/src",
-      "prefix": "app",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/testapp-cdk-view-anchor",
-            "index": "packages/testapp-cdk-view-anchor/src/index.html",
-            "main": "packages/testapp-cdk-view-anchor/src/main.ts",
-            "polyfills": "packages/testapp-cdk-view-anchor/src/polyfills.ts",
-            "tsConfig": "packages/testapp-cdk-view-anchor/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "packages/testapp-cdk-view-anchor/src/favicon.ico",
-              "packages/testapp-cdk-view-anchor/src/assets",
-              {
-                "glob": "**/*",
-                "input": "node_modules/@cpangular/app/auth-oidc/assets/",
-                "output": "./"
-              }
-            ],
-            "styles": ["packages/testapp-cdk-view-anchor/src/styles.scss"],
-            "scripts": []
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "3mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "packages/testapp-cdk-view-anchor/src/environments/environment.ts",
-                  "with": "packages/testapp-cdk-view-anchor/src/environments/environment.prod.ts"
-                }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "ssl": true
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "testapp-cdk-view-anchor:build:production"
-            },
-            "development": {
-              "browserTarget": "testapp-cdk-view-anchor:build:development"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "testapp-cdk-view-anchor:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "packages/testapp-cdk-view-anchor/src/test.ts",
-            "polyfills": "packages/testapp-cdk-view-anchor/src/polyfills.ts",
-            "tsConfig": "packages/testapp-cdk-view-anchor/tsconfig.spec.json",
-            "karmaConfig": "packages/testapp-cdk-view-anchor/karma.conf.js",
-            "inlineStyleLanguage": "scss",
-            "assets": ["packages/testapp-cdk-view-anchor/src/favicon.ico", "packages/testapp-cdk-view-anchor/src/assets"],
-            "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "packages/testapp-cdk-view-anchor/src/styles.scss"
-            ],
-            "scripts": []
-          }
-        }
-      }
-    },
-    "app": {
-      "projectType": "library",
-      "root": "packages/app",
-      "sourceRoot": "packages/app/src",
-      "prefix": "cpng",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "packages/app/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "packages/app/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "packages/app/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "packages/app/src/test.ts",
-            "tsConfig": "packages/app/tsconfig.spec.json",
-            "karmaConfig": "packages/app/karma.conf.js"
-          }
-        }
-      }
-    },
-    "material-dynamic-theming": {
-      "projectType": "library",
-      "root": "packages/material-dynamic-theming",
-      "sourceRoot": "packages/material-dynamic-theming/src",
-      "prefix": "cpng",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "packages/material-dynamic-theming/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "packages/material-dynamic-theming/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "packages/material-dynamic-theming/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "packages/material-dynamic-theming/src/test.ts",
-            "tsConfig": "packages/material-dynamic-theming/tsconfig.spec.json",
-            "karmaConfig": "packages/material-dynamic-theming/karma.conf.js"
+            "tsConfig": "projects/rxjs/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
           }
         }
       }
     }
-  },
-  "defaultProject": "cdk"
+  }
 }
