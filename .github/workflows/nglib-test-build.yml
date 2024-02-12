@@ -1,0 +1,19 @@
+name: Run Test Build
+
+on:
+  push:
+    branches:
+      - "*"
+      - "*/*"
+      - "!release/latest"
+      - "!release/v*"
+
+jobs:
+  build:
+    name: Run test build
+    uses: cpdevtools/github-workflows/.github/workflows/nglib-test-build.yml@main
+    with:
+      nodeVersion: 20.11.0
+      pnpmVersion: 8.12.1
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
