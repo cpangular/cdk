@@ -1,5 +1,6 @@
 import { distinctUntilChanged, map, Observable, shareReplay } from 'rxjs';
 import { Size } from './types/Size';
+import { documentElement } from '../util/documentElement';
 
 /**
  * Creates an observable that emits the size of the given element.
@@ -12,10 +13,12 @@ import { Size } from './types/Size';
  *  console.log(size);
  * });
  */
-export function elementSize(
-  element: Element = document.documentElement,
-): Observable<Size> {
+export function elementSize(element: Element | null = documentElement()): Observable<Size> {
   return new Observable<DOMRect>((sub) => {
+    if (!element) {
+      sub.next({ width: Number.MAX_SAFE_INTEGER, height: Number.MAX_SAFE_INTEGER } as DOMRect);
+      return () => {};
+    }
     const obs = new ResizeObserver((v) => sub.next(v.pop()?.contentRect));
     const rect = element.getBoundingClientRect();
     sub.next(rect);
@@ -25,9 +28,7 @@ export function elementSize(
     };
   }).pipe(
     map((rect) => ({ width: rect.width, height: rect.height }) as Size),
-    distinctUntilChanged(
-      (a, b) => a.width === b.width && a.height === b.height,
-    ),
+    distinctUntilChanged((a, b) => a.width === b.width && a.height === b.height),
     shareReplay(1),
   );
 }
