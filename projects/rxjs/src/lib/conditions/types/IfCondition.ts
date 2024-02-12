@@ -1,1 +1,3 @@
-export type IfCondition<TCondition = unknown> = (condition: TCondition) => boolean;
+export type IfCondition<TCondition = unknown> = (
+  condition: TCondition,
+) => boolean;

@@ -34,6 +34,8 @@ import { BreakpointOperation } from './types/BreakpointOperation';
  * // Hello?
  */
 
-export function mapBreakpoints<TValue = unknown>(...ifThens: BreakpointCondition<TValue>[]): BreakpointOperation<TValue> {
+export function mapBreakpoints<TValue = unknown>(
+  ...ifThens: BreakpointCondition<TValue>[]
+): BreakpointOperation<TValue> {
   return when(...ifThens);
 }

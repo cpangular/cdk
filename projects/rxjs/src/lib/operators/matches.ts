@@ -31,7 +31,7 @@ export function matches<TData>(checks: ((data: TData) => boolean)[]) {
           results.push(check(data));
         }
         return results;
-      })
+      }),
     );
   };
 }

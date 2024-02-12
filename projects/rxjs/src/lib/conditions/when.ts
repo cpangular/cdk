@@ -13,7 +13,9 @@ import { IfThenCondition } from './types/IfThenCondition';
  *
  */
 
-export function when<TValue, TCondition>(...ifThens: IfThenCondition<TValue, TCondition>[]) {
+export function when<TValue, TCondition>(
+  ...ifThens: IfThenCondition<TValue, TCondition>[]
+) {
   const ifThenConditions = ifThens.map((ifThen) => (condition: TCondition) => {
     if (ifThen.check(condition)) {
       return ifThen.then;
@@ -25,7 +27,7 @@ export function when<TValue, TCondition>(...ifThens: IfThenCondition<TValue, TCo
       mapFirst(ifThenConditions, undefined as TValue),
       switchMap((value) => toObservable(value)),
       distinctUntilChanged(),
-      shareReplay(1)
+      shareReplay(1),
     );
   };
 }

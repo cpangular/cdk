@@ -11,4 +11,7 @@ import { Size } from '../../size';
  * };
  */
 
-export type BreakpointCondition<TValue = unknown> = IfThenCondition<TValue, Size>;
+export type BreakpointCondition<TValue = unknown> = IfThenCondition<
+  TValue,
+  Size
+>;

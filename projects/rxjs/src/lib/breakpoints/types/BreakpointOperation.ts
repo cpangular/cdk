@@ -8,4 +8,6 @@ import { Size } from '../../size';
  * @returns An observable that emits the result of the transform.
  */
 
-export type BreakpointOperation<TValue = unknown> = (source: Observable<Size>) => Observable<TValue | undefined>;
+export type BreakpointOperation<TValue = unknown> = (
+  source: Observable<Size>,
+) => Observable<TValue | undefined>;

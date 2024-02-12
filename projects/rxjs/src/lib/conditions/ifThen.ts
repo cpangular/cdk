@@ -17,7 +17,7 @@ import { IfThenCondition } from './types/IfThenCondition';
  */
 export function ifThen<TValue, TCondition>(
   check: IfCondition<TCondition>,
-  valueFn: (condition: TCondition) => Resolvable<TValue>
+  valueFn: (condition: TCondition) => Resolvable<TValue>,
 ): IfThenCondition<TValue, TCondition>;
 
 /**
@@ -33,14 +33,20 @@ export function ifThen<TValue, TCondition>(
  *
  */
 
-export function ifThen<TValue, TCondition>(check: IfCondition<TCondition>, value: Resolvable<TValue>): IfThenCondition<TValue, TCondition>;
+export function ifThen<TValue, TCondition>(
+  check: IfCondition<TCondition>,
+  value: Resolvable<TValue>,
+): IfThenCondition<TValue, TCondition>;
 
 export function ifThen<TValue, TCondition>(
   check: IfCondition<TCondition>,
-  value: Resolvable<TValue> | IfThen<TValue, TCondition>
+  value: Resolvable<TValue> | IfThen<TValue, TCondition>,
 ): IfThenCondition<TValue, TCondition> {
   return {
     check,
-    then: typeof value === 'function' ? (value as IfThen<TValue, TCondition>) : () => value,
+    then:
+      typeof value === 'function'
+        ? (value as IfThen<TValue, TCondition>)
+        : () => value,
   };
 }

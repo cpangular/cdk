@@ -44,7 +44,7 @@ export type SwitchTransformFn<T, R> = TransformFn<T, Observable<R>>;
  */
 export function switchMapFirst<T, R>(
   transforms: SwitchTransformFn<T, R>[],
-  defaultValue: Observable<R> | TransformFn<T, Observable<R>>
+  defaultValue: Observable<R> | TransformFn<T, Observable<R>>,
 ): TransformOperation<T, R | undefined> {
   return (source: Observable<T>) => {
     return source.pipe(
@@ -55,12 +55,15 @@ export function switchMapFirst<T, R>(
             return result;
           }
         }
-        const o = typeof defaultValue === 'function' ? (defaultValue as TransformFn<T, Observable<R>>)(value) : defaultValue;
+        const o =
+          typeof defaultValue === 'function'
+            ? (defaultValue as TransformFn<T, Observable<R>>)(value)
+            : defaultValue;
         if (isObservable(o)) {
           return o;
         }
         return of(undefined);
-      })
+      }),
     );
   };
 }

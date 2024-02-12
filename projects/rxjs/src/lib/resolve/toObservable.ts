@@ -18,5 +18,9 @@ function isPromise(v: any): v is Promise<any> {
  *
  */
 export function toObservable<T>(value: Resolvable<T>): Observable<T> {
-  return isObservable(value) ? value : isPromise(value) ? from(value) : of(value);
+  return isObservable(value)
+    ? value
+    : isPromise(value)
+      ? from(value)
+      : of(value);
 }

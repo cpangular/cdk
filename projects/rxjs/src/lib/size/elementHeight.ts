@@ -13,10 +13,12 @@ import { elementSize } from './elementSize';
  * });
  *
  */
-export function elementHeight(element: Element = document.documentElement): Observable<number> {
+export function elementHeight(
+  element: Element = document.documentElement,
+): Observable<number> {
   return elementSize(element).pipe(
     map((s) => s.height),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 }

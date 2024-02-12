@@ -47,17 +47,21 @@ export type ValueTransformFn<T, R> = TransformFn<T, TransformFn<T, R>>;
 
 export function mapFirst<T, R>(
   transforms: ValueTransformFn<T, R>[],
-  defaultValue: R | TransformFn<T, R>
+  defaultValue: R | TransformFn<T, R>,
 ): TransformOperation<T, R | undefined> {
   return (source: Observable<T>) => {
     return source.pipe(
       switchMap((value) =>
         mapFirstResult(transforms)(source).pipe(
           map((transform) =>
-            transform ? transform(value) : typeof defaultValue === 'function' ? (defaultValue as TransformFn<T, R>)(value) : defaultValue
-          )
-        )
-      )
+            transform
+              ? transform(value)
+              : typeof defaultValue === 'function'
+                ? (defaultValue as TransformFn<T, R>)(value)
+                : defaultValue,
+          ),
+        ),
+      ),
     );
   };
 }

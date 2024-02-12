@@ -1,4 +1,3 @@
-
 import { Observable } from 'rxjs';
 import { elementSize } from '../size';
 import { mapBreakpoints } from './mapBreakpoints';
@@ -23,7 +22,10 @@ import { BreakpointCondition } from './types/BreakpointCondition';
  *
  */
 
-export function breakpointValue<TValue>(element: HTMLElement, ...ifThens: BreakpointCondition<TValue>[]): Observable<TValue | undefined>;
+export function breakpointValue<TValue>(
+  element: HTMLElement,
+  ...ifThens: BreakpointCondition<TValue>[]
+): Observable<TValue | undefined>;
 /**
  * Creates an observable that emits the result of the first breakpoint that matches.
  * @template TValue The type of the value to return.
@@ -41,8 +43,12 @@ export function breakpointValue<TValue>(element: HTMLElement, ...ifThens: Breakp
  *
  */
 
-export function breakpointValue<TValue>(...ifThens: BreakpointCondition<TValue>[]): Observable<TValue | undefined>;
-export function breakpointValue<TValue>(...rest: any[]): Observable<TValue | undefined> {
+export function breakpointValue<TValue>(
+  ...ifThens: BreakpointCondition<TValue>[]
+): Observable<TValue | undefined>;
+export function breakpointValue<TValue>(
+  ...rest: any[]
+): Observable<TValue | undefined> {
   const element = rest[0] instanceof HTMLElement ? rest.shift() : undefined;
   const ifThens = rest as BreakpointCondition<TValue>[];
   return elementSize(element).pipe(mapBreakpoints(...ifThens));

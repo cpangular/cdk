@@ -89,7 +89,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.xs(size); // false
    */
-  public readonly xs: BPCondition = (size: Size) => size.width < this._breakpointValues.xs.max!;
+  public readonly xs: BPCondition = (size: Size) =>
+    size.width < this._breakpointValues.xs.max!;
   /**
    * The sm breakpoint is for phones in landscape mode.
    * @param size The size to check.
@@ -100,7 +101,8 @@ export class ViewportBreakpoints {
    * breakpoints.sm(size); // false
    */
   public readonly sm: BPCondition = (size: Size) =>
-    size.width >= this._breakpointValues.sm.min! && size.width < this._breakpointValues.sm.max!;
+    size.width >= this._breakpointValues.sm.min! &&
+    size.width < this._breakpointValues.sm.max!;
   /**
    * The md breakpoint is for tablets in portrait mode.
    * @param size The size to check.
@@ -111,7 +113,8 @@ export class ViewportBreakpoints {
    * breakpoints.md(size); // false
    */
   public readonly md: BPCondition = (size: Size) =>
-    size.width >= this._breakpointValues.md.min! && size.width < this._breakpointValues.md.max!;
+    size.width >= this._breakpointValues.md.min! &&
+    size.width < this._breakpointValues.md.max!;
   /**
    * The lg breakpoint is for tablets in landscape mode.
    * @param size The size to check.
@@ -123,7 +126,8 @@ export class ViewportBreakpoints {
    *
    */
   public readonly lg: BPCondition = (size: Size) =>
-    size.width >= this._breakpointValues.lg.min! && size.width < this._breakpointValues.lg.max!;
+    size.width >= this._breakpointValues.lg.min! &&
+    size.width < this._breakpointValues.lg.max!;
   /**
    * The xl breakpoint is for laptops.
    * @param size The size to check.
@@ -134,7 +138,8 @@ export class ViewportBreakpoints {
    * breakpoints.xl(size); // false
    */
   public readonly xl: BPCondition = (size: Size) =>
-    size.width >= this._breakpointValues.xl.min! && size.width < this._breakpointValues.xl.max!;
+    size.width >= this._breakpointValues.xl.min! &&
+    size.width < this._breakpointValues.xl.max!;
   /**
    * The xxl breakpoint is for desktops.
    * @param size The size to check.
@@ -144,7 +149,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.xxl(size); // true
    */
-  public readonly xxl: BPCondition = (size: Size) => size.width >= this._breakpointValues.xxl.min!;
+  public readonly xxl: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.xxl.min!;
 
   /**
    * The landscape breakpoint is for landscape mode.
@@ -156,7 +162,8 @@ export class ViewportBreakpoints {
    * breakpoints.landscape(size); // true
    *
    */
-  public readonly landscape: BPCondition = (size: Size) => size.width >= size.height;
+  public readonly landscape: BPCondition = (size: Size) =>
+    size.width >= size.height;
   /**
    * The portrait breakpoint is for portrait mode.
    * @param size The size to check.
@@ -166,7 +173,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.portrait(size); // false
    */
-  public readonly portrait: BPCondition = (size: Size) => size.width < size.height;
+  public readonly portrait: BPCondition = (size: Size) =>
+    size.width < size.height;
 
   /**
    * Larger than the xs breakpoint.
@@ -177,7 +185,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.gtXs(size); // true
    */
-  public readonly gtXs: BPCondition = (size: Size) => size.width >= this._breakpointValues.xs.max!;
+  public readonly gtXs: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.xs.max!;
   /**
    * Larger than the sm breakpoint.
    * @param size The size to check.
@@ -187,7 +196,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.gtSm(size); // true
    */
-  public readonly gtSm: BPCondition = (size: Size) => size.width >= this._breakpointValues.sm.max!;
+  public readonly gtSm: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.sm.max!;
 
   /**
    *  Larger than the md breakpoint.
@@ -198,7 +208,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.gtMd(size); // true
    */
-  public readonly gtMd: BPCondition = (size: Size) => size.width >= this._breakpointValues.md.max!;
+  public readonly gtMd: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.md.max!;
   /**
    * Larger than the lg breakpoint.
    * @param size The size to check.
@@ -208,7 +219,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.gtLg(size); // true
    */
-  public readonly gtLg: BPCondition = (size: Size) => size.width >= this._breakpointValues.lg.max!;
+  public readonly gtLg: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.lg.max!;
   /**
    * Larger than the xl breakpoint.
    * @param size The size to check.
@@ -218,7 +230,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.gtXl(size); // true
    */
-  public readonly gtXl: BPCondition = (size: Size) => size.width >= this._breakpointValues.xl.max!;
+  public readonly gtXl: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.xl.max!;
 
   /**
    * Smaller than the sm breakpoint.
@@ -229,7 +242,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.ltSm(size); // false
    */
-  public readonly ltSm: BPCondition = (size: Size) => size.width < this._breakpointValues.sm.min!;
+  public readonly ltSm: BPCondition = (size: Size) =>
+    size.width < this._breakpointValues.sm.min!;
   /**
    * Smaller than the md breakpoint.
    * @param size The size to check.
@@ -239,7 +253,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.ltMd(size); // false
    */
-  public readonly ltMd: BPCondition = (size: Size) => size.width < this._breakpointValues.md.min!;
+  public readonly ltMd: BPCondition = (size: Size) =>
+    size.width < this._breakpointValues.md.min!;
   /**
    * Smaller than the lg breakpoint.
    * @param size The size to check.
@@ -249,7 +264,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.ltLg(size); // false
    */
-  public readonly ltLg: BPCondition = (size: Size) => size.width < this._breakpointValues.lg.min!;
+  public readonly ltLg: BPCondition = (size: Size) =>
+    size.width < this._breakpointValues.lg.min!;
   /**
    * Smaller than the xl breakpoint.
    * @param size The size to check.
@@ -259,7 +275,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.ltXl(size); // false
    */
-  public readonly ltXl: BPCondition = (size: Size) => size.width < this._breakpointValues.xl.min!;
+  public readonly ltXl: BPCondition = (size: Size) =>
+    size.width < this._breakpointValues.xl.min!;
   /**
    * Smaller than the xxl breakpoint.
    * @param size The size to check.
@@ -269,7 +286,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.ltXxl(size); // false
    */
-  public readonly ltXxl: BPCondition = (size: Size) => size.width < this._breakpointValues.xxl.min!;
+  public readonly ltXxl: BPCondition = (size: Size) =>
+    size.width < this._breakpointValues.xxl.min!;
 
   /**
    * Greater than or equal to the xs breakpoint.
@@ -280,7 +298,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.gteXs(size); // true
    */
-  public readonly gteXs: BPCondition = (size: Size) => size.width >= this._breakpointValues.xs.min!;
+  public readonly gteXs: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.xs.min!;
   /**
    *  Greater than or equal to the sm breakpoint.
    * @param size The size to check.
@@ -290,7 +309,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.gteSm(size); // true
    */
-  public readonly gteSm: BPCondition = (size: Size) => size.width >= this._breakpointValues.sm.min!;
+  public readonly gteSm: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.sm.min!;
   /**
    * Greater than or equal to the md breakpoint.
    * @param size The size to check.
@@ -300,7 +320,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.gteMd(size); // true
    */
-  public readonly gteMd: BPCondition = (size: Size) => size.width >= this._breakpointValues.md.min!;
+  public readonly gteMd: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.md.min!;
   /**
    * Greater than or equal to the lg breakpoint.
    * @param size The size to check.
@@ -310,7 +331,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.gteLg(size); // true
    */
-  public readonly gteLg: BPCondition = (size: Size) => size.width >= this._breakpointValues.lg.min!;
+  public readonly gteLg: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.lg.min!;
   /**
    * Greater than or equal to the xl breakpoint.
    * @param size The size to check.
@@ -320,7 +342,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.gteXl(size); // true
    */
-  public readonly gteXl: BPCondition = (size: Size) => size.width >= this._breakpointValues.xl.min!;
+  public readonly gteXl: BPCondition = (size: Size) =>
+    size.width >= this._breakpointValues.xl.min!;
 
   /**
    * Less than or equal to the xs breakpoint.
@@ -331,7 +354,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.lteXs(size); // false
    */
-  public readonly lteSm: BPCondition = (size: Size) => size.width <= this._breakpointValues.sm.max!;
+  public readonly lteSm: BPCondition = (size: Size) =>
+    size.width <= this._breakpointValues.sm.max!;
   /**
    * Less than or equal to the sm breakpoint.
    * @param size The size to check.
@@ -345,7 +369,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.lteSm(size); // true
    */
-  public readonly lteMd: BPCondition = (size: Size) => size.width <= this._breakpointValues.md.max!;
+  public readonly lteMd: BPCondition = (size: Size) =>
+    size.width <= this._breakpointValues.md.max!;
   /**
    * Less than or equal to the md breakpoint.
    * @param size The size to check.
@@ -355,7 +380,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.lteMd(size); // false
    */
-  public readonly lteLg: BPCondition = (size: Size) => size.width <= this._breakpointValues.lg.max!;
+  public readonly lteLg: BPCondition = (size: Size) =>
+    size.width <= this._breakpointValues.lg.max!;
   /**
    * Less than or equal to the lg breakpoint.
    * @param size The size to check.
@@ -365,7 +391,8 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.lteLg(size); // false
    */
-  public readonly lteXl: BPCondition = (size: Size) => size.width <= this._breakpointValues.xl.max!;
+  public readonly lteXl: BPCondition = (size: Size) =>
+    size.width <= this._breakpointValues.xl.max!;
   /**
    * Less than or equal to the xl breakpoint.
    * @param size The size to check.
@@ -375,5 +402,6 @@ export class ViewportBreakpoints {
    * const breakpoints = new ViewportBreakpoints();
    * breakpoints.lteXl(size); // true
    */
-  public readonly lteXxl: BPCondition = (size: Size) => size.width <= this._breakpointValues.xxl.max!;
+  public readonly lteXxl: BPCondition = (size: Size) =>
+    size.width <= this._breakpointValues.xxl.max!;
 }

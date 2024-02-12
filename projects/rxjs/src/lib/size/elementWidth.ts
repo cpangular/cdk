@@ -14,10 +14,12 @@ import { elementSize } from './elementSize';
  *
  */
 
-export function elementWidth(element: Element = document.documentElement): Observable<number> {
+export function elementWidth(
+  element: Element = document.documentElement,
+): Observable<number> {
   return elementSize(element).pipe(
     map((s) => s.width),
     distinctUntilChanged(),
-    shareReplay(1)
+    shareReplay(1),
   );
 }

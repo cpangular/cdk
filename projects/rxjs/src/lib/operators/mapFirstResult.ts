@@ -35,7 +35,7 @@ import { TransformOperation } from './types/TransformOperation';
 
 export function mapFirstResult<T, R>(
   transform: TransformFn<T, R>[],
-  defaultValue?: R | TransformFn<T, R>
+  defaultValue?: R | TransformFn<T, R>,
 ): TransformOperation<T, R | undefined> {
   return (source: Observable<T>) => {
     return source.pipe(
@@ -46,8 +46,10 @@ export function mapFirstResult<T, R>(
             return result;
           }
         }
-        return typeof defaultValue === 'function' ? (defaultValue as TransformFn<T, R>)(value) : defaultValue;
-      })
+        return typeof defaultValue === 'function'
+          ? (defaultValue as TransformFn<T, R>)(value)
+          : defaultValue;
+      }),
     );
   };
 }
